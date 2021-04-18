@@ -1,0 +1,62 @@
+repository: benihime91/gale
+output: web
+topnav_title: gale
+site_title: gale
+company_name: Ayushman Buragohain
+description: Documentation for the PyTorch Gale
+use_math: true
+google_analytics:
+google_search:
+
+host: 127.0.0.1
+port: 4000
+
+exclude:
+  - .idea/
+  - .gitignore
+  - vendor
+
+feedback_disable: true
+
+highlighter: rouge
+
+markdown: kramdown
+kramdown:
+  auto_ids: true
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+default_badges:
+  colab: true
+
+collections:
+  tooltips:
+    output: false
+
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+      comments: true
+      search: true
+      sidebar: home_sidebar
+      topnav: topnav
+  - scope:
+      path: ""
+      type: "tooltips"
+    values:
+      layout: "page"
+      comments: true
+      search: true
+      tooltip: true
+
+sidebars:
+  - home_sidebar
+
+plugins:
+  - jekyll-remote-theme
+
+remote_theme: fastai/nbdev-jekyll-theme
+baseurl: /gale/
