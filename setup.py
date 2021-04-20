@@ -61,7 +61,7 @@ setuptools.setup(
         for o in py_versions[py_versions.index(min_python) :]
     ],
     url=cfg["git_url"],
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages() + setuptools.find_namespace_packages(include=["hydra_plugins.*"]),
     include_package_data=True,
     install_requires=requirements,
     dependency_links=cfg.get("dep_links", "").split(),

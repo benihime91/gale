@@ -1,0 +1,14 @@
+# @package optimization.scheduler
+name: torch.optim.lr_scheduler.OneCycleLR
+init_args:
+  max_lr: null
+  total_steps: null
+  epochs: null
+  steps_per_epoch: null
+  pct_start: 0.3
+  anneal_strategy: cos
+  cycle_momentum: true
+  base_momentum: 0.85
+  max_momentum: 0.95
+  div_factor: 25.0
+  final_div_factor: 10000.0

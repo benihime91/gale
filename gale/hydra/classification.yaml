@@ -1,0 +1,35 @@
+defaults:
+  # default optimizer
+  - optimizer: adamw
+  # default lr_scheduler
+  - scheduler: onecycle
+
+OPTIMIZATION:
+  # Additional Parameters for Optimization
+  # metric to condition for ReduceLROnPlateau scheduler.
+  monitor: null
+  # # total number of steps per epochs, this value is computed at runtime and mandatory to have.
+  steps_per_epoch: null
+  # total number of training steps, computed at runtime or explicitly set here; mandatory to have
+  max_steps: null
+  # total number of training epochs, computed at runtime or explicitly set here; mandatory to have.
+  max_epochs: null
+
+DATASETS:
+  # name of the training dataset. (must be registered in `DatasetCatalog`)
+  train_ds: ???
+  # name of the validation dataset. (must be registered in `DatasetCatalog`)
+  valid_ds: ???
+  # name of the test dataset. (must be registered in `DatasetCatalog`) [OPTIONAL]
+  test_ds: null
+
+# configuration for dataloaders
+# NOTE: The training data is shuffled by default and
+# validation and testing datasets are not shuffled
+DATALOADER:
+  batch_size: ???
+  sampler: null
+  batch_sampler: null
+  num_workers: 0
+  collate_fn: null
+  pin_memory: false
