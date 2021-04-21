@@ -14,19 +14,13 @@ from timm.optim import Lookahead, RAdam, RMSpropTF
 from torch.optim import SGD, Adam, AdamW, RMSprop
 from torch.optim.optimizer import Optimizer, required
 
-from ...structures import OPTIM_REGISTRY
+# from gale.core.structures import OPTIM_REGISTRY
 
 # Cell
 #nbdev_comment _all_ = ["RAdam", "RMSpropTF", "SGD", "Adam", "AdamW", "RMSprop"]
 
 # Cell
-_torch_meta = [Adam, AdamW, SGD, RMSprop, RMSpropTF]
-
-for o in _torch_meta:
-    OPTIM_REGISTRY.register(o)
-
-# Cell
-@OPTIM_REGISTRY.register()
+# @OPTIM_REGISTRY.register()
 @delegates(RAdam)
 def Ranger(
     params: Iterable,
@@ -40,7 +34,7 @@ def Ranger(
     return Lookahead(RAdam(params, betas=betas, eps=eps, **kwargs), alpha=alpha, k=k)
 
 # Cell
-@OPTIM_REGISTRY.register()
+# @OPTIM_REGISTRY.register()
 class RangerGC(Optimizer):
     """
     Ranger deep learning optimizer - RAdam + Lookahead + Gradient Centralization, combined into one optimizer.
@@ -205,7 +199,7 @@ class RangerGC(Optimizer):
         return loss
 
 # Cell
-@OPTIM_REGISTRY.register()
+# @OPTIM_REGISTRY.register()
 class SGDP(Optimizer):
     "SGDP Optimizer Implementation copied from https://github.com/clovaai/AdamP/blob/master/adamp/sgdp.py"
 
@@ -313,7 +307,7 @@ class SGDP(Optimizer):
         return loss
 
 # Cell
-@OPTIM_REGISTRY.register()
+# @OPTIM_REGISTRY.register()
 class AdamP(Optimizer):
     "AdamP Optimizer Implementation copied from https://github.com/clovaai/AdamP/blob/master/adamp/adamp.py"
 

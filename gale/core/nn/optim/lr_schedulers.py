@@ -15,17 +15,12 @@ from torch.optim import Optimizer
 from torch.optim.lr_scheduler import (CosineAnnealingWarmRestarts, MultiStepLR,
                                       OneCycleLR, ReduceLROnPlateau, StepLR)
 
-from ...structures import SCHEDULER_REGISTRY
+# from gale.core.structures import SCHEDULER_REGISTRY
 
 # Cell
 # fmt: off
 #nbdev_comment _all_ = ["CosineAnnealingWarmRestarts", "OneCycleLR", "ReduceLROnPlateau", "StepLR", "MultiStepLR"]
 # fmt: on
-
-# Cell
-_torch_meta = [OneCycleLR, CosineAnnealingWarmRestarts, StepLR, MultiStepLR]
-for o in _torch_meta:
-    SCHEDULER_REGISTRY.register(o)
 
 # Cell
 class LRMultiplier(torch.optim.lr_scheduler._LRScheduler):
@@ -82,7 +77,7 @@ class LRMultiplier(torch.optim.lr_scheduler._LRScheduler):
         return [base_lr * multiplier for base_lr in self.base_lrs]
 
 # Cell
-@SCHEDULER_REGISTRY.register()
+# @SCHEDULER_REGISTRY.register()
 def CosineLR(
     optim: Optimizer, max_iters: int, start_value: int = 1, end_value: int = 0
 ):
@@ -96,7 +91,7 @@ def CosineLR(
     return scheduler
 
 # Cell
-@SCHEDULER_REGISTRY.register()
+# @SCHEDULER_REGISTRY.register()
 def FlatCosScheduler(optimizer: Optimizer, pct_start: float, max_iters: int):
     """
     Schedule the LearningRate at flat `lr` for `pct_start` of `max_iters` before cosine annealing.
@@ -155,7 +150,7 @@ class WarmupParamScheduler(CompositeParamScheduler):
         )
 
 # Cell
-@SCHEDULER_REGISTRY.register()
+# @SCHEDULER_REGISTRY.register()
 def WarmupCosineLR(
     optimizer: torch.optim.Optimizer,
     max_iters: int,
@@ -242,7 +237,7 @@ def WarmupLinearLR(
     return LRMultiplier(optimizer, multiplier=sched, max_iter=max_iters)
 
 # Cell
-@SCHEDULER_REGISTRY.register()
+# @SCHEDULER_REGISTRY.register()
 def WarmupConstantLR(
     optimizer: Optimizer,
     max_iters: int,
@@ -285,7 +280,7 @@ def WarmupConstantLR(
     return LRMultiplier(optimizer, multiplier=sched, max_iter=max_iters)
 
 # Cell
-@SCHEDULER_REGISTRY.register()
+# @SCHEDULER_REGISTRY.register()
 def WarmupStepLR(
     optimizer: Optimizer,
     epochs: int,

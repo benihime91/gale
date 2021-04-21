@@ -1,13 +1,26 @@
+# -----------------------------------------------------------------------------
+# Generic Config definition for Image Classification
+# -----------------------------------------------------------------------------
+MODEL:
+  META_ARCHITECTURE: ???
+
 defaults:
   # default optimizer
   - optimizer: adamw
   # default lr_scheduler
   - scheduler: onecycle
+  # model deafults
+  - backbone: resnet_cls
+  - head:
+
+TRAINING:
+  backbone_lr: 2e-05
+  backbone_wd: 1e-02
+  head_lr: 2e-03
+  head_wd: 1e-02
 
 OPTIMIZATION:
   # Additional Parameters for Optimization
-  # metric to condition for ReduceLROnPlateau scheduler.
-  monitor: null
   # # total number of steps per epochs, this value is computed at runtime and mandatory to have.
   steps_per_epoch: null
   # total number of training steps, computed at runtime or explicitly set here; mandatory to have
@@ -27,9 +40,19 @@ DATASETS:
 # NOTE: The training data is shuffled by default and
 # validation and testing datasets are not shuffled
 DATALOADER:
+  # Common data options
   batch_size: ???
   sampler: null
   batch_sampler: null
   num_workers: 0
   collate_fn: null
   pin_memory: false
+
+# Miscallaneous Parameters
+NAME: ??? # Name of the Config
+EXP_VERSION: ??? # Name of the experiment
+
+hydra:
+  job_logging:
+    root:
+      handlers: null

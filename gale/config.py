@@ -19,7 +19,7 @@ def get_config(config_name="classification", **kwargs):
     """
     with initialize_config_module("gale.hydra"):
         cfg = compose(config_name, **kwargs)
-        cfg = OmegaConf.structured(cfg)
+        # cfg = OmegaConf.set_struct(cfg, True)
     return cfg.copy()
 
 # Cell

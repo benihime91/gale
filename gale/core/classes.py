@@ -12,23 +12,29 @@ from typing import *
 import hydra
 import pytorch_lightning as pl
 import torch
+import torchmetrics
 from fastcore.all import L, noop, patch
 from omegaconf import DictConfig, OmegaConf
 from torch.nn import Module
-import torchmetrics
 
-from ..config import BaseGaleConfig, DatasetsConfig, OptimizationConfig
-from ..config.optimizers import create_optimizer
 from .logging import setup_logger
+from .nn.optim import OPTIM_REGISTRY, SCHEDULER_REGISTRY
 from .nn.utils import params, trainable_params
 
 _logger = setup_logger()
 
 # Cell
 class Configurable(ABC):
+    """
+    Helper Class to instantiate obj from config
+    """
+
     @classmethod
-    def from_config_dict(cls, config: DictConfig):
-        """Instantiates object using `DictConfig-based` configuration"""
+    def from_config_dict(cls, config: DictConfig, **kwargs):
+        """
+        Instantiates object using `DictConfig-based` configuration. You can optionally
+        pass in extra `kwargs`
+        """
         # Resolve the config dict
         if isinstance(config, DictConfig):
             config = OmegaConf.to_container(config, resolve=True)
@@ -36,17 +42,33 @@ class Configurable(ABC):
 
         if "_target_" in config:
             # regular hydra-based instantiation
-            instance = hydra.utils.instantiate(config=config)
+            instance = hydra.utils.instantiate(config=config, **kwargs)
         else:
             # instantiate directly using kwargs
             try:
-                instance = cls(cfg=config)
+                instance = cls(cfg=config, **kwargs)
             except:
-                instance = cls(**config)
+                cfg = OmegaConf.to_container(config, resolve=True)
+                instance = cls(**config, **kwargs)
 
         if not hasattr(instance, "_cfg"):
             instance._cfg = config
         return instance
+
+    def to_config_dict(self) -> DictConfig:
+        # fmt: off
+        """Returns object's configuration to config dictionary"""
+        if hasattr(self, "_cfg") and self._cfg is not None and isinstance(self._cfg, DictConfig):
+            # Resolve the config dict
+            config = OmegaConf.to_container(self._cfg, resolve=True)
+            config = OmegaConf.create(config)
+            OmegaConf.set_struct(config, True)
+            self._cfg = config
+
+            return self._cfg
+        else:
+            raise NotImplementedError("to_config_dict() can currently only return object._cfg but current object does not have it.")
+        # fmt: on
 
 # Cell
 class GaleModule(Module, Configurable, metaclass=ABCMeta):
@@ -79,11 +101,9 @@ class GaleModule(Module, Configurable, metaclass=ABCMeta):
     def all_params(self, n=slice(None), with_grad=False):
         "List of `param_groups` upto n"
         res = L(p for p in self.param_lists[n])
-        return (
-            L(o for o in res if hasattr(o, "grad") and o.grad is not None)
-            if with_grad
-            else res
-        )
+        # fmt: off
+        return L(o for o in res if hasattr(o, "grad") and o.grad is not None) if with_grad else res
+        # fmt: on
 
     def _set_require_grad(self, rg, p):
         p.requires_grad_(rg)
@@ -109,9 +129,9 @@ class GaleModule(Module, Configurable, metaclass=ABCMeta):
         "Freeze parameter groups up to `n`"
         self.frozen_idx = n if n >= 0 else len(self.param_lists) + n
         if self.frozen_idx >= len(self.param_lists):
-            _logger.warning(
-                f"Freezing {self.frozen_idx} groups; model has {len(self.param_lists)}; whole model is frozen."
-            )
+            # fmt: off
+            _logger.warning(f"Freezing {self.frozen_idx} groups; model has {len(self.param_lists)}; whole model is frozen.")
+            # fmt: on
 
         for o in self.all_params(slice(n, None)):
             self._set_require_grad(True, o)
@@ -143,6 +163,7 @@ class OptimSchedBuilder:
     optimization_cfg: DictConfig
 
 # Cell
+# fmt: off
 @patch
 def prepare_optimization_config(self: OptimSchedBuilder, config: DictConfig):
     """
@@ -158,9 +179,7 @@ def prepare_optimization_config(self: OptimSchedBuilder, config: DictConfig):
     self.optimization_cfg["steps_per_epoch"] = len(self._train_dl)
 
     if self._trainer.max_epochs is None and self._trainer.max_steps is None:
-        _logger.error(
-            "Either one of max_epochs or max_epochs must be provided in Trainer"
-        )
+        _logger.error("Either one of max_epochs or max_epochs must be provided in Trainer")
         raise ValueError
 
     if self._trainer.max_steps is None:
@@ -176,50 +195,40 @@ def prepare_optimization_config(self: OptimSchedBuilder, config: DictConfig):
             steps_per_epoch = int(steps_per_epoch * limit_train_batches)
             if accumulate_grad_batches == 1:
                 steps_per_epoch = max(steps_per_epoch, 1)
-        max_steps = (
-            math.ceil(steps_per_epoch / accumulate_grad_batches)
-            * self.optimization_cfg["max_epochs"]
-        )
+
+        max_steps = math.ceil(steps_per_epoch / accumulate_grad_batches) * self.optimization_cfg["max_epochs"]
 
         self.optimization_cfg["max_steps"] = max_steps
 
     else:
         self.optimization_cfg["max_steps"] = self._trainer.max_steps
         # compute max epochs
-        self.optimization_cfg["max_epochs"] = self._trainer.max_steps * len(
-            self._train_dl
-        )
+        self.optimization_cfg["max_epochs"] = self._trainer.max_steps * len(self._train_dl)
 
     # covert config to Dictionary
-    sched_config = OmegaConf.to_container(self.optimization_cfg.scheduler, resolve=True)
+    sched_config = OmegaConf.to_container(self.optimization_cfg.scheduler.init_args, resolve=True)
 
     # populate values in learning rate schedulers
+
     if "max_iters" in sched_config:
         if sched_config["max_iters"] == "???" or sched_config["max_iters"] is None:
-            OmegaConf.update(
-                self.optimization_cfg,
-                "scheduler.max_iters",
-                self.optimization_cfg["max_steps"],
-            )
+            OmegaConf.update(self.optimization_cfg,"scheduler.init_args.max_iters",
+                             self.optimization_cfg["max_steps"],)
+            _logger.info(f"Set the value of 'max_iters' to be {self.optimization_cfg['max_steps']}")
 
     if "epochs" in sched_config:
         if sched_config["epochs"] == "???" or sched_config["epochs"] is None:
-            OmegaConf.update(
-                self.optimization_cfg,
-                "scheduler.epochs",
-                self.optimization_cfg["max_epochs"],
-            )
+            OmegaConf.update(self.optimization_cfg, "scheduler.init_args.epochs",
+                             self.optimization_cfg["max_epochs"],)
+            _logger.info(f"Set the value of 'epochs' to be {self.optimization_cfg['max_epochs']}")
 
     if "steps_per_epoch" in sched_config:
-        if (
-            sched_config["steps_per_epoch"] == "???"
-            or sched_config["steps_per_epoch"] is None
-        ):
-            OmegaConf.update(
-                self.optimization_cfg,
-                "scheduler.steps_per_epoch",
-                self.optimization_cfg["steps_per_epoch"],
-            )
+        if sched_config["steps_per_epoch"] == "???" or sched_config["steps_per_epoch"] is None:
+            OmegaConf.update(self.optimization_cfg, "scheduler.init_args.steps_per_epoch",
+                             self.optimization_cfg["steps_per_epoch"],)
+            _logger.info(f"Set the value of 'steps_per_epoch' to be {self.optimization_cfg['steps_per_epoch']}")
+
+# fmt: on
 
 # Cell
 @patch
@@ -238,14 +247,12 @@ def build_optimizer(
         )
         raise NameError
     else:
-        if (
-            self.optimization_cfg.optimizer is None
-            and self.optimization_cfg.optimizer._target_ is None
-        ):
+        if self.optimization_cfg.optimizer.name is None:
             _logger.warning("Optimizer is None, so no optimizer will be created.")
             opt = None
         else:
-            opt = create_optimizer(self.optimization_cfg.optimizer, params=params)
+            opt = self.optimization_cfg.optimizer
+            opt = OPTIM_REGISTRY.get(opt.name)(params=params, **opt.init_args)
         return opt
 
 # Cell
@@ -264,34 +271,28 @@ def build_lr_scheduler(
         )
         raise NameError
     else:
-        if (
-            self.optimization_cfg.scheduler._target_ is None
-            and self.optimization_cfg.scheduler is None
-        ):
+        if self.optimization_cfg.scheduler.name is None:
             _logger.warning("scheduler is None, so no scheduler will be created.")
             sched = None
         else:
-            _temp = OmegaConf.to_container(
-                self.optimization_cfg.scheduler, resolve=True
-            )
-            kwds = {}
-            c_sch = {}
+            # fmt: off
+            _temp = OmegaConf.to_container(self.optimization_cfg.scheduler.init_args, resolve=True)
+            kwds  = {}
 
             # if a key value is ListConfig then we convert it to simple list
             for key, value in _temp.items():
                 if isinstance(value, list):
                     kwds[key] = list(value)
                 else:
-                    c_sch[key] = value
+                    kwds[key] = value
 
-            sched = hydra.utils.instantiate(c_sch, optimizer=optimizer, **kwds)
+            sch = SCHEDULER_REGISTRY.get(self.optimization_cfg.scheduler.name)(optimizer=optimizer, **kwds)
 
             # convert the lr_scheduler to pytorch-lightning LRScheduler dictionary format
-            sched = dict(
-                scheduler=sched,
-                interval=self.optimization_cfg.interval,
-                monitor=self.optimization_cfg.monitor,
-            )
+            sched = dict(scheduler=sch,
+                         interval=self.optimization_cfg.scheduler.interval,
+                         monitor=self.optimization_cfg.scheduler.monitor)
+            # fmt: on
             return sched
 
 # Cell
@@ -429,7 +430,7 @@ def test_step(self: GaleTask, batch: Any, batch_idx: int) -> None:
 @patch
 def setup_optimization(
     self: GaleTask,
-    optim_config: Optional[Union[DictConfig, Dict, OptimizationConfig]] = None,
+    optim_config: DictConfig = None,
 ):
     """
     Prepares an optimizer from a string name and its optional config parameters.

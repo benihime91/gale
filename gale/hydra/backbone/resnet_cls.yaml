@@ -1,0 +1,16 @@
+# @package MODEL.BACKBONE
+name: ResNetBackbone
+init_args:
+  model_name: ???
+  act: null
+  lr: ${TRAINING.backbone_lr}
+  wd: ${TRAINING.backbone_wd}
+  lr_div: 10
+  # Freeze the first several stages so they are not trained.
+  # There are 5 stages in ResNet. The first is a convolution, and the following
+  # stages are each group of residual blocks.
+  freeze_at: 2
+  pretrained: true
+  drop_block_rate: null
+  drop_path_rate: null
+  bn_tf: false
