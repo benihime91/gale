@@ -1,7 +1,7 @@
 from timm.models.layers import Mish
 from torch.nn import GELU, LeakyReLU, ReLU, Sigmoid, SiLU, Softmax, Tanh
 
-from ...core.structures import ACTIVATION_REGISTRY
+from ...core.utils.structures import ACTIVATION_REGISTRY
 
 # Register Common Activation Functions
 ACTIVATION_REGISTRY.register(Mish)

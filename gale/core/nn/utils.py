@@ -88,9 +88,8 @@ def params(m):
     return [p for p in m.parameters()]
 
 # Cell
-def maybe_convert_to_onehot(
-    target: torch.Tensor, output: torch.Tensor
-) -> torch.LongTensor:
+# fmt: off
+def maybe_convert_to_onehot(target: torch.Tensor, output: torch.Tensor) -> torch.LongTensor:
     """
     This function infers whether `target` is `one_hot` encoded
     and converts it to `one_hot` encoding if necessary.
@@ -107,12 +106,12 @@ def maybe_convert_to_onehot(
     ):
         target = torch.nn.functional.one_hot(target, output.shape[1])
     return target
+# fmt: on
 
 # Cell
 def worker_init_fn(worker_id):
     """
-    You can set the seed for `NumPy` in the `worker_init_fn`
-
+    You can set the seed for `NumPy` in the `worker_init_fn` of `DataLoader`s
 
     For more information see:
     https://tanelp.github.io/posts/a-bug-that-plagues-thousands-of-open-source-ml-projects/

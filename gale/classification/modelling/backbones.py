@@ -8,6 +8,7 @@ __all__ = ['has_pool_type', 'prepare_backbone', 'filter_weight_decay', 'ImageCla
 
 # Cell
 import abc
+import logging
 import re
 from typing import *
 
@@ -21,7 +22,9 @@ from ...core.classes import GaleModule
 from ...core.nn import ACTIVATION_REGISTRY
 from ...core.nn.shape_spec import ShapeSpec
 from ...core.nn.utils import set_bn_eval, trainable_params
-from ...core.structures import IMAGE_CLASSIFIER_BACKBONES
+from ...core.utils.structures import IMAGE_CLASSIFIER_BACKBONES
+
+_logger = logging.getLogger(__name__)
 
 # Cell
 # funtions taken from: https://github.com/fastai/fastai/blob/master/fastai/vision/learner.py#L76
@@ -53,8 +56,11 @@ def prepare_backbone(model: nn.Module, cut=None):
 
 # Cell
 def filter_weight_decay(
-    model: nn.Module, lr: float, weight_decay: float = 1e-5, skip_list=()
-):
+    model: nn.Module,
+    lr: float,
+    weight_decay: float = 1e-5,
+    skip_list=(),
+) -> List[Dict]:
     """
     Filter out bias, bn and other 1d params from weight decay.
     Modified from: [timm](https://github.com/rwightman/pytorch-image-models/blob/e8a64fb88108b592da192e98054095b1ee25e96e/timm/optim/optim_factory.py)
@@ -129,7 +135,7 @@ class TimmBackboneBase(ImageClassificationBackbone):
         freeze_bn: bool = False,
         freeze_at: int = False,
         filter_wd: bool = False,
-        **kwargs
+        **kwargs,
     ):
         super(TimmBackboneBase, self).__init__()
 

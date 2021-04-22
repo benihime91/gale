@@ -10,12 +10,13 @@ from typing import *
 import torch
 from fvcore.common.param_scheduler import *
 from torch.optim import Optimizer
-
-# fmt: off
-from torch.optim.lr_scheduler import (CosineAnnealingWarmRestarts, MultiStepLR,
-                                      OneCycleLR, ReduceLROnPlateau, StepLR)
-
-# from gale.core.structures import SCHEDULER_REGISTRY
+from torch.optim.lr_scheduler import (
+    CosineAnnealingWarmRestarts,
+    MultiStepLR,
+    OneCycleLR,
+    ReduceLROnPlateau,
+    StepLR,
+)
 
 # Cell
 # fmt: off
@@ -77,10 +78,12 @@ class LRMultiplier(torch.optim.lr_scheduler._LRScheduler):
         return [base_lr * multiplier for base_lr in self.base_lrs]
 
 # Cell
-# @SCHEDULER_REGISTRY.register()
 def CosineLR(
-    optim: Optimizer, max_iters: int, start_value: int = 1, end_value: int = 0
-):
+    optim: Optimizer,
+    max_iters: int,
+    start_value: int = 1,
+    end_value: int = 0,
+) -> torch.optim.lr_scheduler._LRScheduler:
     """
     Cosine decay or cosine warmup schedules based on start and end values.
     These values are relative to the values of your LR's.
@@ -92,7 +95,11 @@ def CosineLR(
 
 # Cell
 # @SCHEDULER_REGISTRY.register()
-def FlatCosScheduler(optimizer: Optimizer, pct_start: float, max_iters: int):
+def FlatCosScheduler(
+    optimizer: Optimizer,
+    pct_start: float,
+    max_iters: int,
+) -> torch.optim.lr_scheduler._LRScheduler:
     """
     Schedule the LearningRate at flat `lr` for `pct_start` of `max_iters` before cosine annealing.
     This scheduler is meant to be called after a batch has been used for training.
@@ -157,7 +164,7 @@ def WarmupCosineLR(
     pct_start: Optional[float] = None,
     warmup_steps: Optional[int] = None,
     warmup_factor: float = (1.0 / 1000),
-):
+) -> torch.optim.lr_scheduler._LRScheduler:
     """
     Linearly increase `lr` for `pct_start` or `warmup_steps` before cosine annealing from
     `pct_start` or `warmup_steps`.
@@ -201,7 +208,7 @@ def WarmupLinearLR(
     pct_start: Optional[float] = None,
     warmup_steps: Optional[int] = None,
     warmup_factor: float = (1.0 / 1000),
-):
+) -> torch.optim.lr_scheduler._LRScheduler:
     """
     Linearly increase `lr` for `pct_start` or `warmup_steps` before
     linear decreasing of `lr`.
@@ -244,7 +251,7 @@ def WarmupConstantLR(
     pct_start: Optional[float] = None,
     warmup_steps: Optional[int] = None,
     warmup_factor: float = (1.0 / 1000),
-):
+) -> torch.optim.lr_scheduler._LRScheduler:
     """
     Linearly increase `lr` for `pct_start` or `warmup_steps` after
     which keep the `lr` at constant value.

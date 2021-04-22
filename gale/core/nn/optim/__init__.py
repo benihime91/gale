@@ -1,4 +1,4 @@
-from ...structures import OPTIM_REGISTRY, SCHEDULER_REGISTRY
+from ....core.utils.structures import OPTIM_REGISTRY, SCHEDULER_REGISTRY
 from .optimizers import *
 from .lr_schedulers import *
 

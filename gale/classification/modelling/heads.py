@@ -3,6 +3,7 @@
 __all__ = ['ImageClassificationHead', 'FullyConnectedHead', 'FastaiHead']
 
 # Cell
+import logging
 from typing import *
 
 import torch
@@ -12,14 +13,12 @@ from torch import nn
 
 from .backbones import filter_weight_decay
 from ...core.classes import GaleModule
-from ...core.logging import setup_logger
 from ...core.nn import ACTIVATION_REGISTRY
 from ...core.nn.shape_spec import ShapeSpec
 from ...core.nn.utils import trainable_params
-from ...core.structures import IMAGE_CLASSIFIER_HEADS
+from ...core.utils.structures import IMAGE_CLASSIFIER_HEADS
 
-# Cell
-_logger = setup_logger()
+_logger = logging.getLogger()
 
 # Cell
 class ImageClassificationHead(GaleModule):

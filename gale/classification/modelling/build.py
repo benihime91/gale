@@ -1,3 +1,7 @@
+"""
+Factory methods to build a ImageClassificationBackBone and ImageClassificationHead
+from gale config
+"""
 from omegaconf import DictConfig
 
 from ...core.nn.shape_spec import ShapeSpec
@@ -5,13 +9,10 @@ from .backbones import IMAGE_CLASSIFIER_BACKBONES, ImageClassificationBackbone
 from .heads import IMAGE_CLASSIFIER_HEADS, ImageClassificationHead
 
 
-def build_backbone(cfg: DictConfig, input_shape: ShapeSpec = None):
+def build_backbone(cfg: DictConfig, input_shape: ShapeSpec):
     """
     Build a ImageClassificationBackbone defined by `cfg.MODEL.BACKBONE.name`.
     """
-    if input_shape is None:
-        input_shape = ShapeSpec(channels=len(cfg.MODEL.PIXEL_MEAN))
-
     backbone_name = cfg.MODEL.BACKBONE.name
     cls = IMAGE_CLASSIFIER_BACKBONES.get(backbone_name)
     init_args = cfg.MODEL.BACKBONE.init_args

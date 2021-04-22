@@ -4,6 +4,7 @@ __all__ = ['Configurable', 'GaleModule', 'OptimSchedBuilder', 'GaleTask']
 
 # Cell
 import copy
+import logging
 import math
 from abc import ABC, ABCMeta, abstractmethod
 from contextlib import contextmanager
@@ -17,11 +18,11 @@ from fastcore.all import L, noop, patch
 from omegaconf import DictConfig, OmegaConf
 from torch.nn import Module
 
-from .logging import setup_logger
 from .nn.optim import OPTIM_REGISTRY, SCHEDULER_REGISTRY
 from .nn.utils import params, trainable_params
+from .utils.logger import log_main_process
 
-_logger = setup_logger()
+_logger = logging.getLogger(__name__)
 
 # Cell
 class Configurable(ABC):
@@ -179,7 +180,7 @@ def prepare_optimization_config(self: OptimSchedBuilder, config: DictConfig):
     self.optimization_cfg["steps_per_epoch"] = len(self._train_dl)
 
     if self._trainer.max_epochs is None and self._trainer.max_steps is None:
-        _logger.error("Either one of max_epochs or max_epochs must be provided in Trainer")
+        log_main_process(_logger, logging.ERROR, "Either one of max_epochs or max_epochs must be provided in Trainer")
         raise ValueError
 
     if self._trainer.max_steps is None:
@@ -211,30 +212,28 @@ def prepare_optimization_config(self: OptimSchedBuilder, config: DictConfig):
     # populate values in learning rate schedulers
 
     if "max_iters" in sched_config:
-        if sched_config["max_iters"] == "???" or sched_config["max_iters"] is None:
+        if sched_config["max_iters"] is None:
             OmegaConf.update(self.optimization_cfg,"scheduler.init_args.max_iters",
                              self.optimization_cfg["max_steps"],)
-            _logger.info(f"Set the value of 'max_iters' to be {self.optimization_cfg['max_steps']}")
+            log_main_process(_logger, logging.INFO, f"Set the value of 'max_iters' to be {self.optimization_cfg['max_steps']}")
 
     if "epochs" in sched_config:
-        if sched_config["epochs"] == "???" or sched_config["epochs"] is None:
+        if sched_config["epochs"] is None:
             OmegaConf.update(self.optimization_cfg, "scheduler.init_args.epochs",
                              self.optimization_cfg["max_epochs"],)
-            _logger.info(f"Set the value of 'epochs' to be {self.optimization_cfg['max_epochs']}")
+            log_main_process(_logger, logging.INFO, f"Set the value of 'epochs' to be {self.optimization_cfg['max_epochs']}")
 
     if "steps_per_epoch" in sched_config:
-        if sched_config["steps_per_epoch"] == "???" or sched_config["steps_per_epoch"] is None:
+        if sched_config["steps_per_epoch"] is None:
             OmegaConf.update(self.optimization_cfg, "scheduler.init_args.steps_per_epoch",
                              self.optimization_cfg["steps_per_epoch"],)
-            _logger.info(f"Set the value of 'steps_per_epoch' to be {self.optimization_cfg['steps_per_epoch']}")
+            log_main_process(_logger, logging.INFO, f"Set the value of 'steps_per_epoch' to be {self.optimization_cfg['steps_per_epoch']}")
 
 # fmt: on
 
 # Cell
 @patch
-def build_optimizer(
-    self: OptimSchedBuilder, params: Union[Iterable, Any]
-) -> torch.optim.Optimizer:
+def build_optimizer(self: OptimSchedBuilder, params: Any) -> torch.optim.Optimizer:
     """
     Builds a single optimizer from `OptimizationConfig`. `params` are the parameter
     dict with the weights for the optimizer to optimizer.
@@ -242,13 +241,13 @@ def build_optimizer(
     Note this method must be called after `prepare_optimization_config()`
     """
     if not isinstance(self.optimization_cfg, DictConfig):
-        _logger.warning(
-            "optimization_cfg not found, did you call `prepare_optimization_config`."
-        )
+        msg = "optimization_cfg not found, did you call `prepare_optimization_config`."
+        log_main_process(_logger, logging.WARNING, msg)
         raise NameError
     else:
         if self.optimization_cfg.optimizer.name is None:
-            _logger.warning("Optimizer is None, so no optimizer will be created.")
+            msg = "Optimizer is None, so no optimizer will be created."
+            log_main_process(_logger, logging.WARNING, msg)
             opt = None
         else:
             opt = self.optimization_cfg.optimizer
@@ -256,26 +255,24 @@ def build_optimizer(
         return opt
 
 # Cell
+# fmt: off
 @patch
-def build_lr_scheduler(
-    self: OptimSchedBuilder, optimizer: torch.optim.Optimizer
-) -> Union[None, Dict]:
+def build_lr_scheduler(self: OptimSchedBuilder, optimizer: torch.optim.Optimizer) -> Any:
     """
     Builds a LearningRate scheduler from `OptimizationConfig`. Returns an LRScheduler dict
     that is required by PyTorch Lightning for LRSchedulers.
     Note this method must be called after `prepare_optimization_config()`
     """
     if not isinstance(self.optimization_cfg, DictConfig):
-        _logger.warning(
-            "optimization_cfg not found, did you call `prepare_optimization_config`."
-        )
+        msg = "optimization_cfg not found, did you call `prepare_optimization_config`."
+        log_main_process(_logger, logging.WARNING, msg)
         raise NameError
     else:
         if self.optimization_cfg.scheduler.name is None:
-            _logger.warning("scheduler is None, so no scheduler will be created.")
+            msg = "scheduler is None, so no scheduler will be created."
+            log_main_process(_logger, logging.WARNING, msg)
             sched = None
         else:
-            # fmt: off
             _temp = OmegaConf.to_container(self.optimization_cfg.scheduler.init_args, resolve=True)
             kwds  = {}
 
@@ -289,11 +286,13 @@ def build_lr_scheduler(
             sch = SCHEDULER_REGISTRY.get(self.optimization_cfg.scheduler.name)(optimizer=optimizer, **kwds)
 
             # convert the lr_scheduler to pytorch-lightning LRScheduler dictionary format
-            sched = dict(scheduler=sch,
-                         interval=self.optimization_cfg.scheduler.interval,
-                         monitor=self.optimization_cfg.scheduler.monitor)
-            # fmt: on
+            sched = {
+                "scheduler": sch,
+                "interval" : self.optimization_cfg.scheduler.interval,
+                "monitor"  : self.optimization_cfg.scheduler.monitor
+            }
             return sched
+# fmt: on
 
 # Cell
 class GaleTask(pl.LightningModule, OptimSchedBuilder, metaclass=ABCMeta):
@@ -428,10 +427,7 @@ def test_step(self: GaleTask, batch: Any, batch_idx: int) -> None:
 
 # Cell
 @patch
-def setup_optimization(
-    self: GaleTask,
-    optim_config: DictConfig = None,
-):
+def setup_optimization(self: GaleTask, optim_config: DictConfig = None):
     """
     Prepares an optimizer from a string name and its optional config parameters.
 
@@ -446,7 +442,8 @@ def setup_optimization(
 
     # If config is still None, or internal config has no Optim, return without instantiation
     if optim_config is None:
-        _logger.info("No optimizer config provided, therefore no optimizer was created")
+        msg = "No optimizer config provided, therefore no optimizer was created"
+        log_main_process(_logger, logging.WARNING, msg)
         return
 
     else:
