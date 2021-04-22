@@ -1,0 +1,12 @@
+name: FastaiHead
+init_args:
+  num_classes:
+  act: ReLU
+  lin_ftrs: null
+  ps: 0.5
+  concat_pool: true
+  first_bn: true
+  bn_final: false
+  lr: 2e-03
+  wd: 1e-02
+  filter_wd: true

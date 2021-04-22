@@ -6,16 +6,20 @@ __all__ = ['ImageClassificationHead', 'FullyConnectedHead', 'FastaiHead']
 from typing import *
 
 import torch
-from fastcore.all import L, delegates, ifnone, store_attr, use_kwargs_dict
-from timm.models.layers import SelectAdaptivePool2d, create_classifier
+from fastcore.all import L, ifnone, store_attr
 from timm.models.layers.classifier import _create_fc, _create_pool
 from torch import nn
 
 from .backbones import filter_weight_decay
 from ...core.classes import GaleModule
+from ...core.logging import setup_logger
 from ...core.nn import ACTIVATION_REGISTRY
-from ...core.nn.utils import params, trainable_params
+from ...core.nn.shape_spec import ShapeSpec
+from ...core.nn.utils import trainable_params
 from ...core.structures import IMAGE_CLASSIFIER_HEADS
+
+# Cell
+_logger = setup_logger()
 
 # Cell
 class ImageClassificationHead(GaleModule):
@@ -29,7 +33,6 @@ class ImageClassificationHead(GaleModule):
         """
         super().__init__()
 
-    @property
     def get_lrs(self) -> List:
         """
         Returns a List containining the Lrs' for
@@ -53,7 +56,7 @@ class FullyConnectedHead(ImageClassificationHead):
 
     def __init__(
         self,
-        in_planes: int,
+        input_shape: ShapeSpec,
         num_classes: int,
         pool_type: str = "avg",
         drop_rate: float = 0.0,
@@ -64,12 +67,14 @@ class FullyConnectedHead(ImageClassificationHead):
     ):
         super(FullyConnectedHead, self).__init__()
         self.drop_rate = drop_rate
+        in_planes = input_shape.channels
         # fmt: off
         self.global_pool, num_pooled_features = _create_pool(in_planes, num_classes, pool_type, use_conv=use_conv)
         # fmt: on
         self.fc = _create_fc(num_pooled_features, num_classes, use_conv=use_conv)
         self.flatten_after_fc = use_conv and pool_type
-        self.lr, self.wd, self.filter_wd = lr, wd, filter_wd
+
+        store_attr("lr, wd, filter_wd")
 
     def forward(self, x):
         x = self.global_pool(x)
@@ -100,7 +105,7 @@ class FastaiHead(ImageClassificationHead):
 
     def __init__(
         self,
-        in_planes: int,
+        input_shape: ShapeSpec,
         num_classes: int,
         act: str = "ReLU",
         lin_ftrs: Optional[List] = None,
@@ -113,6 +118,7 @@ class FastaiHead(ImageClassificationHead):
         filter_wd: bool = False,
     ):
         super(FastaiHead, self).__init__()
+        in_planes = input_shape.channels
         pool = "catavgmax" if concat_pool else "avg"
         pool, nf = _create_pool(in_planes, num_classes, pool, use_conv=False)
 
@@ -145,7 +151,7 @@ class FastaiHead(ImageClassificationHead):
             self.layers.append(nn.BatchNorm1d(lin_ftrs[-1], momentum=0.01))
         self.layers = nn.Sequential(*[l for l in self.layers if l is not None])
 
-        self.lr, self.wd, self.filter_wd = lr, wd, filter_wd
+        store_attr("lr, wd, filter_wd")
 
     def forward(self, xb: torch.Tensor) -> Any:
         return self.layers(xb)

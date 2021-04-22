@@ -5,16 +5,86 @@ __all__ = ['GeneralizedImageClassifier']
 # Cell
 from typing import *
 
-import numpy as np
 import torch
-from fastcore.all import Transform, delegates, typedispatch, use_kwargs_dict
-from PIL import Image
+from omegaconf import DictConfig, OmegaConf
 from torch.nn import Module
 
 from .backbones import ImageClassificationBackbone
+from .build import build_backbone, build_head
 from .heads import ImageClassificationHead
 from ...core.classes import GaleModule
 from ...core.logging import setup_logger
+from ...core.nn.shape_spec import ShapeSpec
+from ...core.structures import META_ARCH_REGISTRY
+
+_logger = setup_logger()
 
 # Cell
+@META_ARCH_REGISTRY.register()
 class GeneralizedImageClassifier(GaleModule):
+    """
+    A General Image Classifier. Any models that contains the following 2 components:
+    1. Feature extractor (aka backbone)
+    2. Image Classification head (Pooling + Classifier)
+    """
+
+    def __init__(
+        self,
+        backbone: ImageClassificationBackbone,
+        head: ImageClassificationHead,
+    ):
+        """
+        Arguments:
+        1. `backbone`: a `ImageClassificationBackbone` module, must follow gale's backbone interface
+        2. `head`: a head containg the classifier. and the pooling layer, must be an instance of
+        `ImageClassificationHead`.
+        """
+        super(GeneralizedImageClassifier, self).__init__()
+        self.backbone = backbone
+        self.head = head
+
+    def forward(self, batched_inputs: torch.Tensor) -> torch.Tensor:
+        """
+        Runs the batched_inputs through `backbone` followed by the `head`.
+        Returns a Tensor which contains the logits for the batched_inputs.
+        """
+        out = self.backbone(batched_inputs)
+        out = self.head(out)
+        return out
+
+    @classmethod
+    def from_config_dict(cls, cfg: DictConfig):
+        """
+        Instantiate the Meta Architecture from gale config
+        """
+        # fmt: off
+        input_shape = ShapeSpec(cfg.INPUT.channels, cfg.INPUT.height, cfg.INPUT.width)
+        # fmt: on
+        backbone = build_backbone(cfg, input_shape=input_shape)
+        head = build_head(cfg, backbone.output_shape())
+        kwds = {"backbone": backbone, "head": head}
+        instance = cls(**kwds)
+        instance._cfg = OmegaConf.to_container(cfg.MODEL, resolve=True)
+        instance.input_shape = input_shape
+        return instance
+
+    def build_param_dicts(self):
+        """
+        Builds up the Paramters dicts for optimization.
+        """
+        backbone_params = self.backbone.build_param_dicts()
+        head_params = self.head.build_param_dicts()
+        return backbone_params + head_params
+
+    def get_lrs(self) -> List:
+        """
+        Returns a List containining the Lrs' for
+        each parameter group. This is required to build schedulers
+        like `torch.optim.lr_scheduler.OneCycleScheduler` which needs
+        the max lrs' for all the Param Groups.
+        """
+        lrs = []
+
+        for p in self.build_param_dicts():
+            lrs.append(p["lr"])
+        return lrs

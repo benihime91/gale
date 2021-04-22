@@ -1,24 +1,89 @@
 # -----------------------------------------------------------------------------
 # Generic Config definition for Image Classification
 # -----------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------- #
+# Misc options
+# ---------------------------------------------------------------------------- #
+# It is recommened to keep a unique NAME and EXP_VERSION for in your config file
+NAME: ???
+VERSION: ???
+# Directory where output files are written
+OUTPUT_DIR: ./output/${NAME}_${VERSION}/
+
+# ---------------------------------------------------------------------------- #
+# MODEL DEFINITION
+# ---------------------------------------------------------------------------- #
 MODEL:
-  META_ARCHITECTURE: ???
+  # This is the number of Output Classes for Image Classification Tasks
+  NUM_CLASSES: ???
 
+  # Model definition
+  META_ARCHITECTURE:
+    name: GeneralizedImageClassifier
+    init_args: null
+
+  # ---------------------------------------------------------------------------- #
+  # Backbone options (Optional)
+  # ---------------------------------------------------------------------------- #
+  BACKBONE:
+    # @Note: check class `ResNetBackbone` for args definition
+    name: ResNetBackbone
+    init_args:
+      model_name: resnet18
+      # Name of the Activation function to use in the MODEL
+      act: null
+      lr: 2e-04
+      wd: 1e-03
+      lr_div: 10
+      # Freeze the first several stages so they are not trained.
+      # There are 5 stages in ResNet. The first is a convolution, and the following
+      # stages are each group of residual blocks.
+      freeze_at: 2
+      # Take the model pretrained on ImageNet
+      pretrained: true
+      drop_block_rate: null
+      drop_path_rate: null
+      bn_tf: false
+
+  # ---------------------------------------------------------------------------- #
+  # Head options (Optional)
+  # ---------------------------------------------------------------------------- #
+  HEAD:
+    name: FastaiHead
+    init_args:
+      num_classes: ${MODEL.NUM_CLASSES}
+      act: ReLU
+      lin_ftrs: null
+      ps: 0.5
+      concat_pool: true
+      first_bn: true
+      bn_final: false
+      lr: 2e-03
+      wd: 1e-02
+      filter_wd: true
+
+# -----------------------------------------------------------------------------
+# OPTIMIZATION DEFAULTS for HYDRA
+# -----------------------------------------------------------------------------
 defaults:
-  # default optimizer
+  # default optimizer , check gale/hydra/optimizer/ for choices
   - optimizer: adamw
-  # default lr_scheduler
+  # default scheduler, check gale/hydra/scheduler/ for choices
+  # # See gale/core/nn/optim/lr_scheduler.py for LR scheduler options
   - scheduler: onecycle
-  # model deafults
-  - backbone: resnet_cls
-  - head:
 
-TRAINING:
-  backbone_lr: 2e-05
-  backbone_wd: 1e-02
-  head_lr: 2e-03
-  head_wd: 1e-02
+# -----------------------------------------------------------------------------
+# INPUT
+# -----------------------------------------------------------------------------
+INPUT:
+  channels: 3
+  height: 224
+  width: 224
 
+# -----------------------------------------------------------------------------
+# OPTIMATION
+# -----------------------------------------------------------------------------
 OPTIMIZATION:
   # Additional Parameters for Optimization
   # # total number of steps per epochs, this value is computed at runtime and mandatory to have.
@@ -28,6 +93,9 @@ OPTIMIZATION:
   # total number of training epochs, computed at runtime or explicitly set here; mandatory to have.
   max_epochs: null
 
+# -----------------------------------------------------------------------------
+# Dataset
+# -----------------------------------------------------------------------------
 DATASETS:
   # name of the training dataset. (must be registered in `DatasetCatalog`)
   train_ds: ???
@@ -36,6 +104,9 @@ DATASETS:
   # name of the test dataset. (must be registered in `DatasetCatalog`) [OPTIONAL]
   test_ds: null
 
+# -----------------------------------------------------------------------------
+# DataLoader
+# -----------------------------------------------------------------------------
 # configuration for dataloaders
 # NOTE: The training data is shuffled by default and
 # validation and testing datasets are not shuffled
@@ -48,11 +119,12 @@ DATALOADER:
   collate_fn: null
   pin_memory: false
 
-# Miscallaneous Parameters
-NAME: ??? # Name of the Config
-EXP_VERSION: ??? # Name of the experiment
-
+# -----------------------------------------------------------------------------
+# Hydra Options
+# -----------------------------------------------------------------------------
 hydra:
   job_logging:
     root:
       handlers: null
+  run:
+    dir: ${OUTPUT_DIR}

@@ -1,10 +1,9 @@
-# @package MODEL.BACKBONE
 name: TimmBackboneBase
 init_args:
   model_name: ???
   act: null
-  lr: ${TRAINING.backbone_lr}
-  wd: ${TRAINING.backbone_wd}
+  lr: null
+  wd: null
   freeze_bn: false
   freeze_at: false
   filter_wd: false
