@@ -8,6 +8,7 @@ from typing import *
 
 import torch
 from omegaconf import DictConfig, OmegaConf
+from pytorch_lightning.core.memory import get_human_readable_count
 from torch.nn import Module
 
 from ..backbones import ImageClassificationBackbone
@@ -39,7 +40,9 @@ class GeneralizedImageClassifier(GaleModule):
         """
         super(GeneralizedImageClassifier, self).__init__()
         self.backbone = backbone
+        assert isinstance(backbone, ImageClassificationBackbone)
         self.head = head
+        assert isinstance(head, ImageClassificationHead)
 
     def forward(self, batched_inputs: torch.Tensor) -> torch.Tensor:
         """
@@ -56,14 +59,27 @@ class GeneralizedImageClassifier(GaleModule):
         Instantiate the Meta Architecture from gale config
         """
         # fmt: off
+        # _logger.info("Build Model with cfg: \n{}".format(OmegaConf.to_yaml(cfg.MODEL, resolve=True)))
+
         input_shape = ShapeSpec(cfg.INPUT.channels, cfg.INPUT.height, cfg.INPUT.width)
-        # fmt: on
+        _logger.info(f"Inputs: {input_shape}")
+
         backbone = build_backbone(cfg, input_shape=input_shape)
+        param_count = get_human_readable_count(sum([m.numel() for m in backbone.parameters()]))
+        _logger.info('Backbone {} created, param count: {}.'.format(cfg.MODEL.BACKBONE.name, param_count))
+
         head = build_head(cfg, backbone.output_shape())
+        param_count = get_human_readable_count(sum([m.numel() for m in head.parameters()]))
+        _logger.info('Head {} created, param count: {}.'.format(cfg.MODEL.HEAD.name, param_count))
+
         kwds = {"backbone": backbone, "head": head}
+
         instance = cls(**kwds)
         instance._cfg = OmegaConf.to_container(cfg.MODEL, resolve=True)
         instance.input_shape = input_shape
+        param_count = get_human_readable_count(sum([m.numel() for m in instance.parameters()]))
+        _logger.info("Model created, param count: {}.".format(param_count))
+        # fmt: on
         return instance
 
     def build_param_dicts(self):
