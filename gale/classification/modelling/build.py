@@ -2,11 +2,19 @@
 Factory methods to build a ImageClassificationBackBone and ImageClassificationHead
 from gale config
 """
+import logging
+
 from omegaconf import DictConfig
 
 from ...core.nn.shape_spec import ShapeSpec
-from .backbones import IMAGE_CLASSIFIER_BACKBONES, ImageClassificationBackbone
-from .heads import IMAGE_CLASSIFIER_HEADS, ImageClassificationHead
+from .backbones import *
+from .heads import *
+
+_logger = logging.getLogger()
+
+# Register objects in the registry's
+IMAGE_CLASSIFIER_BACKBONES.register(TimmBackboneBase)
+IMAGE_CLASSIFIER_BACKBONES.register(ResNetBackbone)
 
 
 def build_backbone(cfg: DictConfig, input_shape: ShapeSpec):
@@ -19,6 +27,10 @@ def build_backbone(cfg: DictConfig, input_shape: ShapeSpec):
     backbone = cls.from_config_dict(init_args, input_shape=input_shape)
     assert isinstance(backbone, ImageClassificationBackbone)
     return backbone
+
+
+IMAGE_CLASSIFIER_HEADS.register(FastaiHead)
+IMAGE_CLASSIFIER_HEADS.register(FullyConnectedHead)
 
 
 def build_head(cfg: DictConfig, input_shape: ShapeSpec):
