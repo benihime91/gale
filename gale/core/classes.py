@@ -164,7 +164,6 @@ class OptimSchedBuilder:
     optimization_cfg: DictConfig
 
 # Cell
-# fmt: off
 @patch
 def prepare_optimization_config(self: OptimSchedBuilder, config: DictConfig):
     """
@@ -180,56 +179,89 @@ def prepare_optimization_config(self: OptimSchedBuilder, config: DictConfig):
     self.optimization_cfg["steps_per_epoch"] = len(self._train_dl)
 
     if self._trainer.max_epochs is None and self._trainer.max_steps is None:
-        log_main_process(_logger, logging.ERROR, "Either one of max_epochs or max_epochs must be provided in Trainer")
+        log_main_process(
+            _logger,
+            logging.ERROR,
+            "Either one of max_epochs or max_epochs must be provided in Trainer",
+        )
         raise ValueError
 
+    # compute effective num training steps
+    if (
+        isinstance(self._trainer.limit_train_batches, int)
+        and self._trainer.limit_train_batches != 0
+    ):
+        dataset_size = self.trainer.limit_train_batches
+    elif isinstance(self._trainer.limit_train_batches, float):
+        # limit_train_batches is a percentage of batches
+        dataset_size = len(self._train_dl)
+        dataset_size = int(dataset_size * self._trainer.limit_train_batches)
+    else:
+        dataset_size = len(self._train_dl)
+
+    num_devices = max(1, self._trainer.num_gpus, self._trainer.num_processes)
+
+    if self._trainer.tpu_cores:
+        num_devices = max(num_devices, self._trainer.tpu_cores)
+
+    effective_batch_size = self._trainer.accumulate_grad_batches * num_devices
+    max_steps = (dataset_size // effective_batch_size) * self._trainer.max_epochs
+
     if self._trainer.max_steps is None:
-        # calculate max_steps
         self.optimization_cfg["max_epochs"] = self._trainer.max_epochs
-        accumulate_grad_batches = self._trainer.accumulate_grad_batches
-        limit_train_batches = self._trainer.limit_train_batches
-        steps_per_epoch = self.optimization_cfg["steps_per_epoch"]
-
-        if isinstance(limit_train_batches, int) or limit_train_batches == 0.0:
-            steps_per_epoch = min(steps_per_epoch, int(limit_train_batches))
-        elif steps_per_epoch != float("inf"):
-            steps_per_epoch = int(steps_per_epoch * limit_train_batches)
-            if accumulate_grad_batches == 1:
-                steps_per_epoch = max(steps_per_epoch, 1)
-
-        max_steps = math.ceil(steps_per_epoch / accumulate_grad_batches) * self.optimization_cfg["max_epochs"]
-
         self.optimization_cfg["max_steps"] = max_steps
 
     else:
         self.optimization_cfg["max_steps"] = self._trainer.max_steps
-        # compute max epochs
-        self.optimization_cfg["max_epochs"] = self._trainer.max_steps * len(self._train_dl)
+        self.optimization_cfg["max_epochs"] = self._trainer.max_steps * len(
+            self._train_dl
+        )
 
     # covert config to Dictionary
-    sched_config = OmegaConf.to_container(self.optimization_cfg.scheduler.init_args, resolve=True)
+    sched_config = OmegaConf.to_container(
+        self.optimization_cfg.scheduler.init_args, resolve=True
+    )
 
     # populate values in learning rate schedulers
 
     if "max_iters" in sched_config:
         if sched_config["max_iters"] is None:
-            OmegaConf.update(self.optimization_cfg,"scheduler.init_args.max_iters",
-                             self.optimization_cfg["max_steps"],)
-            log_main_process(_logger, logging.INFO, f"Set the value of 'max_iters' to be {self.optimization_cfg['max_steps']}")
+            OmegaConf.update(
+                self.optimization_cfg,
+                "scheduler.init_args.max_iters",
+                self.optimization_cfg["max_steps"],
+            )
+            log_main_process(
+                _logger,
+                logging.INFO,
+                f"Set the value of 'max_iters' to be {self.optimization_cfg['max_steps']}",
+            )
 
     if "epochs" in sched_config:
         if sched_config["epochs"] is None:
-            OmegaConf.update(self.optimization_cfg, "scheduler.init_args.epochs",
-                             self.optimization_cfg["max_epochs"],)
-            log_main_process(_logger, logging.INFO, f"Set the value of 'epochs' to be {self.optimization_cfg['max_epochs']}")
+            OmegaConf.update(
+                self.optimization_cfg,
+                "scheduler.init_args.epochs",
+                self.optimization_cfg["max_epochs"],
+            )
+            log_main_process(
+                _logger,
+                logging.INFO,
+                f"Set the value of 'epochs' to be {self.optimization_cfg['max_epochs']}",
+            )
 
     if "steps_per_epoch" in sched_config:
         if sched_config["steps_per_epoch"] is None:
-            OmegaConf.update(self.optimization_cfg, "scheduler.init_args.steps_per_epoch",
-                             self.optimization_cfg["steps_per_epoch"],)
-            log_main_process(_logger, logging.INFO, f"Set the value of 'steps_per_epoch' to be {self.optimization_cfg['steps_per_epoch']}")
-
-# fmt: on
+            OmegaConf.update(
+                self.optimization_cfg,
+                "scheduler.init_args.steps_per_epoch",
+                self.optimization_cfg["steps_per_epoch"],
+            )
+            log_main_process(
+                _logger,
+                logging.INFO,
+                f"Set the value of 'steps_per_epoch' to be {self.optimization_cfg['steps_per_epoch']}",
+            )
 
 # Cell
 @patch
@@ -252,12 +284,15 @@ def build_optimizer(self: OptimSchedBuilder, params: Any) -> torch.optim.Optimiz
         else:
             opt = self.optimization_cfg.optimizer
             opt = OPTIM_REGISTRY.get(opt.name)(params=params, **opt.init_args)
+            msg = f"[OptimSchedBuilder] Built optimizer, {opt.__class__.__name__} with {len(opt.param_groups)} param groups."
+            log_main_process(_logger, logging.INFO, msg)
         return opt
 
 # Cell
-# fmt: off
 @patch
-def build_lr_scheduler(self: OptimSchedBuilder, optimizer: torch.optim.Optimizer) -> Any:
+def build_lr_scheduler(
+    self: OptimSchedBuilder, optimizer: torch.optim.Optimizer
+) -> Any:
     """
     Builds a LearningRate scheduler from `OptimizationConfig`. Returns an LRScheduler dict
     that is required by PyTorch Lightning for LRSchedulers.
@@ -273,8 +308,9 @@ def build_lr_scheduler(self: OptimSchedBuilder, optimizer: torch.optim.Optimizer
             log_main_process(_logger, logging.WARNING, msg)
             sched = None
         else:
-            _temp = OmegaConf.to_container(self.optimization_cfg.scheduler.init_args, resolve=True)
-            kwds  = {}
+            _c = self.optimization_cfg.scheduler.init_args
+            _temp = OmegaConf.to_container(_c, resolve=True)
+            kwds = {}
 
             # if a key value is ListConfig then we convert it to simple list
             for key, value in _temp.items():
@@ -283,16 +319,18 @@ def build_lr_scheduler(self: OptimSchedBuilder, optimizer: torch.optim.Optimizer
                 else:
                     kwds[key] = value
 
-            sch = SCHEDULER_REGISTRY.get(self.optimization_cfg.scheduler.name)(optimizer=optimizer, **kwds)
+            instance = SCHEDULER_REGISTRY.get(self.optimization_cfg.scheduler.name)
+            sch = instance(optimizer=optimizer, **kwds)
 
             # convert the lr_scheduler to pytorch-lightning LRScheduler dictionary format
+            msg = f"[OptimSchedBuilder] LRScheduler : {sch.__class__.__name__}."
+            log_main_process(_logger, logging.INFO, msg)
             sched = {
                 "scheduler": sch,
-                "interval" : self.optimization_cfg.scheduler.interval,
-                "monitor"  : self.optimization_cfg.scheduler.monitor
+                "interval": self.optimization_cfg.scheduler.interval,
+                "monitor": self.optimization_cfg.scheduler.monitor,
             }
             return sched
-# fmt: on
 
 # Cell
 class GaleTask(pl.LightningModule, OptimSchedBuilder, metaclass=ABCMeta):
