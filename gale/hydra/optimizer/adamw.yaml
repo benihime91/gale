@@ -1,4 +1,4 @@
-# @package OPTIMIZATION.optimizer
+# @package optimization.optimizer
 name: AdamW
 # optimizer arguments
 init_args:

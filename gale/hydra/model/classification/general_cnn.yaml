@@ -1,0 +1,5 @@
+# @package model
+# Meta architecture config
+meta_architecture:
+  name: GeneralizedImageClassifier
+  init_args: null

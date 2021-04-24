@@ -1,0 +1,20 @@
+# @package model
+
+# Meta architecture config
+# for ViT we do not have any defaults only init_args
+meta_architecture:
+  name: ViT
+  init_args:
+    num_classes: ${model.num_classes}
+    model_name: null
+    lr: 1e-03
+    wd: 1e-03
+    pretrained: true
+    freeze_to: null
+    finetune: false
+    act: null
+    reset_classifier: true
+    filter_wd: true
+    drop_rate: 0.0
+    attn_drop_rate: 0.0
+    drop_path_rate: 0.0

@@ -1,10 +1,9 @@
-# @package OPTIMIZATION.scheduler
+# @package optimization.scheduler
 name: OneCycleLR
-# default scheduler arguments
 init_args:
-  max_lr: null
+  max_lr: -1
   total_steps: null
-  epochs: null
+  epochs: -1
   steps_per_epoch: null
   pct_start: 0.3
   anneal_strategy: cos
@@ -13,6 +12,5 @@ init_args:
   max_momentum: 0.95
   div_factor: 25.0
   final_div_factor: 10000.0
-# pytorch lightning args
 interval: step
 monitor: null

@@ -1,6 +1,7 @@
+# @package model.backbone
 name: TimmBackboneBase
 init_args:
-  model_name: ???
+  model_name: null
   act: null
   lr: null
   wd: null

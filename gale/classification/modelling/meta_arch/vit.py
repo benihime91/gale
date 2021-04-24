@@ -9,6 +9,7 @@ from typing import *
 import torch
 from fastcore.all import store_attr, use_kwargs_dict
 from omegaconf import DictConfig, OmegaConf
+from pytorch_lightning.core.memory import get_human_readable_count
 from timm import create_model
 from timm.models.vision_transformer import VisionTransformer
 from timm.optim.optim_factory import add_weight_decay
@@ -18,7 +19,7 @@ from ....core.nn.activations import ACTIVATION_REGISTRY
 from ....core.nn.shape_spec import ShapeSpec
 from ....core.nn.utils import trainable_params
 
-_logger = logging.getLogger()
+_logger = logging.getLogger(__name__)
 
 # Cell
 # @TODO: Add support for Discriminative Lr's
@@ -110,11 +111,13 @@ class ViT(GaleModule):
         """
         Instantiate the Meta Architecture from gale config
         """
-        input_shape = ShapeSpec(cfg.INPUT.channels, cfg.INPUT.height, cfg.INPUT.width)
+        # fmt: off
+        input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)
         _logger.info(f"Inputs: {input_shape}")
-        instance = super().from_config_dict(
-            cfg.MODEL.META_ARCHITECTURE.init_args, input_shape=input_shape
-        )
+        instance = super().from_config_dict(cfg.model.meta_architecture.init_args, input_shape=input_shape)
+        param_count = get_human_readable_count(sum([m.numel() for m in instance.parameters()]))
+        _logger.info('{} created, param count: {}.'.format(cfg.model.meta_architecture.init_args.model_name, param_count))
+        # fmt: on
         return instance
 
     def build_param_dicts(self):

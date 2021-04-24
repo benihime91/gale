@@ -1,0 +1,10 @@
+# @package model.head
+name: FullyConnectedHead
+init_args:
+  num_classes: ${model.num_classes}
+  pool_type: avg
+  drop_rate: 0.0
+  use_conv: false
+  lr: 2e-03
+  wd: 1e-02
+  filter_wd: false

@@ -49,7 +49,6 @@ class ImageClassificationHead(GaleModule):
         return lrs
 
 # Cell
-# @IMAGE_CLASSIFIER_HEADS.register()
 class FullyConnectedHead(ImageClassificationHead):
     """
     Classifier head w/ configurable global pooling and dropout.
@@ -95,7 +94,6 @@ class FullyConnectedHead(ImageClassificationHead):
         return ps
 
 # Cell
-# @IMAGE_CLASSIFIER_HEADS.register()
 class FastaiHead(ImageClassificationHead):
     """
     Model head that takes `in_planes` features, runs through `lin_ftrs`, and out `num_classes` classes.

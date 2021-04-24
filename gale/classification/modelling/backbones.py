@@ -4,9 +4,6 @@ __all__ = ['IMAGE_CLASSIFIER_BACKBONES', 'has_pool_type', 'prepare_backbone', 'f
            'ImageClassificationBackbone', 'TimmBackboneBase', 'ResNetBackbone']
 
 # Cell
-# @TODO: Add support for VisionTransformer Backbone
-
-# Cell
 import abc
 import logging
 import re
@@ -117,7 +114,6 @@ class ImageClassificationBackbone(GaleModule, metaclass=abc.ABCMeta):
         pass
 
 # Cell
-# @IMAGE_CLASSIFIER_BACKBONES.register()
 class TimmBackboneBase(ImageClassificationBackbone):
     "Create a model from `timm` and converts it into a Image Classification Backbone"
 
@@ -182,7 +178,6 @@ class TimmBackboneBase(ImageClassificationBackbone):
 
 # Cell
 # fmt: off
-# @IMAGE_CLASSIFIER_BACKBONES.register()
 class ResNetBackbone(ImageClassificationBackbone):
     """
     A Backbone for ResNet based models from timm. Note: this class
