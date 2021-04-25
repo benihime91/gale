@@ -6,8 +6,8 @@ title: Logger
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "Setups `logger`: name, level, format etc. This logging module is adapted from https://github.com/facebookresearch/detectron2/blob/9c7f8a142216ebc52d3617c11f8fafd75b74e637/detectron2/utils/logger.py#L119"
-description: "Setups `logger`: name, level, format etc. This logging module is adapted from https://github.com/facebookresearch/detectron2/blob/9c7f8a142216ebc52d3617c11f8fafd75b74e637/detectron2/utils/logger.py#L119"
+summary: "Setups `logger`: name, level, format etc."
+description: "Setups `logger`: name, level, format etc."
 nb_path: "nbs/00_core.utils.logger.ipynb"
 ---
 <!--
@@ -55,10 +55,10 @@ nb_path: "nbs/00_core.utils.logger.ipynb"
 
 
 
-<div id="44553ba1-aeb5-47de-be26-1f19d73609e3"></div>
+<div id="900a42c5-fa87-412e-a911-39d7a76415f2"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#44553ba1-aeb5-47de-be26-1f19d73609e3');
+var element = $('#900a42c5-fa87-412e-a911-39d7a76415f2');
 
             setTimeout(function() {
                 var nbb_cell_id = 6;
@@ -98,15 +98,15 @@ var element = $('#44553ba1-aeb5-47de-be26-1f19d73609e3');
 
 
 
-<div id="f6adb1df-114d-4aa5-94a1-8cffaa0fbc56"></div>
+<div id="627cbd1a-1d3a-4058-b220-4b84c1d459ba"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#f6adb1df-114d-4aa5-94a1-8cffaa0fbc56');
+var element = $('#627cbd1a-1d3a-4058-b220-4b84c1d459ba');
 
             setTimeout(function() {
                 var nbb_cell_id = 7;
-                var nbb_unformatted_code = "# export\n@functools.lru_cache()  # so that calling setup_logger multiple times won't add many handlers\ndef setup_logger(distributed_rank=0, *, color=True, name=\"gale\"):\n    \"\"\"\n    Initialize the gale logger and set its verbosity level to `DEBUG`.\n    \"\"\"\n    logger = logging.getLogger(name)\n    logger.setLevel(logging.DEBUG)\n    logger.propagate = False\n\n    abbrev_name = name\n\n    plain_formatter = logging.Formatter(\n        \"[%(asctime)s] %(name)s %(levelname)s: %(message)s\", datefmt=\"%m/%d %H:%M:%S\"\n    )\n\n    # stdout logging: master only\n    if distributed_rank == 0:\n        ch = logging.StreamHandler(stream=sys.stdout)\n        ch.setLevel(logging.DEBUG)\n        if color:\n            formatter = _ColorfulFormatter(\n                colored(\"[%(asctime)s %(name)s]: \", \"green\") + \"%(message)s\",\n                datefmt=\"%m/%d %H:%M:%S\",\n                root_name=name,\n                abbrev_name=str(abbrev_name),\n            )\n        else:\n            formatter = plain_formatter\n        ch.setFormatter(formatter)\n        logger.addHandler(ch)\n    return logger";
-                var nbb_formatted_code = "# export\n@functools.lru_cache()  # so that calling setup_logger multiple times won't add many handlers\ndef setup_logger(distributed_rank=0, *, color=True, name=\"gale\"):\n    \"\"\"\n    Initialize the gale logger and set its verbosity level to `DEBUG`.\n    \"\"\"\n    logger = logging.getLogger(name)\n    logger.setLevel(logging.DEBUG)\n    logger.propagate = False\n\n    abbrev_name = name\n\n    plain_formatter = logging.Formatter(\n        \"[%(asctime)s] %(name)s %(levelname)s: %(message)s\", datefmt=\"%m/%d %H:%M:%S\"\n    )\n\n    # stdout logging: master only\n    if distributed_rank == 0:\n        ch = logging.StreamHandler(stream=sys.stdout)\n        ch.setLevel(logging.DEBUG)\n        if color:\n            formatter = _ColorfulFormatter(\n                colored(\"[%(asctime)s %(name)s]: \", \"green\") + \"%(message)s\",\n                datefmt=\"%m/%d %H:%M:%S\",\n                root_name=name,\n                abbrev_name=str(abbrev_name),\n            )\n        else:\n            formatter = plain_formatter\n        ch.setFormatter(formatter)\n        logger.addHandler(ch)\n    return logger";
+                var nbb_unformatted_code = "# export\n@functools.lru_cache()  # so that calling setup_logger multiple times won't add many handlers\ndef setup_logger(distributed_rank=0, *, color=True, name=\"gale\", level=logging.DEBUG):\n    \"\"\"\n    Initialize the gale logger and set its verbosity level to `level`.\n    \"\"\"\n    logger = logging.getLogger(name)\n    logger.setLevel(level)\n    logger.propagate = False\n\n    abbrev_name = name\n\n    plain_formatter = logging.Formatter(\n        \"[%(asctime)s] %(name)s %(levelname)s: %(message)s\", datefmt=\"%m/%d %H:%M:%S\"\n    )\n\n    # stdout logging: master only\n    if distributed_rank == 0:\n        ch = logging.StreamHandler(stream=sys.stdout)\n        ch.setLevel(logging.DEBUG)\n        if color:\n            formatter = _ColorfulFormatter(\n                colored(\"[%(asctime)s %(name)s]: \", \"green\") + \"%(message)s\",\n                datefmt=\"%m/%d %H:%M:%S\",\n                root_name=name,\n                abbrev_name=str(abbrev_name),\n            )\n        else:\n            formatter = plain_formatter\n        ch.setFormatter(formatter)\n        logger.addHandler(ch)\n    return logger";
+                var nbb_formatted_code = "# export\n@functools.lru_cache()  # so that calling setup_logger multiple times won't add many handlers\ndef setup_logger(distributed_rank=0, *, color=True, name=\"gale\", level=logging.DEBUG):\n    \"\"\"\n    Initialize the gale logger and set its verbosity level to `level`.\n    \"\"\"\n    logger = logging.getLogger(name)\n    logger.setLevel(level)\n    logger.propagate = False\n\n    abbrev_name = name\n\n    plain_formatter = logging.Formatter(\n        \"[%(asctime)s] %(name)s %(levelname)s: %(message)s\", datefmt=\"%m/%d %H:%M:%S\"\n    )\n\n    # stdout logging: master only\n    if distributed_rank == 0:\n        ch = logging.StreamHandler(stream=sys.stdout)\n        ch.setLevel(logging.DEBUG)\n        if color:\n            formatter = _ColorfulFormatter(\n                colored(\"[%(asctime)s %(name)s]: \", \"green\") + \"%(message)s\",\n                datefmt=\"%m/%d %H:%M:%S\",\n                root_name=name,\n                abbrev_name=str(abbrev_name),\n            )\n        else:\n            formatter = plain_formatter\n        ch.setFormatter(formatter)\n        logger.addHandler(ch)\n    return logger";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -140,9 +140,9 @@ var element = $('#f6adb1df-114d-4aa5-94a1-8cffaa0fbc56');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="setup_logger" class="doc_header"><code>setup_logger</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/utils/logger.py#L39" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>setup_logger</code>(<strong><code>distributed_rank</code></strong>=<em><code>0</code></em>, <strong><code>color</code></strong>=<em><code>True</code></em>, <strong><code>name</code></strong>=<em><code>'gale'</code></em>)</p>
+<h4 id="setup_logger" class="doc_header"><code>setup_logger</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/utils/logger.py#L39" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>setup_logger</code>(<strong><code>distributed_rank</code></strong>=<em><code>0</code></em>, <strong><code>color</code></strong>=<em><code>True</code></em>, <strong><code>name</code></strong>=<em><code>'gale'</code></em>, <strong><code>level</code></strong>=<em><code>10</code></em>)</p>
 </blockquote>
-<p>Initialize the gale logger and set its verbosity level to <code>DEBUG</code>.</p>
+<p>Initialize the gale logger and set its verbosity level to <code>level</code>.</p>
 
 </div>
 
@@ -166,6 +166,7 @@ var element = $('#f6adb1df-114d-4aa5-94a1-8cffaa0fbc56');
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;gale.logger&quot;</span><span class="p">)</span>
 
 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;This is a INFO message&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;This is a DEBUG message&quot;</span><span class="p">)</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;This is a WARNING message&quot;</span><span class="p">)</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;This is a ERROR message&quot;</span><span class="p">)</span>
 </pre></div>
@@ -180,9 +181,10 @@ var element = $('#f6adb1df-114d-4aa5-94a1-8cffaa0fbc56');
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-green-fg">[04/24 22:42:56 gale.logger]: </span>This is a INFO message
-<span class="ansi-red-intense-fg ansi-bold">WARNING</span> <span class="ansi-green-fg">[04/24 22:42:56 gale.logger]: </span>This is a WARNING message
-<span class="ansi-red-intense-fg ansi-bold ansi-underline">ERROR</span> <span class="ansi-green-fg">[04/24 22:42:56 gale.logger]: </span>This is a ERROR message
+<pre><span class="ansi-green-fg">[04/25 22:26:34 gale.logger]: </span>This is a INFO message
+<span class="ansi-green-fg">[04/25 22:26:34 gale.logger]: </span>This is a DEBUG message
+<span class="ansi-red-intense-fg ansi-bold">WARNING</span> <span class="ansi-green-fg">[04/25 22:26:34 gale.logger]: </span>This is a WARNING message
+<span class="ansi-red-intense-fg ansi-bold ansi-underline">ERROR</span> <span class="ansi-green-fg">[04/25 22:26:34 gale.logger]: </span>This is a ERROR message
 </pre>
 </div>
 </div>
@@ -192,15 +194,15 @@ var element = $('#f6adb1df-114d-4aa5-94a1-8cffaa0fbc56');
 
 
 
-<div id="b1619398-c962-4503-9a09-fd3c06d7cc51"></div>
+<div id="da96a382-0cda-4d60-8799-2b1696d35637"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#b1619398-c962-4503-9a09-fd3c06d7cc51');
+var element = $('#da96a382-0cda-4d60-8799-2b1696d35637');
 
             setTimeout(function() {
                 var nbb_cell_id = 9;
-                var nbb_unformatted_code = "setup_logger()\n\nlogger = logging.getLogger(\"gale.logger\")\n\nlogger.info(\"This is a INFO message\")\nlogger.warning(\"This is a WARNING message\")\nlogger.error(\"This is a ERROR message\")";
-                var nbb_formatted_code = "setup_logger()\n\nlogger = logging.getLogger(\"gale.logger\")\n\nlogger.info(\"This is a INFO message\")\nlogger.warning(\"This is a WARNING message\")\nlogger.error(\"This is a ERROR message\")";
+                var nbb_unformatted_code = "setup_logger()\n\nlogger = logging.getLogger(\"gale.logger\")\n\nlogger.info(\"This is a INFO message\")\nlogger.debug(\"This is a DEBUG message\")\nlogger.warning(\"This is a WARNING message\")\nlogger.error(\"This is a ERROR message\")";
+                var nbb_formatted_code = "setup_logger()\n\nlogger = logging.getLogger(\"gale.logger\")\n\nlogger.info(\"This is a INFO message\")\nlogger.debug(\"This is a DEBUG message\")\nlogger.warning(\"This is a WARNING message\")\nlogger.error(\"This is a ERROR message\")";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -260,13 +262,13 @@ var element = $('#b1619398-c962-4503-9a09-fd3c06d7cc51');
 
 
 
-<div id="a906fce6-1298-4254-a27e-6c49584ddb71"></div>
+<div id="e51f22b0-0cb4-4600-b9d6-4dee0f79717c"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#a906fce6-1298-4254-a27e-6c49584ddb71');
+var element = $('#e51f22b0-0cb4-4600-b9d6-4dee0f79717c');
 
             setTimeout(function() {
-                var nbb_cell_id = 11;
+                var nbb_cell_id = 10;
                 var nbb_unformatted_code = "# export\n@rank_zero_only\ndef log_main_process(logger, lvl, msg):\n    \"\"\"\n    Logs `msg` using `logger` only on the main process\n    \"\"\"\n    logger.log(lvl, msg)";
                 var nbb_formatted_code = "# export\n@rank_zero_only\ndef log_main_process(logger, lvl, msg):\n    \"\"\"\n    Logs `msg` using `logger` only on the main process\n    \"\"\"\n    logger.log(lvl, msg)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -313,9 +315,9 @@ var element = $('#a906fce6-1298-4254-a27e-6c49584ddb71');
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-green-fg">[04/24 22:42:58 gale.utils]: </span>This logs only on the main process
-<span class="ansi-red-intense-fg ansi-bold ansi-underline">ERROR</span> <span class="ansi-green-fg">[04/24 22:42:58 gale.utils]: </span>This logs only on the main process
-<span class="ansi-red-intense-fg ansi-bold">WARNING</span> <span class="ansi-green-fg">[04/24 22:42:58 gale.utils]: </span>This logs only on the main process
+<pre><span class="ansi-green-fg">[04/25 22:26:36 gale.logger]: </span>This logs only on the main process
+<span class="ansi-red-intense-fg ansi-bold ansi-underline">ERROR</span> <span class="ansi-green-fg">[04/25 22:26:36 gale.logger]: </span>This logs only on the main process
+<span class="ansi-red-intense-fg ansi-bold">WARNING</span> <span class="ansi-green-fg">[04/25 22:26:36 gale.logger]: </span>This logs only on the main process
 </pre>
 </div>
 </div>
@@ -325,13 +327,13 @@ var element = $('#a906fce6-1298-4254-a27e-6c49584ddb71');
 
 
 
-<div id="f3ba133f-c4a6-4bfe-9fc7-3abcd52b6562"></div>
+<div id="ac38f1c9-5516-40bd-b5b0-c982698ceb6e"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#f3ba133f-c4a6-4bfe-9fc7-3abcd52b6562');
+var element = $('#ac38f1c9-5516-40bd-b5b0-c982698ceb6e');
 
             setTimeout(function() {
-                var nbb_cell_id = 12;
+                var nbb_cell_id = 11;
                 var nbb_unformatted_code = "log_main_process(logger, logging.INFO, \"This logs only on the main process\")\nlog_main_process(logger, logging.ERROR, \"This logs only on the main process\")\nlog_main_process(logger, logging.WARNING, \"This logs only on the main process\")";
                 var nbb_formatted_code = "log_main_process(logger, logging.INFO, \"This logs only on the main process\")\nlog_main_process(logger, logging.ERROR, \"This logs only on the main process\")\nlog_main_process(logger, logging.WARNING, \"This logs only on the main process\")";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -356,12 +358,6 @@ var element = $('#f3ba133f-c4a6-4bfe-9fc7-3abcd52b6562');
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Export">Export<a class="anchor-link" href="#Export"> </a></h2>
-</div>
-</div>
-</div>
 </div>
  
 

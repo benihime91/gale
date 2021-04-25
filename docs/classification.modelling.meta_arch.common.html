@@ -39,19 +39,6 @@ nb_path: "nbs/04b_classification.modelling.meta_arch.common.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gale.core.utils.logger</span> <span class="kn">import</span> <span class="n">setup_logger</span>
-
-<span class="n">setup_logger</span><span class="p">()</span>
-<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;gale.classification.modelling.meta_arch.common&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 <div class="output_wrapper">
 <div class="output">
@@ -61,58 +48,15 @@ nb_path: "nbs/04b_classification.modelling.meta_arch.common.ipynb"
 
 
 
-<div id="2f7bf0e4-4e81-4340-86c0-e22d260a3ec1"></div>
+<div id="57509504-beff-42fc-bc76-1a26d4a1299d"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#2f7bf0e4-4e81-4340-86c0-e22d260a3ec1');
+var element = $('#57509504-beff-42fc-bc76-1a26d4a1299d');
 
             setTimeout(function() {
-                var nbb_cell_id = 5;
-                var nbb_unformatted_code = "from gale.core.utils.logger import setup_logger\n\nsetup_logger()\n_logger = logging.getLogger(\"gale.classification.modelling.meta_arch.common\")";
-                var nbb_formatted_code = "from gale.core.utils.logger import setup_logger\n\nsetup_logger()\n_logger = logging.getLogger(\"gale.classification.modelling.meta_arch.common\")";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="93f91041-1da7-4c4e-9fbb-758e1c887f43"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#93f91041-1da7-4c4e-9fbb-758e1c887f43');
-
-            setTimeout(function() {
-                var nbb_cell_id = 6;
-                var nbb_unformatted_code = "# export\nclass GeneralizedImageClassifier(GaleModule):\n    \"\"\"\n    A General Image Classifier. Any models that contains the following 2 components:\n    1. Feature extractor (aka backbone)\n    2. Image Classification head (Pooling + Classifier)\n    \"\"\"\n\n    def __init__(\n        self,\n        backbone: ImageClassificationBackbone,\n        head: ImageClassificationHead,\n    ):\n        \"\"\"\n        Arguments:\n        1. `backbone`: a `ImageClassificationBackbone` module, must follow gale's backbone interface\n        2. `head`: a head containg the classifier. and the pooling layer, must be an instance of\n        `ImageClassificationHead`.\n        \"\"\"\n        super(GeneralizedImageClassifier, self).__init__()\n        self.backbone = backbone\n        assert isinstance(backbone, ImageClassificationBackbone)\n        self.head = head\n        assert isinstance(head, ImageClassificationHead)\n\n    def forward(self, batched_inputs: torch.Tensor) -> torch.Tensor:\n        \"\"\"\n        Runs the batched_inputs through `backbone` followed by the `head`.\n        Returns a Tensor which contains the logits for the batched_inputs.\n        \"\"\"\n        out = self.backbone(batched_inputs)\n        out = self.head(out)\n        return out\n\n    @classmethod\n    def from_config_dict(cls, cfg: DictConfig):\n        \"\"\"\n        Instantiate the Meta Architecture from gale config\n        \"\"\"\n        # fmt: off\n        \n        if not hasattr(cfg.model, \"backbone\"):\n            _logger.error(\"Configuration for model backbone not found\")\n            raise ValueError\n            \n        if not hasattr(cfg.model, \"head\"):\n            _logger.error(\"Configuration for model head not found\")\n            raise ValueError\n            \n        input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)\n        _logger.info(f\"Inputs: {input_shape}\")\n        \n        backbone = build_backbone(cfg, input_shape=input_shape)\n        param_count = get_human_readable_count(sum([m.numel() for m in backbone.parameters()]))\n        _logger.info('Backbone {} created, param count: {}.'.format(cfg.model.backbone.name, param_count))\n        \n        head = build_head(cfg, backbone.output_shape())\n        param_count = get_human_readable_count(sum([m.numel() for m in head.parameters()]))\n        _logger.info('Head {} created, param count: {}.'.format(cfg.model.head.name, param_count))\n        \n        kwds = {\"backbone\": backbone, \"head\": head}\n        \n        instance = cls(**kwds)\n        instance._cfg = OmegaConf.to_container(cfg.model, resolve=True)\n        instance.input_shape = input_shape\n        param_count = get_human_readable_count(sum([m.numel() for m in instance.parameters()]))\n        _logger.info(\"Model created, param count: {}.\".format(param_count))\n        # fmt: on\n        return instance\n\n    def build_param_dicts(self):\n        \"\"\"\n        Builds up the Paramters dicts for optimization.\n        \"\"\"\n        backbone_params = self.backbone.build_param_dicts()\n        head_params = self.head.build_param_dicts()\n        return backbone_params + head_params\n\n    def get_lrs(self) -> List:\n        \"\"\"\n        Returns a List containining the Lrs' for\n        each parameter group. This is required to build schedulers\n        like `torch.optim.lr_scheduler.OneCycleScheduler` which needs\n        the max lrs' for all the Param Groups.\n        \"\"\"\n        lrs = []\n\n        for p in self.build_param_dicts():\n            lrs.append(p[\"lr\"])\n        return lrs";
-                var nbb_formatted_code = "# export\nclass GeneralizedImageClassifier(GaleModule):\n    \"\"\"\n    A General Image Classifier. Any models that contains the following 2 components:\n    1. Feature extractor (aka backbone)\n    2. Image Classification head (Pooling + Classifier)\n    \"\"\"\n\n    def __init__(\n        self,\n        backbone: ImageClassificationBackbone,\n        head: ImageClassificationHead,\n    ):\n        \"\"\"\n        Arguments:\n        1. `backbone`: a `ImageClassificationBackbone` module, must follow gale's backbone interface\n        2. `head`: a head containg the classifier. and the pooling layer, must be an instance of\n        `ImageClassificationHead`.\n        \"\"\"\n        super(GeneralizedImageClassifier, self).__init__()\n        self.backbone = backbone\n        assert isinstance(backbone, ImageClassificationBackbone)\n        self.head = head\n        assert isinstance(head, ImageClassificationHead)\n\n    def forward(self, batched_inputs: torch.Tensor) -> torch.Tensor:\n        \"\"\"\n        Runs the batched_inputs through `backbone` followed by the `head`.\n        Returns a Tensor which contains the logits for the batched_inputs.\n        \"\"\"\n        out = self.backbone(batched_inputs)\n        out = self.head(out)\n        return out\n\n    @classmethod\n    def from_config_dict(cls, cfg: DictConfig):\n        \"\"\"\n        Instantiate the Meta Architecture from gale config\n        \"\"\"\n        # fmt: off\n        \n        if not hasattr(cfg.model, \"backbone\"):\n            _logger.error(\"Configuration for model backbone not found\")\n            raise ValueError\n            \n        if not hasattr(cfg.model, \"head\"):\n            _logger.error(\"Configuration for model head not found\")\n            raise ValueError\n            \n        input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)\n        _logger.info(f\"Inputs: {input_shape}\")\n        \n        backbone = build_backbone(cfg, input_shape=input_shape)\n        param_count = get_human_readable_count(sum([m.numel() for m in backbone.parameters()]))\n        _logger.info('Backbone {} created, param count: {}.'.format(cfg.model.backbone.name, param_count))\n        \n        head = build_head(cfg, backbone.output_shape())\n        param_count = get_human_readable_count(sum([m.numel() for m in head.parameters()]))\n        _logger.info('Head {} created, param count: {}.'.format(cfg.model.head.name, param_count))\n        \n        kwds = {\"backbone\": backbone, \"head\": head}\n        \n        instance = cls(**kwds)\n        instance._cfg = OmegaConf.to_container(cfg.model, resolve=True)\n        instance.input_shape = input_shape\n        param_count = get_human_readable_count(sum([m.numel() for m in instance.parameters()]))\n        _logger.info(\"Model created, param count: {}.\".format(param_count))\n        # fmt: on\n        return instance\n\n    def build_param_dicts(self):\n        \"\"\"\n        Builds up the Paramters dicts for optimization.\n        \"\"\"\n        backbone_params = self.backbone.build_param_dicts()\n        head_params = self.head.build_param_dicts()\n        return backbone_params + head_params\n\n    def get_lrs(self) -> List:\n        \"\"\"\n        Returns a List containining the Lrs' for\n        each parameter group. This is required to build schedulers\n        like `torch.optim.lr_scheduler.OneCycleScheduler` which needs\n        the max lrs' for all the Param Groups.\n        \"\"\"\n        lrs = []\n\n        for p in self.build_param_dicts():\n            lrs.append(p[\"lr\"])\n        return lrs";
+                var nbb_cell_id = 7;
+                var nbb_unformatted_code = "# export\nclass GeneralizedImageClassifier(GaleModule):\n    \"\"\"\n    A General Image Classifier. Any models that contains the following 2 components:\n    1. Feature extractor (aka backbone)\n    2. Image Classification head (Pooling + Classifier)\n    \"\"\"\n\n    def __init__(\n        self,\n        backbone: ImageClassificationBackbone,\n        head: ImageClassificationHead,\n    ):\n        \"\"\"\n        Arguments:\n        1. `backbone`: a `ImageClassificationBackbone` module, must follow gale's backbone interface\n        2. `head`: a head containg the classifier. and the pooling layer, must be an instance of\n        `ImageClassificationHead`.\n        \"\"\"\n        super(GeneralizedImageClassifier, self).__init__()\n        self.backbone = backbone\n        assert isinstance(backbone, ImageClassificationBackbone)\n        self.head = head\n        assert isinstance(head, ImageClassificationHead)\n\n    def forward(self, batched_inputs: torch.Tensor) -> torch.Tensor:\n        \"\"\"\n        Runs the batched_inputs through `backbone` followed by the `head`.\n        Returns a Tensor which contains the logits for the batched_inputs.\n        \"\"\"\n        out = self.backbone(batched_inputs)\n        out = self.head(out)\n        return out\n\n    @classmethod\n    def from_config_dict(cls, cfg: DictConfig):\n        \"\"\"\n        Instantiate the Meta Architecture from gale config\n        \"\"\"\n        # fmt: off\n        \n        if not hasattr(cfg.model, \"backbone\"):\n            _logger.error(\"Configuration for model backbone not found\")\n            raise ValueError\n            \n        if not hasattr(cfg.model, \"head\"):\n            _logger.error(\"Configuration for model head not found\")\n            raise ValueError\n            \n        input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)\n        _logger.debug(f\"Inputs: {input_shape}\")\n        \n        backbone = build_backbone(cfg, input_shape=input_shape)\n        param_count = get_human_readable_count(sum([m.numel() for m in backbone.parameters()]))\n        _logger.debug('Backbone {} created, param count: {}.'.format(cfg.model.backbone.name, param_count))\n        \n        head = build_head(cfg, backbone.output_shape())\n        param_count = get_human_readable_count(sum([m.numel() for m in head.parameters()]))\n        _logger.debug('Head {} created, param count: {}.'.format(cfg.model.head.name, param_count))\n        \n        kwds = {\"backbone\": backbone, \"head\": head}\n        \n        instance = cls(**kwds)\n        instance._cfg = OmegaConf.to_container(cfg.model, resolve=True)\n        instance.input_shape = input_shape\n        param_count = get_human_readable_count(sum([m.numel() for m in instance.parameters()]))\n        _logger.info(\"Model created, param count: {}.\".format(param_count))\n        # fmt: on\n        return instance\n\n    def build_param_dicts(self):\n        \"\"\"\n        Builds up the Paramters dicts for optimization.\n        \"\"\"\n        backbone_params = self.backbone.build_param_dicts()\n        head_params = self.head.build_param_dicts()\n        return backbone_params + head_params\n\n    def get_lrs(self) -> List:\n        \"\"\"\n        Returns a List containining the Lrs' for\n        each parameter group. This is required to build schedulers\n        like `torch.optim.lr_scheduler.OneCycleScheduler` which needs\n        the max lrs' for all the Param Groups.\n        \"\"\"\n        lrs = []\n\n        for p in self.build_param_dicts():\n            lrs.append(p[\"lr\"])\n        return lrs";
+                var nbb_formatted_code = "# export\nclass GeneralizedImageClassifier(GaleModule):\n    \"\"\"\n    A General Image Classifier. Any models that contains the following 2 components:\n    1. Feature extractor (aka backbone)\n    2. Image Classification head (Pooling + Classifier)\n    \"\"\"\n\n    def __init__(\n        self,\n        backbone: ImageClassificationBackbone,\n        head: ImageClassificationHead,\n    ):\n        \"\"\"\n        Arguments:\n        1. `backbone`: a `ImageClassificationBackbone` module, must follow gale's backbone interface\n        2. `head`: a head containg the classifier. and the pooling layer, must be an instance of\n        `ImageClassificationHead`.\n        \"\"\"\n        super(GeneralizedImageClassifier, self).__init__()\n        self.backbone = backbone\n        assert isinstance(backbone, ImageClassificationBackbone)\n        self.head = head\n        assert isinstance(head, ImageClassificationHead)\n\n    def forward(self, batched_inputs: torch.Tensor) -> torch.Tensor:\n        \"\"\"\n        Runs the batched_inputs through `backbone` followed by the `head`.\n        Returns a Tensor which contains the logits for the batched_inputs.\n        \"\"\"\n        out = self.backbone(batched_inputs)\n        out = self.head(out)\n        return out\n\n    @classmethod\n    def from_config_dict(cls, cfg: DictConfig):\n        \"\"\"\n        Instantiate the Meta Architecture from gale config\n        \"\"\"\n        # fmt: off\n        \n        if not hasattr(cfg.model, \"backbone\"):\n            _logger.error(\"Configuration for model backbone not found\")\n            raise ValueError\n            \n        if not hasattr(cfg.model, \"head\"):\n            _logger.error(\"Configuration for model head not found\")\n            raise ValueError\n            \n        input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)\n        _logger.debug(f\"Inputs: {input_shape}\")\n        \n        backbone = build_backbone(cfg, input_shape=input_shape)\n        param_count = get_human_readable_count(sum([m.numel() for m in backbone.parameters()]))\n        _logger.debug('Backbone {} created, param count: {}.'.format(cfg.model.backbone.name, param_count))\n        \n        head = build_head(cfg, backbone.output_shape())\n        param_count = get_human_readable_count(sum([m.numel() for m in head.parameters()]))\n        _logger.debug('Head {} created, param count: {}.'.format(cfg.model.head.name, param_count))\n        \n        kwds = {\"backbone\": backbone, \"head\": head}\n        \n        instance = cls(**kwds)\n        instance._cfg = OmegaConf.to_container(cfg.model, resolve=True)\n        instance.input_shape = input_shape\n        param_count = get_human_readable_count(sum([m.numel() for m in instance.parameters()]))\n        _logger.info(\"Model created, param count: {}.\".format(param_count))\n        # fmt: on\n        return instance\n\n    def build_param_dicts(self):\n        \"\"\"\n        Builds up the Paramters dicts for optimization.\n        \"\"\"\n        backbone_params = self.backbone.build_param_dicts()\n        head_params = self.head.build_param_dicts()\n        return backbone_params + head_params\n\n    def get_lrs(self) -> List:\n        \"\"\"\n        Returns a List containining the Lrs' for\n        each parameter group. This is required to build schedulers\n        like `torch.optim.lr_scheduler.OneCycleScheduler` which needs\n        the max lrs' for all the Param Groups.\n        \"\"\"\n        lrs = []\n\n        for p in self.build_param_dicts():\n            lrs.append(p[\"lr\"])\n        return lrs";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -175,6 +119,19 @@ var element = $('#93f91041-1da7-4c4e-9fbb-758e1c887f43');
 
 </div>
 
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
 <div class="output_area">
 
 
@@ -186,6 +143,19 @@ var element = $('#93f91041-1da7-4c4e-9fbb-758e1c887f43');
 </div>
 
 </div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
 
 <div class="output_area">
 
@@ -199,6 +169,19 @@ Returns a Tensor which contains the logits for the batched_inputs.</p>
 </div>
 
 </div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
 
 <div class="output_area">
 
@@ -227,7 +210,7 @@ Returns a Tensor which contains the logits for the batched_inputs.</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Instantiation-via-config">Instantiation via config<a class="anchor-link" href="#Instantiation-via-config"> </a></h3>
+<h2 id="Instantiation-via-config">Instantiation via config<a class="anchor-link" href="#Instantiation-via-config"> </a></h2>
 </div>
 </div>
 </div>
@@ -254,13 +237,13 @@ Returns a Tensor which contains the logits for the batched_inputs.</p>
 
 
 
-<div id="7615ae53-2ac2-44ed-be8a-5efb6e2c5409"></div>
+<div id="f405d1ce-5f5b-434f-a0f2-86c6a0345b67"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#7615ae53-2ac2-44ed-be8a-5efb6e2c5409');
+var element = $('#f405d1ce-5f5b-434f-a0f2-86c6a0345b67');
 
             setTimeout(function() {
-                var nbb_cell_id = 8;
+                var nbb_cell_id = 14;
                 var nbb_unformatted_code = "from dataclasses import dataclass, field\nfrom omegaconf import MISSING, OmegaConf";
                 var nbb_formatted_code = "from dataclasses import dataclass, field\nfrom omegaconf import MISSING, OmegaConf";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -285,6 +268,13 @@ var element = $('#7615ae53-2ac2-44ed-be8a-5efb6e2c5409');
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>dataclasses for config creation -</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -318,9 +308,59 @@ var element = $('#7615ae53-2ac2-44ed-be8a-5efb6e2c5409');
     <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.002</span>
     <span class="n">wd</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">filter_wd</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
 
 
-<span class="n">b_args</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">structured</span><span class="p">(</span><span class="n">BackboneConf</span><span class="p">())</span>
+
+
+<div id="d2f53c1b-038b-4c11-8441-1bce5ec50f81"></div>
+<div class="output_subarea output_javascript ">
+<script type="text/javascript">
+var element = $('#d2f53c1b-038b-4c11-8441-1bce5ec50f81');
+
+            setTimeout(function() {
+                var nbb_cell_id = 15;
+                var nbb_unformatted_code = "@dataclass\nclass BackboneConf:\n    model_name: str = \"resnet18\"\n    act: Any = None\n    lr: Any = 1e-03\n    lr_div: Any = 10\n    wd: Any = 0.0\n    freeze_at: int = 2\n    pretrained: bool = True\n    drop_block_rate: Any = None\n    drop_path_rate: Any = None\n    bn_tf: bool = False\n\n\n@dataclass\nclass HeadConf:\n    num_classes: int = MISSING\n    act: str = \"ReLU\"\n    lin_ftrs: Any = None\n    ps: Any = 0.5\n    concat_pool: bool = True\n    first_bn: bool = True\n    bn_final: bool = False\n    lr: float = 0.002\n    wd: float = 0\n    filter_wd: bool = False";
+                var nbb_formatted_code = "@dataclass\nclass BackboneConf:\n    model_name: str = \"resnet18\"\n    act: Any = None\n    lr: Any = 1e-03\n    lr_div: Any = 10\n    wd: Any = 0.0\n    freeze_at: int = 2\n    pretrained: bool = True\n    drop_block_rate: Any = None\n    drop_path_rate: Any = None\n    bn_tf: bool = False\n\n\n@dataclass\nclass HeadConf:\n    num_classes: int = MISSING\n    act: str = \"ReLU\"\n    lin_ftrs: Any = None\n    ps: Any = 0.5\n    concat_pool: bool = True\n    first_bn: bool = True\n    bn_final: bool = False\n    lr: float = 0.002\n    wd: float = 0\n    filter_wd: bool = False";
+                var nbb_cells = Jupyter.notebook.get_cells();
+                for (var i = 0; i < nbb_cells.length; ++i) {
+                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
+                             nbb_cells[i].set_text(nbb_formatted_code);
+                        }
+                        break;
+                    }
+                }
+            }, 500);
+            
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">b_args</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">structured</span><span class="p">(</span><span class="n">BackboneConf</span><span class="p">())</span>
 <span class="n">h_args</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">structured</span><span class="p">(</span><span class="n">HeadConf</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
 
 <span class="c1"># Backbone config</span>
@@ -359,15 +399,15 @@ var element = $('#7615ae53-2ac2-44ed-be8a-5efb6e2c5409');
 
 
 
-<div id="893780ff-7614-4fcf-977f-4d26b8bea33d"></div>
+<div id="9145d55a-5639-40ca-8a2a-c2706306bf86"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#893780ff-7614-4fcf-977f-4d26b8bea33d');
+var element = $('#9145d55a-5639-40ca-8a2a-c2706306bf86');
 
             setTimeout(function() {
-                var nbb_cell_id = 9;
-                var nbb_unformatted_code = "@dataclass\nclass BackboneConf:\n    model_name: str = \"resnet18\"\n    act: Any = None\n    lr: Any = 1e-03\n    lr_div: Any = 10\n    wd: Any = 0.0\n    freeze_at: int = 2\n    pretrained: bool = True\n    drop_block_rate: Any = None\n    drop_path_rate: Any = None\n    bn_tf: bool = False\n\n\n@dataclass\nclass HeadConf:\n    num_classes: int = MISSING\n    act: str = \"ReLU\"\n    lin_ftrs: Any = None\n    ps: Any = 0.5\n    concat_pool: bool = True\n    first_bn: bool = True\n    bn_final: bool = False\n    lr: float = 0.002\n    wd: float = 0\n    filter_wd: bool = False\n\n\nb_args = OmegaConf.structured(BackboneConf())\nh_args = OmegaConf.structured(HeadConf(num_classes=10))\n\n# Backbone config\nb = OmegaConf.create()\nb.name = \"ResNetBackbone\"\nb.init_args = b_args\n\n# Head config\nh = OmegaConf.create()\nh.name = \"FastaiHead\"\nh.init_args = h_args\n\ni = OmegaConf.create()\ni.channels = 3\ni.height = 224\ni.width = 224\n\nm = OmegaConf.create()\nm.backbone = b\nm.head = h\n\n# config\nconf = OmegaConf.create(dict(input=i, model=m))\nconf = OmegaConf.structured(conf)";
-                var nbb_formatted_code = "@dataclass\nclass BackboneConf:\n    model_name: str = \"resnet18\"\n    act: Any = None\n    lr: Any = 1e-03\n    lr_div: Any = 10\n    wd: Any = 0.0\n    freeze_at: int = 2\n    pretrained: bool = True\n    drop_block_rate: Any = None\n    drop_path_rate: Any = None\n    bn_tf: bool = False\n\n\n@dataclass\nclass HeadConf:\n    num_classes: int = MISSING\n    act: str = \"ReLU\"\n    lin_ftrs: Any = None\n    ps: Any = 0.5\n    concat_pool: bool = True\n    first_bn: bool = True\n    bn_final: bool = False\n    lr: float = 0.002\n    wd: float = 0\n    filter_wd: bool = False\n\n\nb_args = OmegaConf.structured(BackboneConf())\nh_args = OmegaConf.structured(HeadConf(num_classes=10))\n\n# Backbone config\nb = OmegaConf.create()\nb.name = \"ResNetBackbone\"\nb.init_args = b_args\n\n# Head config\nh = OmegaConf.create()\nh.name = \"FastaiHead\"\nh.init_args = h_args\n\ni = OmegaConf.create()\ni.channels = 3\ni.height = 224\ni.width = 224\n\nm = OmegaConf.create()\nm.backbone = b\nm.head = h\n\n# config\nconf = OmegaConf.create(dict(input=i, model=m))\nconf = OmegaConf.structured(conf)";
+                var nbb_cell_id = 16;
+                var nbb_unformatted_code = "b_args = OmegaConf.structured(BackboneConf())\nh_args = OmegaConf.structured(HeadConf(num_classes=10))\n\n# Backbone config\nb = OmegaConf.create()\nb.name = \"ResNetBackbone\"\nb.init_args = b_args\n\n# Head config\nh = OmegaConf.create()\nh.name = \"FastaiHead\"\nh.init_args = h_args\n\ni = OmegaConf.create()\ni.channels = 3\ni.height = 224\ni.width = 224\n\nm = OmegaConf.create()\nm.backbone = b\nm.head = h\n\n# config\nconf = OmegaConf.create(dict(input=i, model=m))\nconf = OmegaConf.structured(conf)";
+                var nbb_formatted_code = "b_args = OmegaConf.structured(BackboneConf())\nh_args = OmegaConf.structured(HeadConf(num_classes=10))\n\n# Backbone config\nb = OmegaConf.create()\nb.name = \"ResNetBackbone\"\nb.init_args = b_args\n\n# Head config\nh = OmegaConf.create()\nh.name = \"FastaiHead\"\nh.init_args = h_args\n\ni = OmegaConf.create()\ni.channels = 3\ni.height = 224\ni.width = 224\n\nm = OmegaConf.create()\nm.backbone = b\nm.head = h\n\n# config\nconf = OmegaConf.create(dict(input=i, model=m))\nconf = OmegaConf.structured(conf)";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -413,10 +453,10 @@ var element = $('#893780ff-7614-4fcf-977f-4d26b8bea33d');
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-green-fg">[04/24 23:40:47 gale.classification.modelling.meta_arch.common]: </span>Inputs: ShapeSpec(channels=3, height=224, width=224)
-<span class="ansi-green-fg">[04/24 23:40:48 gale.classification.modelling.meta_arch.common]: </span>Backbone ResNetBackbone created, param count: 11.2 M.
-<span class="ansi-green-fg">[04/24 23:40:48 gale.classification.modelling.meta_arch.common]: </span>Head FastaiHead created, param count: 532 K.
-<span class="ansi-green-fg">[04/24 23:40:48 gale.classification.modelling.meta_arch.common]: </span>Model created, param count: 11.7 M.
+<pre><span class="ansi-green-fg">[04/25 22:32:16 gale.classification.modelling.meta_arch.common]: </span>Inputs: ShapeSpec(channels=3, height=224, width=224)
+<span class="ansi-green-fg">[04/25 22:32:16 gale.classification.modelling.meta_arch.common]: </span>Backbone ResNetBackbone created, param count: 11.2 M.
+<span class="ansi-green-fg">[04/25 22:32:16 gale.classification.modelling.meta_arch.common]: </span>Head FastaiHead created, param count: 532 K.
+<span class="ansi-green-fg">[04/25 22:32:16 gale.classification.modelling.meta_arch.common]: </span>Model created, param count: 11.7 M.
 </pre>
 </div>
 </div>
@@ -426,13 +466,13 @@ var element = $('#893780ff-7614-4fcf-977f-4d26b8bea33d');
 
 
 
-<div id="6a0e71fc-2ddc-43fa-ae91-91280a51f8be"></div>
+<div id="7305fab7-f862-42a7-b25f-54fea709112d"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#6a0e71fc-2ddc-43fa-ae91-91280a51f8be');
+var element = $('#7305fab7-f862-42a7-b25f-54fea709112d');
 
             setTimeout(function() {
-                var nbb_cell_id = 10;
+                var nbb_cell_id = 17;
                 var nbb_unformatted_code = "m = GeneralizedImageClassifier.from_config_dict(conf)\n\ninp = torch.randn(2, m.input_shape.channels, m.input_shape.height, m.input_shape.width)\no = m(inp)";
                 var nbb_formatted_code = "m = GeneralizedImageClassifier.from_config_dict(conf)\n\ninp = torch.randn(2, m.input_shape.channels, m.input_shape.height, m.input_shape.width)\no = m(inp)";
                 var nbb_cells = Jupyter.notebook.get_cells();

@@ -48,10 +48,10 @@ nb_path: "nbs/04a_classification.modelling.heads.ipynb"
 
 
 
-<div id="3a48ef9d-fbe6-456f-8ce2-2bd9234cf206"></div>
+<div id="ea35d1f1-ad47-47ef-9e61-6a15ab5ecdab"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#3a48ef9d-fbe6-456f-8ce2-2bd9234cf206');
+var element = $('#ea35d1f1-ad47-47ef-9e61-6a15ab5ecdab');
 
             setTimeout(function() {
                 var nbb_cell_id = 5;
@@ -116,10 +116,10 @@ var element = $('#3a48ef9d-fbe6-456f-8ce2-2bd9234cf206');
 
 
 
-<div id="67886ad0-b727-4bc7-b5c5-0bcc6b01b45f"></div>
+<div id="e2d97c66-08d5-4237-80de-c247c91c71db"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#67886ad0-b727-4bc7-b5c5-0bcc6b01b45f');
+var element = $('#e2d97c66-08d5-4237-80de-c247c91c71db');
 
             setTimeout(function() {
                 var nbb_cell_id = 6;
@@ -175,6 +175,12 @@ the max lrs' for all the Param Groups.</p>
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="FullyConnectedHead">FullyConnectedHead<a class="anchor-link" href="#FullyConnectedHead"> </a></h2>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -213,10 +219,10 @@ From - <a href="https://github.com/rwightman/pytorch-image-models/blob/master/ti
 
 
 
-<div id="b3ba798d-67c4-4610-a47c-ec225f4d3de3"></div>
+<div id="2a7124d3-a39b-4d68-a99d-628dc9f63b3b"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#b3ba798d-67c4-4610-a47c-ec225f4d3de3');
+var element = $('#2a7124d3-a39b-4d68-a99d-628dc9f63b3b');
 
             setTimeout(function() {
                 var nbb_cell_id = 8;
@@ -298,10 +304,10 @@ var element = $('#b3ba798d-67c4-4610-a47c-ec225f4d3de3');
 
 
 
-<div id="2bcaea8b-f0a9-41ad-bdfe-90f7314fd822"></div>
+<div id="35f095df-faa6-430f-8638-8ee6ef846ffe"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#2bcaea8b-f0a9-41ad-bdfe-90f7314fd822');
+var element = $('#35f095df-faa6-430f-8638-8ee6ef846ffe');
 
             setTimeout(function() {
                 var nbb_cell_id = 9;
@@ -329,6 +335,12 @@ var element = $('#2bcaea8b-f0a9-41ad-bdfe-90f7314fd822');
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="FastaiHead">FastaiHead<a class="anchor-link" href="#FastaiHead"> </a></h2>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -368,13 +380,13 @@ var element = $('#2bcaea8b-f0a9-41ad-bdfe-90f7314fd822');
 
 
 
-<div id="351fa122-3f23-4a14-a0e4-c8d2ab3b71bc"></div>
+<div id="14f9cbf7-9464-4f84-ac06-ff28839fddbe"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#351fa122-3f23-4a14-a0e4-c8d2ab3b71bc');
+var element = $('#14f9cbf7-9464-4f84-ac06-ff28839fddbe');
 
             setTimeout(function() {
-                var nbb_cell_id = 11;
+                var nbb_cell_id = 12;
                 var nbb_unformatted_code = "# export\nclass FastaiHead(ImageClassificationHead):\n    \"\"\"\n    Model head that takes `in_planes` features, runs through `lin_ftrs`, and out `num_classes` classes.\n\n\n    From -\n    https://github.com/fastai/fastai/blob/8b1da8765fc07f1232c20fa8dc5e909d2835640c/fastai/vision/learner.py#L76\n    \"\"\"\n\n    def __init__(\n        self,\n        input_shape: ShapeSpec,\n        num_classes: int,\n        act: str = \"ReLU\",\n        lin_ftrs: Optional[List] = None,\n        ps: Union[List, int] = 0.5,\n        concat_pool: bool = True,\n        first_bn: bool = True,\n        bn_final: bool = False,\n        lr: float = 2e-03,\n        wd: float = 0,\n        filter_wd: bool = False,\n    ):\n        super(FastaiHead, self).__init__()\n        in_planes = input_shape.channels\n        pool = \"catavgmax\" if concat_pool else \"avg\"\n        pool, nf = _create_pool(in_planes, num_classes, pool, use_conv=False)\n\n        # fmt: off\n        lin_ftrs = [nf, 512, num_classes] if lin_ftrs is None else [nf] + lin_ftrs + [num_classes]\n        # fmt: on\n\n        bns = [first_bn] + [True] * len(lin_ftrs[1:])\n\n        ps = L(ps)\n\n        if len(ps) == 1:\n            ps = [ps[0] / 2] * (len(lin_ftrs) - 2) + ps\n\n        act = ifnone(act, \"ReLU\")\n        # fmt: off\n        actns = [ACTIVATION_REGISTRY.get(act)(inplace=True)] * (len(lin_ftrs) - 2) + [None]\n        if bn_final:\n            actns[-1] = ACTIVATION_REGISTRY.get(act)(inplace=True)\n        # fmt: on\n\n        self.layers = [pool]\n\n        for ni, no, bn, p, actn in zip(lin_ftrs[:-1], lin_ftrs[1:], bns, ps, actns):\n            self.layers += nn.Sequential(\n                nn.BatchNorm1d(ni), nn.Dropout(p), nn.Linear(ni, no, bias=not bns), actn\n            )\n\n        if bn_final:\n            self.layers.append(nn.BatchNorm1d(lin_ftrs[-1], momentum=0.01))\n        self.layers = nn.Sequential(*[l for l in self.layers if l is not None])\n\n        store_attr(\"lr, wd, filter_wd\")\n\n    def forward(self, xb: torch.Tensor) -> Any:\n        return self.layers(xb)\n\n    def build_param_dicts(self) -> Any:\n        if self.filter_wd:\n            ps = filter_weight_decay(self.layers, lr=self.lr, weight_decay=self.wd)\n        else:\n            # fmt: off\n            ps = [{\"params\": trainable_params(self.layers),\"lr\": self.lr,\"weight_decay\": self.wd}]\n            # fmt: on\n        return ps";
                 var nbb_formatted_code = "# export\nclass FastaiHead(ImageClassificationHead):\n    \"\"\"\n    Model head that takes `in_planes` features, runs through `lin_ftrs`, and out `num_classes` classes.\n\n\n    From -\n    https://github.com/fastai/fastai/blob/8b1da8765fc07f1232c20fa8dc5e909d2835640c/fastai/vision/learner.py#L76\n    \"\"\"\n\n    def __init__(\n        self,\n        input_shape: ShapeSpec,\n        num_classes: int,\n        act: str = \"ReLU\",\n        lin_ftrs: Optional[List] = None,\n        ps: Union[List, int] = 0.5,\n        concat_pool: bool = True,\n        first_bn: bool = True,\n        bn_final: bool = False,\n        lr: float = 2e-03,\n        wd: float = 0,\n        filter_wd: bool = False,\n    ):\n        super(FastaiHead, self).__init__()\n        in_planes = input_shape.channels\n        pool = \"catavgmax\" if concat_pool else \"avg\"\n        pool, nf = _create_pool(in_planes, num_classes, pool, use_conv=False)\n\n        # fmt: off\n        lin_ftrs = [nf, 512, num_classes] if lin_ftrs is None else [nf] + lin_ftrs + [num_classes]\n        # fmt: on\n\n        bns = [first_bn] + [True] * len(lin_ftrs[1:])\n\n        ps = L(ps)\n\n        if len(ps) == 1:\n            ps = [ps[0] / 2] * (len(lin_ftrs) - 2) + ps\n\n        act = ifnone(act, \"ReLU\")\n        # fmt: off\n        actns = [ACTIVATION_REGISTRY.get(act)(inplace=True)] * (len(lin_ftrs) - 2) + [None]\n        if bn_final:\n            actns[-1] = ACTIVATION_REGISTRY.get(act)(inplace=True)\n        # fmt: on\n\n        self.layers = [pool]\n\n        for ni, no, bn, p, actn in zip(lin_ftrs[:-1], lin_ftrs[1:], bns, ps, actns):\n            self.layers += nn.Sequential(\n                nn.BatchNorm1d(ni), nn.Dropout(p), nn.Linear(ni, no, bias=not bns), actn\n            )\n\n        if bn_final:\n            self.layers.append(nn.BatchNorm1d(lin_ftrs[-1], momentum=0.01))\n        self.layers = nn.Sequential(*[l for l in self.layers if l is not None])\n\n        store_attr(\"lr, wd, filter_wd\")\n\n    def forward(self, xb: torch.Tensor) -> Any:\n        return self.layers(xb)\n\n    def build_param_dicts(self) -> Any:\n        if self.filter_wd:\n            ps = filter_weight_decay(self.layers, lr=self.lr, weight_decay=self.wd)\n        else:\n            # fmt: off\n            ps = [{\"params\": trainable_params(self.layers),\"lr\": self.lr,\"weight_decay\": self.wd}]\n            # fmt: on\n        return ps";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -466,13 +478,13 @@ var element = $('#351fa122-3f23-4a14-a0e4-c8d2ab3b71bc');
 
 
 
-<div id="c96c510a-2e8d-4be7-8c43-3f895774e497"></div>
+<div id="07051400-babe-48c1-b3e8-1286ada5e9c4"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#c96c510a-2e8d-4be7-8c43-3f895774e497');
+var element = $('#07051400-babe-48c1-b3e8-1286ada5e9c4');
 
             setTimeout(function() {
-                var nbb_cell_id = 12;
+                var nbb_cell_id = 13;
                 var nbb_unformatted_code = "input_shape = ShapeSpec(channels=512)\ntst = FastaiHead(input_shape=input_shape, num_classes=10)\ntst";
                 var nbb_formatted_code = "input_shape = ShapeSpec(channels=512)\ntst = FastaiHead(input_shape=input_shape, num_classes=10)\ntst";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -499,7 +511,7 @@ var element = $('#c96c510a-2e8d-4be7-8c43-3f895774e497');
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Instantiation-using-config-:">Instantiation using config :<a class="anchor-link" href="#Instantiation-using-config-:"> </a></h3>
+<h2 id="Instantiation-via-config-:">Instantiation via config :<a class="anchor-link" href="#Instantiation-via-config-:"> </a></h2>
 </div>
 </div>
 </div>
@@ -526,13 +538,13 @@ var element = $('#c96c510a-2e8d-4be7-8c43-3f895774e497');
 
 
 
-<div id="dbcab151-e354-4434-a871-e75782c01b98"></div>
+<div id="090ab32b-87cd-4c57-a15a-bac3b21e6040"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#dbcab151-e354-4434-a871-e75782c01b98');
+var element = $('#090ab32b-87cd-4c57-a15a-bac3b21e6040');
 
             setTimeout(function() {
-                var nbb_cell_id = 14;
+                var nbb_cell_id = 15;
                 var nbb_unformatted_code = "from dataclasses import dataclass, field\nfrom omegaconf import OmegaConf, DictConfig, MISSING";
                 var nbb_formatted_code = "from dataclasses import dataclass, field\nfrom omegaconf import OmegaConf, DictConfig, MISSING";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -617,13 +629,13 @@ var element = $('#dbcab151-e354-4434-a871-e75782c01b98');
 
 
 
-<div id="107e739d-f562-4197-840b-e3cfb3f0f1ec"></div>
+<div id="7a2e00ca-9494-41f7-9fb4-812475be6319"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#107e739d-f562-4197-840b-e3cfb3f0f1ec');
+var element = $('#7a2e00ca-9494-41f7-9fb4-812475be6319');
 
             setTimeout(function() {
-                var nbb_cell_id = 15;
+                var nbb_cell_id = 16;
                 var nbb_unformatted_code = "@dataclass\nclass HeadConf:\n    num_classes: int = MISSING\n    act: str = \"ReLU\"\n    lin_ftrs: Optional[List] = None\n    ps: Any = 0.5\n    concat_pool: bool = True\n    first_bn: bool = True\n    bn_final: bool = False\n    lr: float = 0.002\n    wd: float = 0\n    filter_wd: bool = False\n\n\nconf = OmegaConf.structured(HeadConf(num_classes=10))\n\ntst = FastaiHead.from_config_dict(conf, input_shape=input_shape)\ntst";
                 var nbb_formatted_code = "@dataclass\nclass HeadConf:\n    num_classes: int = MISSING\n    act: str = \"ReLU\"\n    lin_ftrs: Optional[List] = None\n    ps: Any = 0.5\n    concat_pool: bool = True\n    first_bn: bool = True\n    bn_final: bool = False\n    lr: float = 0.002\n    wd: float = 0\n    filter_wd: bool = False\n\n\nconf = OmegaConf.structured(HeadConf(num_classes=10))\n\ntst = FastaiHead.from_config_dict(conf, input_shape=input_shape)\ntst";
                 var nbb_cells = Jupyter.notebook.get_cells();
