@@ -1,0 +1,22 @@
+{
+  "gale": {
+    "Overview": "/",
+    "Logger": "core.utils.logger.html",
+    "Visualize": "core.utils.visualize.html",
+    "Structures": "core.utils.structures.html",
+    "Utilitites": "core.nn.utils.html",
+    "Loss Functions": "core.nn.losses.html",
+    "Optimizers": "core.nn.optim.optimizers.html",
+    "Learning Rate Schedules": "core.nn.optim.lr_schedulers.html",
+    "Classes": "core.classes.html",
+    "Backbones ": "classification.modelling.backbones.html",
+    "Heads": "classification.modelling.heads.html",
+    "Meta Architectures : Generalized Image Classifier ": "classification.modelling.meta_arch.common.html",
+    "Meta Architectures : Vision Transformer (ViT) ": "classification.modelling.meta_arch.vit.html",
+    "Classification Common": "classification.data.common.html",
+    "Data augmentation in computer vision": "classification.data.transforms.html",
+    "Pandas": "collections.pandas.html",
+    "Fancy Progress Bar callback for PyTorch Lightning.": "collections.callbacks.notebook.html",
+    "Model Exponential Moving Average Callback for PyTorch Lightning": "collections.callbacks.ema.html"
+  }
+}

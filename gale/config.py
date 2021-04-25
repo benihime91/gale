@@ -11,7 +11,7 @@ def get_config(config_name="classification", **kwargs) -> DictConfig:
     """
     Get a copy of the default config.
     """
-    with initialize_config_module("gale.hydra"):
+    with initialize_config_module("gale.conf"):
         cfg = compose(config_name, **kwargs)
     return cfg.copy()
 
