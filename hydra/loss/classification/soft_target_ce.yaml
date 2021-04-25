@@ -1,0 +1,3 @@
+# @package training.loss_fn
+name: SoftTargetCrossEntropy
+init_args: null

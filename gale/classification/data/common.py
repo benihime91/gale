@@ -115,7 +115,7 @@ class ClassificationMapper(DisplayedTransform):
         1. `augmentations`: a list of augmentations or deterministic transforms to apply
         2. `mean`, `std`: list or tuple with #channels element, representing the per-channel mean and
         std to be used to normalize the input image. Note: These should be normalized values.
-        4. `xtras`: A callabcle funtions applied after images are normalized and converted to tensors.
+        4. `xtras`: A callable funtion applied after images are normalized and converted to tensors.
         """
         super().__init__()
         store_attr()
@@ -179,12 +179,6 @@ class ClassificationDataset(torch.utils.data.Dataset):
         dataset_dict = self.parser[index]
         # preprocess and load the data
         return self.mapper.encodes(dataset_dict)
-
-    def filename(self, index, basename=False, absolute=False):
-        return self.parser.filename(index, basename, absolute)
-
-    def filenames(self, basename=False, absolute=False):
-        return self.parser.filenames(basename, absolute)
 
 # Cell
 class FolderParser(ParserImageFolder):

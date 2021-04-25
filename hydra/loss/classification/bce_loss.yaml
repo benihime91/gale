@@ -1,0 +1,8 @@
+# @package training.loss_fn
+name: BCEWithLogitsLoss
+init_args: 
+  weight: null
+  size_average: null
+  pos_weight: null
+  reduce: None
+  reduction: mean

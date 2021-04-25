@@ -6,3 +6,4 @@ class ClassyVisionPathPlugin(SearchPathPlugin):
     def manipulate_search_path(self, search_path: ConfigSearchPath) -> None:
         search_path.append(provider="gale", path="pkg://gale.hydra")
         search_path.prepend(provider="gale", path="pkg://references")
+        search_path.prepend(provider="gale", path="pkg://hydra")

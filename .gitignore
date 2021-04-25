@@ -14,7 +14,7 @@ nb_test*
 *.ckpt
 nbs/checkpoints
 nbs/lightning_logs
-outputs
+outputs/
 
 
 # Byte-compiled / optimized / DLL files

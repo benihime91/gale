@@ -1,0 +1,7 @@
+# @package training.loss_fn
+name: FocalLoss
+init_args: 
+  alpha: 1
+  gamma: 2
+  reduction: mean
+  eps: 1e-08

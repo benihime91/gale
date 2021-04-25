@@ -1,0 +1,8 @@
+# @package training.loss_fn
+name: CrossEntropyLoss
+init_args: 
+  weight: null
+  size_average: null
+  ignore_index: -100
+  reduce: None
+  reduction: mean

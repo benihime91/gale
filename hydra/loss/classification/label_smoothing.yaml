@@ -1,0 +1,6 @@
+# @package training.loss_fn
+name: LabelSmoothingCrossEntropy
+init_args: 
+  eps: 0.1
+  reduction: mean
+  weight: null

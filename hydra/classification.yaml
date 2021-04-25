@@ -7,11 +7,12 @@
 # ---------------------------------------------------------------------------- #
 # loads default configs
 defaults:
-  - optimizer: adamw
-  - scheduler: onecycle
+  - /loss@training.loss_fn: /classification/soft_target_ce
   - /model@_group_: /classification/general_cnn
   - /backbone@model.backbone: /classification/resnet_cls
   - /head@model.head: /classification/fastai_head
+  - optimizer: adamw
+  - scheduler: onecycle
 
 # -----------------------------------------------------------------------------
 # INPUT
@@ -39,7 +40,6 @@ optimization:
   max_steps: -1
   # total number of training epochs, computed at runtime or explicitly set here; mandatory to have.
   max_epochs: -1
-
 
 # -----------------------------------------------------------------------------
 # Hydra Options
