@@ -69,15 +69,15 @@ class GeneralizedImageClassifier(GaleModule):
             raise ValueError
 
         input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)
-        _logger.info(f"Inputs: {input_shape}")
+        _logger.debug(f"Inputs: {input_shape}")
 
         backbone = build_backbone(cfg, input_shape=input_shape)
         param_count = get_human_readable_count(sum([m.numel() for m in backbone.parameters()]))
-        _logger.info('Backbone {} created, param count: {}.'.format(cfg.model.backbone.name, param_count))
+        _logger.debug('Backbone {} created, param count: {}.'.format(cfg.model.backbone.name, param_count))
 
         head = build_head(cfg, backbone.output_shape())
         param_count = get_human_readable_count(sum([m.numel() for m in head.parameters()]))
-        _logger.info('Head {} created, param count: {}.'.format(cfg.model.head.name, param_count))
+        _logger.debug('Head {} created, param count: {}.'.format(cfg.model.head.name, param_count))
 
         kwds = {"backbone": backbone, "head": head}
 

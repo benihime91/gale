@@ -271,6 +271,10 @@ class NotebookTrainingTracker(NotebookProgressBar):
 
 # Cell
 class NotebookProgressCallback(ProgressBarBase):
+    """
+    A progress par for display in a notebook.
+    """
+
     _enabled = True
 
     def __init__(self):

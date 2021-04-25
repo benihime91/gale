@@ -227,19 +227,19 @@ def prepare_optimization_config(self: OptimSchedBuilder, config: DictConfig):
         if sched_config["max_iters"] == -1:
             OmegaConf.update(self.optimization_cfg, "scheduler.init_args.max_iters", max_steps)
             msg = f"Set the value of 'max_iters' to be {max_steps}."
-            log_main_process(_logger, logging.INFO, msg)
+            log_main_process(_logger, logging.DEBUG, msg)
 
     if "epochs" in sched_config:
         if sched_config["epochs"] == -1:
             OmegaConf.update(self.optimization_cfg, "scheduler.init_args.epochs", max_epochs)
             msg = f"Set the value of 'epochs' to be {max_epochs}."
-            log_main_process(_logger, logging.INFO, msg)
+            log_main_process(_logger, logging.DEBUG, msg)
 
     if "steps_per_epoch" in sched_config:
         if sched_config["steps_per_epoch"] is None:
             OmegaConf.update(self.optimization_cfg, "scheduler.init_args.steps_per_epoch", steps)
             msg = f"Set the value of 'steps_per_epoch' to be {steps}."
-            log_main_process(_logger, logging.INFO, msg)
+            log_main_process(_logger, logging.DEBUG, msg)
     # fmt: on
 
 # Cell
@@ -263,8 +263,8 @@ def build_optimizer(self: OptimSchedBuilder, params: Any) -> torch.optim.Optimiz
         else:
             opt = self.optimization_cfg.optimizer
             opt = OPTIM_REGISTRY.get(opt.name)(params=params, **opt.init_args)
-            msg = f"[OptimSchedBuilder] Built optimizer, {opt.__class__.__name__} with {len(opt.param_groups)} param group(s)."
-            log_main_process(_logger, logging.INFO, msg)
+            msg = f"Built optimizer, {opt.__class__.__name__} with {len(opt.param_groups)} param group(s)."
+            log_main_process(_logger, logging.DEBUG, msg)
         return opt
 
 # Cell
@@ -302,8 +302,8 @@ def build_lr_scheduler(
             sch = instance(optimizer=optimizer, **kwds)
 
             # convert the lr_scheduler to pytorch-lightning LRScheduler dictionary format
-            msg = f"[OptimSchedBuilder] LRScheduler : {sch.__class__.__name__}."
-            log_main_process(_logger, logging.INFO, msg)
+            msg = f"LRScheduler : {sch.__class__.__name__}."
+            log_main_process(_logger, logging.DEBUG, msg)
             sched = {
                 "scheduler": sch,
                 "interval": self.optimization_cfg.scheduler.interval,

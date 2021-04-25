@@ -37,12 +37,12 @@ class _ColorfulFormatter(logging.Formatter):
 
 # Cell
 @functools.lru_cache()  # so that calling setup_logger multiple times won't add many handlers
-def setup_logger(distributed_rank=0, *, color=True, name="gale"):
+def setup_logger(distributed_rank=0, *, color=True, name="gale", level=logging.DEBUG):
     """
-    Initialize the gale logger and set its verbosity level to `DEBUG`.
+    Initialize the gale logger and set its verbosity level to `level`.
     """
     logger = logging.getLogger(name)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(level)
     logger.propagate = False
 
     abbrev_name = name

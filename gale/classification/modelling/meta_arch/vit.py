@@ -113,10 +113,10 @@ class ViT(GaleModule):
         """
         # fmt: off
         input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)
-        _logger.info(f"Inputs: {input_shape}")
+        _logger.debug(f"Inputs: {input_shape}")
         instance = super().from_config_dict(cfg.model.meta_architecture.init_args, input_shape=input_shape)
         param_count = get_human_readable_count(sum([m.numel() for m in instance.parameters()]))
-        _logger.info('{} created, param count: {}.'.format(cfg.model.meta_architecture.init_args.model_name, param_count))
+        _logger.debug('{} created, param count: {}.'.format(cfg.model.meta_architecture.init_args.model_name, param_count))
         # fmt: on
         return instance
 

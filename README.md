@@ -2,6 +2,20 @@
 
 
 
+![CI](https://github.com/benihime91/gale/workflows/CI/badge.svg)
+![Docs](https://img.shields.io/website?down_message=down&label=docs&up_color=green&up_message=passing&url=https%3A%2F%2Fbenihime91.github.io%2Fgale%2F)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+
+**Flexible interface for solving computer vision tasks leveraging [Pytorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning), [PyTorch Image Models](https://github.com/rwightman/pytorch-image-models) , and [Hydra](https://github.com/facebookresearch/hydra).**
+
+---
+
+![PyTorch](https://img.shields.io/badge/-PyTorch-ee4c2c?style=for-the-badge&logo=pytorch&logoColor=white)
+![Lightning](https://img.shields.io/badge/-Lightning-792ee5?style=for-the-badge)
+![Config: hydra](https://img.shields.io/badge/config-hydra-89b8cd?style=for-the-badge)
+![Code style: black](https://img.shields.io/badge/code%20style-black-black.svg?style=for-the-badge)
+
 ## Installation
 
 You can install PyTorch Gale from source
