@@ -21,6 +21,8 @@ from timm.data.constants import *
 from timm.data.parsers.parser import Parser
 from timm.data.parsers.parser_image_folder import ParserImageFolder
 
+from ...core.utils.visualize import show_image, show_images
+
 _logging = logging.getLogger(__name__)
 
 # Cell
@@ -197,7 +199,7 @@ class ClassificationDataset(torch.utils.data.Dataset):
     Map a function over the elements returned by a parser
     """
 
-    def __init__(self, parser: Parser, mapper: DisplayedTransform):
+    def __init__(self, mapper: DisplayedTransform, parser: Parser):
         """
         Arguments:
 
