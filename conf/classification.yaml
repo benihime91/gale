@@ -7,7 +7,8 @@
 # ---------------------------------------------------------------------------- #
 # loads default configs
 defaults:
-  - /loss@training.loss_fn: /classification/soft_target_ce
+  - /loss@training.train_loss_fn: /classification/soft_target_ce
+  - /loss@training.eval_loss_fn: /classification/ce_loss
   - /model@_group_: /classification/general_cnn
   - /backbone@model.backbone: /classification/resnet_cls
   - /head@model.head: /classification/fastai_head
@@ -44,6 +45,35 @@ input:
   channels: 3
   height: 224
   width: 224
+  # mean, and std for normalization gale provides automatic values
+  # for imagenet, cifar and mnist
+  mean: imagenet
+  std: imagenet
+
+training:
+  # Apply mixup to the Inputs/CutMix
+  mixup:
+    # Turns off mixup after this epoch
+    off_epoch: false
+    init_args:
+      # mixup alpha value, mixup is active if > 0.
+      mixup_alpha: 0.4
+      # cutmix alpha value, cutmix is active if > 0.
+      cutmix_alpha: 1.0
+      # cutmix is active and uses this vs alpha if not None.
+      cutmix_minmax: null
+      # probability of applying mixup or cutmix per batch or element
+      prob: 1.0
+      # probability of switching to cutmix instead of mixup when both are active
+      switch_prob: 0.5
+      mode: batch
+      correct_lam: true
+      # label smoothing factor to apply
+      label_smoothing: 0.0
+      num_classes: ${model.num_classes}
+
+
+
 
 # -----------------------------------------------------------------------------
 # MODEL definitions: Load using hydra defaults list

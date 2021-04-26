@@ -27,6 +27,8 @@ LOSS_REGISTRY.__doc__ = """
 Registry of Loss Functions
 """
 
+LOSS_REGISTRY.register(SoftTargetCrossEntropy)
+
 # Cell
 #nbdev_comment _all_ = ["SoftTargetCrossEntropy", "LOSS_REGISTRY"]
 
@@ -197,5 +199,5 @@ def build_loss(config: DictConfig):
         loss = instance(**args)
     else:
         loss = instance()
-    _logger.info("Built loss function: {}".format(loss.__class__.__name__))
+    _logger.debug("Built loss function: {}".format(loss.__class__.__name__))
     return loss

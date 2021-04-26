@@ -1,4 +1,4 @@
-# @package training.loss_fn
+# @package training.train_loss_fn
 name: CrossEntropyLoss
 init_args: 
   weight: null

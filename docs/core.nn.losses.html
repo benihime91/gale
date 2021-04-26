@@ -32,61 +32,6 @@ nb_path: "nbs/01a_core.nn.losses.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> nb_black
-<span class="o">%</span><span class="k">load_ext</span> autoreload
-<span class="o">%</span><span class="k">autoreload</span> 2
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="cdf9efa3-62cb-4eea-a70d-63b77ef512b5"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#cdf9efa3-62cb-4eea-a70d-63b77ef512b5');
-
-            setTimeout(function() {
-                var nbb_cell_id = 2;
-                var nbb_unformatted_code = "%load_ext nb_black\n%load_ext autoreload\n%autoreload 2";
-                var nbb_formatted_code = "%load_ext nb_black\n%load_ext autoreload\n%autoreload 2";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -118,10 +63,10 @@ var element = $('#cdf9efa3-62cb-4eea-a70d-63b77ef512b5');
 
 
 
-<div id="edf69071-476a-4aad-b4ea-763a3d3f4e56"></div>
+<div id="c9d96eba-09b9-47f4-b279-8be0b354d41c"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#edf69071-476a-4aad-b4ea-763a3d3f4e56');
+var element = $('#c9d96eba-09b9-47f4-b279-8be0b354d41c');
 
             setTimeout(function() {
                 var nbb_cell_id = 5;
@@ -161,15 +106,15 @@ var element = $('#edf69071-476a-4aad-b4ea-763a3d3f4e56');
 
 
 
-<div id="6411d8b4-762c-4487-9948-d8967daf5b08"></div>
+<div id="cb824106-0214-439f-b1af-b126961b9bca"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#6411d8b4-762c-4487-9948-d8967daf5b08');
+var element = $('#cb824106-0214-439f-b1af-b126961b9bca');
 
             setTimeout(function() {
                 var nbb_cell_id = 6;
-                var nbb_unformatted_code = "# export\nLOSS_REGISTRY = Registry(\"Loss Registry\")\nLOSS_REGISTRY.__doc__ = \"\"\"\nRegistry of Loss Functions\n\"\"\"";
-                var nbb_formatted_code = "# export\nLOSS_REGISTRY = Registry(\"Loss Registry\")\nLOSS_REGISTRY.__doc__ = \"\"\"\nRegistry of Loss Functions\n\"\"\"";
+                var nbb_unformatted_code = "# export\nLOSS_REGISTRY = Registry(\"Loss Registry\")\nLOSS_REGISTRY.__doc__ = \"\"\"\nRegistry of Loss Functions\n\"\"\"\n\nLOSS_REGISTRY.register(SoftTargetCrossEntropy)";
+                var nbb_formatted_code = "# export\nLOSS_REGISTRY = Registry(\"Loss Registry\")\nLOSS_REGISTRY.__doc__ = \"\"\"\nRegistry of Loss Functions\n\"\"\"\n\nLOSS_REGISTRY.register(SoftTargetCrossEntropy)";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -204,68 +149,15 @@ var element = $('#6411d8b4-762c-4487-9948-d8967daf5b08');
 
 
 
-<div id="4a8a0754-8793-4a0d-b245-623ff07c3cbc"></div>
+<div id="6250aeeb-a474-4a94-a0f7-19af794b5d78"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#4a8a0754-8793-4a0d-b245-623ff07c3cbc');
+var element = $('#6250aeeb-a474-4a94-a0f7-19af794b5d78');
 
             setTimeout(function() {
                 var nbb_cell_id = 7;
                 var nbb_unformatted_code = "# export\n_all_ = [\"SoftTargetCrossEntropy\", \"LOSS_REGISTRY\"]";
                 var nbb_formatted_code = "# export\n_all_ = [\"SoftTargetCrossEntropy\", \"LOSS_REGISTRY\"]";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">LOSS_REGISTRY</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">SoftTargetCrossEntropy</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="08441489-6126-400f-825e-c82d194067cb"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#08441489-6126-400f-825e-c82d194067cb');
-
-            setTimeout(function() {
-                var nbb_cell_id = 8;
-                var nbb_unformatted_code = "LOSS_REGISTRY.register(SoftTargetCrossEntropy)";
-                var nbb_formatted_code = "LOSS_REGISTRY.register(SoftTargetCrossEntropy)";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -299,7 +191,7 @@ var element = $('#08441489-6126-400f-825e-c82d194067cb');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="LabelSmoothingCrossEntropy" class="doc_header"><code>class</code> <code>LabelSmoothingCrossEntropy</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/losses.py#L35" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>LabelSmoothingCrossEntropy</code>(<strong><code>eps</code></strong>:<code>float</code>=<em><code>0.1</code></em>, <strong><code>reduction</code></strong>:<code>str</code>=<em><code>'mean'</code></em>, <strong><code>weight</code></strong>:<code>Optional</code>[<code>Tensor</code>]=<em><code>None</code></em>) :: <code>Module</code></p>
+<h2 id="LabelSmoothingCrossEntropy" class="doc_header"><code>class</code> <code>LabelSmoothingCrossEntropy</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/losses.py#L37" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>LabelSmoothingCrossEntropy</code>(<strong><code>eps</code></strong>:<code>float</code>=<em><code>0.1</code></em>, <strong><code>reduction</code></strong>:<code>str</code>=<em><code>'mean'</code></em>, <strong><code>weight</code></strong>:<code>Optional</code>[<code>Tensor</code>]=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Cross Entropy Loss with Label Smoothing</p>
 
@@ -325,13 +217,13 @@ var element = $('#08441489-6126-400f-825e-c82d194067cb');
 
 
 
-<div id="2d89fc6b-1898-42d5-a6e1-a4d6f73a09b5"></div>
+<div id="98ea66c3-7433-416d-823e-26a4b1b8e26a"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#2d89fc6b-1898-42d5-a6e1-a4d6f73a09b5');
+var element = $('#98ea66c3-7433-416d-823e-26a4b1b8e26a');
 
             setTimeout(function() {
-                var nbb_cell_id = 9;
+                var nbb_cell_id = 8;
                 var nbb_unformatted_code = "# export\n@LOSS_REGISTRY.register()\nclass LabelSmoothingCrossEntropy(nn.Module):\n    \"Cross Entropy Loss with Label Smoothing\"\n\n    def __init__(\n        self,\n        eps: float = 0.1,\n        reduction: str = \"mean\",\n        weight: Optional[Tensor] = None,\n    ):\n        super(LabelSmoothingCrossEntropy, self).__init__()\n        store_attr(\"eps, reduction, weight\")\n\n    def forward(self, input: Tensor, target: Tensor):\n        \"\"\"\n        Shape:\n        - Input  : $(N,C)$ where $N$ is the mini-batch size and $C$ is the total number of classes\n        - Target : $(N)$ where each value is $0 \\leq {targets}[i] \\leq C-10\u2264targets[i]\u2264C\u22121$\n        - Output: scalar. If `reduction` is `none`, then $(N, *)$ , same shape as input.\n        \"\"\"\n        c = input.size()[1]\n        log_preds = F.log_softmax(input, dim=1)\n        if self.reduction == \"sum\":\n            loss = -log_preds.sum()\n        else:\n            loss = -log_preds.sum(dim=1)\n            if self.reduction == \"mean\":\n                loss = loss.mean()\n        # fmt: off\n        loss = loss * self.eps / c + (1 - self.eps) * F.nll_loss(log_preds, target.long(), weight=self.weight, reduction=self.reduction)\n        # fmt: on\n        return loss";
                 var nbb_formatted_code = "# export\n@LOSS_REGISTRY.register()\nclass LabelSmoothingCrossEntropy(nn.Module):\n    \"Cross Entropy Loss with Label Smoothing\"\n\n    def __init__(\n        self,\n        eps: float = 0.1,\n        reduction: str = \"mean\",\n        weight: Optional[Tensor] = None,\n    ):\n        super(LabelSmoothingCrossEntropy, self).__init__()\n        store_attr(\"eps, reduction, weight\")\n\n    def forward(self, input: Tensor, target: Tensor):\n        \"\"\"\n        Shape:\n        - Input  : $(N,C)$ where $N$ is the mini-batch size and $C$ is the total number of classes\n        - Target : $(N)$ where each value is $0 \\leq {targets}[i] \\leq C-10\u2264targets[i]\u2264C\u22121$\n        - Output: scalar. If `reduction` is `none`, then $(N, *)$ , same shape as input.\n        \"\"\"\n        c = input.size()[1]\n        log_preds = F.log_softmax(input, dim=1)\n        if self.reduction == \"sum\":\n            loss = -log_preds.sum()\n        else:\n            loss = -log_preds.sum(dim=1)\n            if self.reduction == \"mean\":\n                loss = loss.mean()\n        # fmt: off\n        loss = loss * self.eps / c + (1 - self.eps) * F.nll_loss(log_preds, target.long(), weight=self.weight, reduction=self.reduction)\n        # fmt: on\n        return loss";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -383,13 +275,13 @@ var element = $('#2d89fc6b-1898-42d5-a6e1-a4d6f73a09b5');
 
 
 
-<div id="2c2f514f-f7cc-4aba-ab5b-dc6543125624"></div>
+<div id="22101b53-0633-426e-9093-924d2e287aee"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#2c2f514f-f7cc-4aba-ab5b-dc6543125624');
+var element = $('#22101b53-0633-426e-9093-924d2e287aee');
 
             setTimeout(function() {
-                var nbb_cell_id = 10;
+                var nbb_cell_id = 9;
                 var nbb_unformatted_code = "criterion = LabelSmoothingCrossEntropy(reduction=\"mean\")\n\noutput = torch.randn(32, 5, requires_grad=True)\ntarget = torch.empty(32, dtype=torch.long).random_(5)\n\nloss = criterion(output, target)";
                 var nbb_formatted_code = "criterion = LabelSmoothingCrossEntropy(reduction=\"mean\")\n\noutput = torch.randn(32, 5, requires_grad=True)\ntarget = torch.empty(32, dtype=torch.long).random_(5)\n\nloss = criterion(output, target)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -425,7 +317,7 @@ var element = $('#2c2f514f-f7cc-4aba-ab5b-dc6543125624');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="BinarySigmoidFocalLoss" class="doc_header"><code>class</code> <code>BinarySigmoidFocalLoss</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/losses.py#L69" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BinarySigmoidFocalLoss</code>(<strong><code>alpha</code></strong>:<code>float</code>=<em><code>-1</code></em>, <strong><code>gamma</code></strong>:<code>float</code>=<em><code>2</code></em>, <strong><code>reduction</code></strong>:<code>str</code>=<em><code>'mean'</code></em>) :: <code>Module</code></p>
+<h2 id="BinarySigmoidFocalLoss" class="doc_header"><code>class</code> <code>BinarySigmoidFocalLoss</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/losses.py#L71" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BinarySigmoidFocalLoss</code>(<strong><code>alpha</code></strong>:<code>float</code>=<em><code>-1</code></em>, <strong><code>gamma</code></strong>:<code>float</code>=<em><code>2</code></em>, <strong><code>reduction</code></strong>:<code>str</code>=<em><code>'mean'</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Creates a criterion that computes the focal loss between binary <code>input</code> and <code>target</code>.
 Focal Loss used in RetinaNet for dense detection: <a href="https://arxiv.org/abs/1708.02002">https://arxiv.org/abs/1708.02002</a>.</p>
@@ -453,13 +345,13 @@ Focal Loss used in RetinaNet for dense detection: <a href="https://arxiv.org/abs
 
 
 
-<div id="e0b837e5-5413-4ff3-b71b-297f73498ead"></div>
+<div id="9a88f1be-5b24-4e2a-aede-0402e664561c"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#e0b837e5-5413-4ff3-b71b-297f73498ead');
+var element = $('#9a88f1be-5b24-4e2a-aede-0402e664561c');
 
             setTimeout(function() {
-                var nbb_cell_id = 11;
+                var nbb_cell_id = 10;
                 var nbb_unformatted_code = "# export\n@LOSS_REGISTRY.register()\nclass BinarySigmoidFocalLoss(nn.Module):\n    \"\"\"\n    Creates a criterion that computes the focal loss between binary `input` and `target`.\n    Focal Loss used in RetinaNet for dense detection: https://arxiv.org/abs/1708.02002.\n\n    Source: https://github.com/facebookresearch/fvcore/blob/master/fvcore/nn/focal_loss.py\n    \"\"\"\n\n    def __init__(\n        self,\n        alpha: float = -1,\n        gamma: float = 2,\n        reduction: str = \"mean\",\n    ):\n        super(BinarySigmoidFocalLoss, self).__init__()\n        store_attr(\"alpha, gamma, reduction\")\n\n    def forward(self, input: Tensor, target: Tensor):\n        \"\"\"\n        Shape:\n        - Input: : $(N, *)$ where $*$ means, any number of additional dimensions.\n        - Target: : $(N, *)$, same shape as the input.\n        - Output: scalar. If `reduction` is 'none', then $(N, *)$ , same shape as input.\n        \"\"\"\n        loss = sigmoid_focal_loss(input, target, self.gamma, self.alpha, self.reduction)\n        return loss";
                 var nbb_formatted_code = "# export\n@LOSS_REGISTRY.register()\nclass BinarySigmoidFocalLoss(nn.Module):\n    \"\"\"\n    Creates a criterion that computes the focal loss between binary `input` and `target`.\n    Focal Loss used in RetinaNet for dense detection: https://arxiv.org/abs/1708.02002.\n\n    Source: https://github.com/facebookresearch/fvcore/blob/master/fvcore/nn/focal_loss.py\n    \"\"\"\n\n    def __init__(\n        self,\n        alpha: float = -1,\n        gamma: float = 2,\n        reduction: str = \"mean\",\n    ):\n        super(BinarySigmoidFocalLoss, self).__init__()\n        store_attr(\"alpha, gamma, reduction\")\n\n    def forward(self, input: Tensor, target: Tensor):\n        \"\"\"\n        Shape:\n        - Input: : $(N, *)$ where $*$ means, any number of additional dimensions.\n        - Target: : $(N, *)$, same shape as the input.\n        - Output: scalar. If `reduction` is 'none', then $(N, *)$ , same shape as input.\n        \"\"\"\n        loss = sigmoid_focal_loss(input, target, self.gamma, self.alpha, self.reduction)\n        return loss";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -518,13 +410,13 @@ var element = $('#e0b837e5-5413-4ff3-b71b-297f73498ead');
 
 
 
-<div id="a24a18b0-c0af-47c1-93ec-94a65d91d96d"></div>
+<div id="50414944-2a7c-4d6d-93e3-e1743fc149cc"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#a24a18b0-c0af-47c1-93ec-94a65d91d96d');
+var element = $('#50414944-2a7c-4d6d-93e3-e1743fc149cc');
 
             setTimeout(function() {
-                var nbb_cell_id = 12;
+                var nbb_cell_id = 11;
                 var nbb_unformatted_code = "criterion = BinarySigmoidFocalLoss(reduction=\"mean\")\n\ntarget = torch.ones([10, 64], dtype=torch.float32)\noutput = torch.full([10, 64], 1.5)\n\nloss = criterion(output, target)";
                 var nbb_formatted_code = "criterion = BinarySigmoidFocalLoss(reduction=\"mean\")\n\ntarget = torch.ones([10, 64], dtype=torch.float32)\noutput = torch.full([10, 64], 1.5)\n\nloss = criterion(output, target)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -560,7 +452,7 @@ var element = $('#a24a18b0-c0af-47c1-93ec-94a65d91d96d');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="FocalLoss" class="doc_header"><code>class</code> <code>FocalLoss</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/losses.py#L98" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>FocalLoss</code>(<strong><code>alpha</code></strong>:<code>float</code>=<em><code>1</code></em>, <strong><code>gamma</code></strong>:<code>float</code>=<em><code>2</code></em>, <strong><code>reduction</code></strong>:<code>str</code>=<em><code>'mean'</code></em>, <strong><code>eps</code></strong>:<code>float</code>=<em><code>1e-08</code></em>) :: <code>Module</code></p>
+<h2 id="FocalLoss" class="doc_header"><code>class</code> <code>FocalLoss</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/losses.py#L100" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>FocalLoss</code>(<strong><code>alpha</code></strong>:<code>float</code>=<em><code>1</code></em>, <strong><code>gamma</code></strong>:<code>float</code>=<em><code>2</code></em>, <strong><code>reduction</code></strong>:<code>str</code>=<em><code>'mean'</code></em>, <strong><code>eps</code></strong>:<code>float</code>=<em><code>1e-08</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Same as <code>nn.CrossEntropyLoss</code> but with focal paramter, <code>gamma</code>.
 Focal Loss used in RetinaNet for dense detection: <a href="https://arxiv.org/abs/1708.02002">https://arxiv.org/abs/1708.02002</a>.
@@ -590,13 +482,13 @@ ${FL}(p_t)$ = $lpha(1 - p_t)^{\gamma}{log}(p_t)$</p>
 
 
 
-<div id="7ed10f97-f6a3-408e-a73b-47995046dcde"></div>
+<div id="659f5fa7-9898-4ddf-a56f-59c8c58722fb"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#7ed10f97-f6a3-408e-a73b-47995046dcde');
+var element = $('#659f5fa7-9898-4ddf-a56f-59c8c58722fb');
 
             setTimeout(function() {
-                var nbb_cell_id = 13;
+                var nbb_cell_id = 12;
                 var nbb_unformatted_code = "# export\n@LOSS_REGISTRY.register()\nclass FocalLoss(nn.Module):\n    \"\"\"\n    Same as `nn.CrossEntropyLoss` but with focal paramter, `gamma`.\n    Focal Loss used in RetinaNet for dense detection: https://arxiv.org/abs/1708.02002.\n    Focal loss is computed as follows :\n    ${FL}(p_t)$ = $\\alpha(1 - p_t)^{\\gamma}{log}(p_t)$\n\n    Source: https://kornia.readthedocs.io/en/latest/_modules/kornia/losses/focal.html\n    \"\"\"\n\n    def __init__(\n        self,\n        alpha: float = 1,\n        gamma: float = 2,\n        reduction: str = \"mean\",\n        eps: float = 1e-8,\n    ):\n\n        super(FocalLoss, self).__init__()\n        store_attr(\"alpha, gamma, reduction, eps\")\n\n    def forward(self, input: Tensor, target: Tensor):\n        \"\"\"\n        Shape:\n        - Input  : $(N,C)$ where $N$ is the mini-batch size and $C$ is the total number of classes\n        - Target : $(N)$ where each value is $0 \\leq {targets}[i] \\leq C-10\u2264targets[i]\u2264C\u22121$\n        \"\"\"\n        if not len(input.shape) >= 2:\n            raise ValueError(\n                \"Invalid input shape, we expect BxCx*. Got: {}\".format(input.shape)\n            )\n\n        if input.size(0) != target.size(0):\n            raise ValueError(\n                \"Expected input batch_size ({}) to match target batch_size ({}).\".format(\n                    input.size(0), target.size(0)\n                )\n            )\n\n        n = input.size(0)\n\n        # compute softmax over the classes axis\n        softmax_inputs: Tensor = F.softmax(input, dim=1) + self.eps\n\n        # create the labels one hot tensor\n        one_hot_targs: Tensor = maybe_convert_to_onehot(target, softmax_inputs)\n\n        # compute the actual focal loss\n        focal_weight = torch.pow(-softmax_inputs + 1.0, self.gamma)\n\n        focal_factor = -self.alpha * focal_weight * torch.log(softmax_inputs)\n\n        loss = torch.sum(one_hot_targs * focal_factor, dim=1)\n\n        if self.reduction == \"none\":\n            loss = loss\n        elif self.reduction == \"mean\":\n            loss = torch.mean(loss)\n        elif self.reduction == \"sum\":\n            loss = torch.sum(loss)\n        else:\n            raise NotImplementedError(\n                \"Invalid reduction mode: {}\".format(self.reduction)\n            )\n        return loss";
                 var nbb_formatted_code = "# export\n@LOSS_REGISTRY.register()\nclass FocalLoss(nn.Module):\n    \"\"\"\n    Same as `nn.CrossEntropyLoss` but with focal paramter, `gamma`.\n    Focal Loss used in RetinaNet for dense detection: https://arxiv.org/abs/1708.02002.\n    Focal loss is computed as follows :\n    ${FL}(p_t)$ = $\\alpha(1 - p_t)^{\\gamma}{log}(p_t)$\n\n    Source: https://kornia.readthedocs.io/en/latest/_modules/kornia/losses/focal.html\n    \"\"\"\n\n    def __init__(\n        self,\n        alpha: float = 1,\n        gamma: float = 2,\n        reduction: str = \"mean\",\n        eps: float = 1e-8,\n    ):\n\n        super(FocalLoss, self).__init__()\n        store_attr(\"alpha, gamma, reduction, eps\")\n\n    def forward(self, input: Tensor, target: Tensor):\n        \"\"\"\n        Shape:\n        - Input  : $(N,C)$ where $N$ is the mini-batch size and $C$ is the total number of classes\n        - Target : $(N)$ where each value is $0 \\leq {targets}[i] \\leq C-10\u2264targets[i]\u2264C\u22121$\n        \"\"\"\n        if not len(input.shape) >= 2:\n            raise ValueError(\n                \"Invalid input shape, we expect BxCx*. Got: {}\".format(input.shape)\n            )\n\n        if input.size(0) != target.size(0):\n            raise ValueError(\n                \"Expected input batch_size ({}) to match target batch_size ({}).\".format(\n                    input.size(0), target.size(0)\n                )\n            )\n\n        n = input.size(0)\n\n        # compute softmax over the classes axis\n        softmax_inputs: Tensor = F.softmax(input, dim=1) + self.eps\n\n        # create the labels one hot tensor\n        one_hot_targs: Tensor = maybe_convert_to_onehot(target, softmax_inputs)\n\n        # compute the actual focal loss\n        focal_weight = torch.pow(-softmax_inputs + 1.0, self.gamma)\n\n        focal_factor = -self.alpha * focal_weight * torch.log(softmax_inputs)\n\n        loss = torch.sum(one_hot_targs * focal_factor, dim=1)\n\n        if self.reduction == \"none\":\n            loss = loss\n        elif self.reduction == \"mean\":\n            loss = torch.mean(loss)\n        elif self.reduction == \"sum\":\n            loss = torch.sum(loss)\n        else:\n            raise NotImplementedError(\n                \"Invalid reduction mode: {}\".format(self.reduction)\n            )\n        return loss";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -681,13 +573,13 @@ var element = $('#7ed10f97-f6a3-408e-a73b-47995046dcde');
 
 
 
-<div id="e978de9c-0919-4de5-8fda-9eb3fcb7aeea"></div>
+<div id="f71e4761-2573-4748-b7ac-bb83eb333276"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#e978de9c-0919-4de5-8fda-9eb3fcb7aeea');
+var element = $('#f71e4761-2573-4748-b7ac-bb83eb333276');
 
             setTimeout(function() {
-                var nbb_cell_id = 14;
+                var nbb_cell_id = 13;
                 var nbb_unformatted_code = "criterion = FocalLoss(alpha=0.5, gamma=2.0, reduction=\"mean\")\n\nN = 5  # num_classes\ninput = torch.randn(32, N, requires_grad=True)\ntarget = torch.empty(32, dtype=torch.long).random_(N)\nloss = criterion(input, target)\n\n\n# Compare focal loss with gamma = 0 ,cross entropy\nfl = FocalLoss(alpha=1, gamma=0, reduction=\"mean\")\nce = nn.CrossEntropyLoss(reduction=\"mean\")\noutput = torch.randn(32, N, requires_grad=True)\ntarget = torch.empty(32, dtype=torch.long).random_(N)\ntest_close(fl(output, target), ce(output, target))\n\n# Test focal loss with gamma > 0 is different than cross entropy\nfl = FocalLoss(gamma=2)\nwith torch.no_grad():\n    test_ne(fl(output, target), ce(output, target))";
                 var nbb_formatted_code = "criterion = FocalLoss(alpha=0.5, gamma=2.0, reduction=\"mean\")\n\nN = 5  # num_classes\ninput = torch.randn(32, N, requires_grad=True)\ntarget = torch.empty(32, dtype=torch.long).random_(N)\nloss = criterion(input, target)\n\n\n# Compare focal loss with gamma = 0 ,cross entropy\nfl = FocalLoss(alpha=1, gamma=0, reduction=\"mean\")\nce = nn.CrossEntropyLoss(reduction=\"mean\")\noutput = torch.randn(32, N, requires_grad=True)\ntarget = torch.empty(32, dtype=torch.long).random_(N)\ntest_close(fl(output, target), ce(output, target))\n\n# Test focal loss with gamma > 0 is different than cross entropy\nfl = FocalLoss(gamma=2)\nwith torch.no_grad():\n    test_ne(fl(output, target), ce(output, target))";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -730,42 +622,7 @@ var element = $('#e978de9c-0919-4de5-8fda-9eb3fcb7aeea');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Loss Registry" class="doc_header"><code>Loss Registry</code><a href="" class="source_link" style="float:right">[source]</a></h4><p>Registry of Loss Functions</p>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="Registry.register" class="doc_header"><code>Registry.register</code><a href="fvcore/common/registry.py#L50" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Registry.register</code>(<strong><code>obj</code></strong>:<code>Any</code>=<em><code>None</code></em>)</p>
-</blockquote>
-<p>Register the given object under the the name <code>obj.__name__</code>. Can also be used a <code>decorator</code>.</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="build_loss" class="doc_header"><code>build_loss</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/losses.py#L165" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>build_loss</code>(<strong><code>config</code></strong>:<code>DictConfig</code>)</p>
+<h4 id="build_loss" class="doc_header"><code>build_loss</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/losses.py#L167" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>build_loss</code>(<strong><code>config</code></strong>:<code>DictConfig</code>)</p>
 </blockquote>
 <p>Builds a ClassyLoss from a config.
 This assumes a 'name' key in the config which is used to determine what
@@ -795,15 +652,15 @@ loss must first be registerd into <a href="/gale/core.nn.losses.html#LOSS_REGIST
 
 
 
-<div id="28e5d37c-1112-4d8c-8672-93b8da0e3d4e"></div>
+<div id="5144993d-77bb-43f4-b677-f0b497fa3ae6"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#28e5d37c-1112-4d8c-8672-93b8da0e3d4e');
+var element = $('#5144993d-77bb-43f4-b677-f0b497fa3ae6');
 
             setTimeout(function() {
-                var nbb_cell_id = 16;
-                var nbb_unformatted_code = "# export\ndef build_loss(config: DictConfig):\n    \"\"\"\n    Builds a ClassyLoss from a config.\n    This assumes a 'name' key in the config which is used to determine what\n    model class to instantiate. For instance, a config `{\"name\": \"my_loss\",\n    \"foo\": \"bar\"}` will find a class that was registered as \"my_loss\". A custom\n    loss must first be registerd into `LOSS_REGISTRY`.\n    \"\"\"\n\n    assert \"name\" in config, f\"name not provided for loss: {config}\"\n    config = OmegaConf.to_container(config, resolve=True)\n\n    name = config[\"name\"]\n    args = config[\"init_args\"]\n\n    # if we are passing weights, we need to change the weights from a list to a tensor\n    if args is not None:\n        if \"weight\" in args and args[\"weight\"] is not None:\n            args[\"weight\"] = torch.tensor(args[\"weight\"], dtype=torch.float)\n\n    if name in LOSS_REGISTRY:\n        instance = LOSS_REGISTRY.get(name)\n\n    # the name should be available in torch.nn.modules.loss\n    else:\n        assert hasattr(torch_losses, name), (\n            f\"{name} isn't a registered loss\"\n            \", nor is it available in torch.nn.modules.loss\"\n        )\n        instance = getattr(torch_losses, name)\n\n    if args is not None:\n        loss = instance(**args)\n    else:\n        loss = instance()\n    _logger.info(\"Built loss function: {}\".format(loss.__class__.__name__))\n    return loss";
-                var nbb_formatted_code = "# export\ndef build_loss(config: DictConfig):\n    \"\"\"\n    Builds a ClassyLoss from a config.\n    This assumes a 'name' key in the config which is used to determine what\n    model class to instantiate. For instance, a config `{\"name\": \"my_loss\",\n    \"foo\": \"bar\"}` will find a class that was registered as \"my_loss\". A custom\n    loss must first be registerd into `LOSS_REGISTRY`.\n    \"\"\"\n\n    assert \"name\" in config, f\"name not provided for loss: {config}\"\n    config = OmegaConf.to_container(config, resolve=True)\n\n    name = config[\"name\"]\n    args = config[\"init_args\"]\n\n    # if we are passing weights, we need to change the weights from a list to a tensor\n    if args is not None:\n        if \"weight\" in args and args[\"weight\"] is not None:\n            args[\"weight\"] = torch.tensor(args[\"weight\"], dtype=torch.float)\n\n    if name in LOSS_REGISTRY:\n        instance = LOSS_REGISTRY.get(name)\n\n    # the name should be available in torch.nn.modules.loss\n    else:\n        assert hasattr(torch_losses, name), (\n            f\"{name} isn't a registered loss\"\n            \", nor is it available in torch.nn.modules.loss\"\n        )\n        instance = getattr(torch_losses, name)\n\n    if args is not None:\n        loss = instance(**args)\n    else:\n        loss = instance()\n    _logger.info(\"Built loss function: {}\".format(loss.__class__.__name__))\n    return loss";
+                var nbb_cell_id = 14;
+                var nbb_unformatted_code = "# export\ndef build_loss(config: DictConfig):\n    \"\"\"\n    Builds a ClassyLoss from a config.\n    This assumes a 'name' key in the config which is used to determine what\n    model class to instantiate. For instance, a config `{\"name\": \"my_loss\",\n    \"foo\": \"bar\"}` will find a class that was registered as \"my_loss\". A custom\n    loss must first be registerd into `LOSS_REGISTRY`.\n    \"\"\"\n\n    assert \"name\" in config, f\"name not provided for loss: {config}\"\n    config = OmegaConf.to_container(config, resolve=True)\n\n    name = config[\"name\"]\n    args = config[\"init_args\"]\n\n    # if we are passing weights, we need to change the weights from a list to a tensor\n    if args is not None:\n        if \"weight\" in args and args[\"weight\"] is not None:\n            args[\"weight\"] = torch.tensor(args[\"weight\"], dtype=torch.float)\n\n    if name in LOSS_REGISTRY:\n        instance = LOSS_REGISTRY.get(name)\n\n    # the name should be available in torch.nn.modules.loss\n    else:\n        assert hasattr(torch_losses, name), (\n            f\"{name} isn't a registered loss\"\n            \", nor is it available in torch.nn.modules.loss\"\n        )\n        instance = getattr(torch_losses, name)\n\n    if args is not None:\n        loss = instance(**args)\n    else:\n        loss = instance()\n    _logger.debug(\"Built loss function: {}\".format(loss.__class__.__name__))\n    return loss";
+                var nbb_formatted_code = "# export\ndef build_loss(config: DictConfig):\n    \"\"\"\n    Builds a ClassyLoss from a config.\n    This assumes a 'name' key in the config which is used to determine what\n    model class to instantiate. For instance, a config `{\"name\": \"my_loss\",\n    \"foo\": \"bar\"}` will find a class that was registered as \"my_loss\". A custom\n    loss must first be registerd into `LOSS_REGISTRY`.\n    \"\"\"\n\n    assert \"name\" in config, f\"name not provided for loss: {config}\"\n    config = OmegaConf.to_container(config, resolve=True)\n\n    name = config[\"name\"]\n    args = config[\"init_args\"]\n\n    # if we are passing weights, we need to change the weights from a list to a tensor\n    if args is not None:\n        if \"weight\" in args and args[\"weight\"] is not None:\n            args[\"weight\"] = torch.tensor(args[\"weight\"], dtype=torch.float)\n\n    if name in LOSS_REGISTRY:\n        instance = LOSS_REGISTRY.get(name)\n\n    # the name should be available in torch.nn.modules.loss\n    else:\n        assert hasattr(torch_losses, name), (\n            f\"{name} isn't a registered loss\"\n            \", nor is it available in torch.nn.modules.loss\"\n        )\n        instance = getattr(torch_losses, name)\n\n    if args is not None:\n        loss = instance(**args)\n    else:\n        loss = instance()\n    _logger.debug(\"Built loss function: {}\".format(loss.__class__.__name__))\n    return loss";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -837,9 +694,9 @@ var element = $('#28e5d37c-1112-4d8c-8672-93b8da0e3d4e');
 
 <span class="n">cfg</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span>
     <span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;classification&quot;</span><span class="p">,</span>
-    <span class="n">overrides</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;loss@training.loss_fn=classification/ce_loss&quot;</span><span class="p">],</span>
+    <span class="n">overrides</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;loss@training.train_loss_fn=classification/ce_loss&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">loss_cfg</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">loss_fn</span>
+<span class="n">loss_cfg</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">train_loss_fn</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">OmegaConf</span><span class="o">.</span><span class="n">to_yaml</span><span class="p">(</span><span class="n">loss_cfg</span><span class="p">))</span>
 
 <span class="n">loss</span> <span class="o">=</span> <span class="n">build_loss</span><span class="p">(</span><span class="n">loss_cfg</span><span class="p">)</span>
@@ -863,7 +720,7 @@ init_args:
   reduce: None
   reduction: mean
 
-<span class="ansi-green-fg">[04/25 12:33:45 gale.core.nn.losses]: </span>Built loss function: CrossEntropyLoss
+<span class="ansi-green-fg">[04/26 17:52:55 gale.core.nn.losses]: </span>Built loss function: CrossEntropyLoss
 </pre>
 </div>
 </div>
@@ -873,15 +730,15 @@ init_args:
 
 
 
-<div id="e79b7795-4fc4-4403-89e1-49d846065a4b"></div>
+<div id="59db5699-917c-425c-b7ff-0543a5570fd8"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#e79b7795-4fc4-4403-89e1-49d846065a4b');
+var element = $('#59db5699-917c-425c-b7ff-0543a5570fd8');
 
             setTimeout(function() {
-                var nbb_cell_id = 25;
-                var nbb_unformatted_code = "from gale.config import get_config\n\ncfg = get_config(\n    config_name=\"classification\",\n    overrides=[\"loss@training.loss_fn=classification/ce_loss\"],\n)\nloss_cfg = cfg.training.loss_fn\nprint(OmegaConf.to_yaml(loss_cfg))\n\nloss = build_loss(loss_cfg)";
-                var nbb_formatted_code = "from gale.config import get_config\n\ncfg = get_config(\n    config_name=\"classification\",\n    overrides=[\"loss@training.loss_fn=classification/ce_loss\"],\n)\nloss_cfg = cfg.training.loss_fn\nprint(OmegaConf.to_yaml(loss_cfg))\n\nloss = build_loss(loss_cfg)";
+                var nbb_cell_id = 15;
+                var nbb_unformatted_code = "from gale.config import get_config\n\ncfg = get_config(\n    config_name=\"classification\",\n    overrides=[\"loss@training.train_loss_fn=classification/ce_loss\"],\n)\nloss_cfg = cfg.training.train_loss_fn\nprint(OmegaConf.to_yaml(loss_cfg))\n\nloss = build_loss(loss_cfg)";
+                var nbb_formatted_code = "from gale.config import get_config\n\ncfg = get_config(\n    config_name=\"classification\",\n    overrides=[\"loss@training.train_loss_fn=classification/ce_loss\"],\n)\nloss_cfg = cfg.training.train_loss_fn\nprint(OmegaConf.to_yaml(loss_cfg))\n\nloss = build_loss(loss_cfg)";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {

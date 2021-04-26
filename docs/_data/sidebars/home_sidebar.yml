@@ -9,61 +9,67 @@ entries:
     - output: web,pdf
       title: Overview
       url: /
+    output: web
+    title: Getting Started
+  - folderitems:
     - output: web,pdf
-      title: Logger
+      title: gale.core.utils.logger
       url: core.utils.logger.html
     - output: web,pdf
-      title: Visualize
+      title: gale.core.utils.visualize
       url: core.utils.visualize.html
     - output: web,pdf
-      title: Structures
+      title: gale.core.utils.structures
       url: core.utils.structures.html
     - output: web,pdf
-      title: Utilitites
+      title: gale.core.utils
       url: core.nn.utils.html
     - output: web,pdf
-      title: Loss Functions
+      title: gale.core.nn.losses
       url: core.nn.losses.html
     - output: web,pdf
-      title: Optimizers
-      url: core.nn.optim.optimizers.html
+      title: gale.core.optim.optimizers
+      url: core.optim.optimizers.html
     - output: web,pdf
-      title: Learning Rate Schedules
+      title: gale.core.nn.optim.lr_schedulers
       url: core.nn.optim.lr_schedulers.html
     - output: web,pdf
-      title: Classes
+      title: gale.core.classes
       url: core.classes.html
     - output: web,pdf
-      title: 'Backbones '
+      title: gale.classification.modelling.backbones
       url: classification.modelling.backbones.html
     - output: web,pdf
-      title: Heads
+      title: gale.classification.modelling.heads
       url: classification.modelling.heads.html
     - output: web,pdf
-      title: 'Meta Architectures : Generalized Image Classifier '
+      title: gale.classification.modelling.meta_arch.common
       url: classification.modelling.meta_arch.common.html
     - output: web,pdf
-      title: 'Meta Architectures : Vision Transformer (ViT) '
+      title: gale.classification.modelling.meta_arch.vit
       url: classification.modelling.meta_arch.vit.html
     - output: web,pdf
-      title: Classification Common
+      title: gale.classification.data.common
       url: classification.data.common.html
     - output: web,pdf
-      title: Data augmentation in computer vision
+      title: gale.classification.data.transforms
       url: classification.data.transforms.html
     - output: web,pdf
-      title: Build
+      title: gale.classification.data.build
       url: classification.data.build.html
     - output: web,pdf
-      title: Pandas
+      title: gale.classification.task
+      url: classification.task.html
+    - output: web,pdf
+      title: gale.collections.pandas
       url: collections.pandas.html
     - output: web,pdf
-      title: Fancy Progress Bar callback for PyTorch Lightning.
+      title: gale.collections.callbacks.notebook
       url: collections.callbacks.notebook.html
     - output: web,pdf
-      title: Model Exponential Moving Average Callback for PyTorch Lightning
+      title: gale.collections.callbacks.ema
       url: collections.callbacks.ema.html
     output: web
-    title: gale
+    title: API Documentation
   output: web
   title: Sidebar

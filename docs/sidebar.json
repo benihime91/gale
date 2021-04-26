@@ -1,23 +1,26 @@
 {
-  "gale": {
-    "Overview": "/",
-    "Logger": "core.utils.logger.html",
-    "Visualize": "core.utils.visualize.html",
-    "Structures": "core.utils.structures.html",
-    "Utilitites": "core.nn.utils.html",
-    "Loss Functions": "core.nn.losses.html",
-    "Optimizers": "core.nn.optim.optimizers.html",
-    "Learning Rate Schedules": "core.nn.optim.lr_schedulers.html",
-    "Classes": "core.classes.html",
-    "Backbones ": "classification.modelling.backbones.html",
-    "Heads": "classification.modelling.heads.html",
-    "Meta Architectures : Generalized Image Classifier ": "classification.modelling.meta_arch.common.html",
-    "Meta Architectures : Vision Transformer (ViT) ": "classification.modelling.meta_arch.vit.html",
-    "Classification Common": "classification.data.common.html",
-    "Data augmentation in computer vision": "classification.data.transforms.html",
-    "Build": "classification.data.build.html",
-    "Pandas": "collections.pandas.html",
-    "Fancy Progress Bar callback for PyTorch Lightning.": "collections.callbacks.notebook.html",
-    "Model Exponential Moving Average Callback for PyTorch Lightning": "collections.callbacks.ema.html"
+  "Getting Started": {
+    "Overview": "/"
+  },
+  "API Documentation": {
+    "gale.core.utils.logger": "core.utils.logger.html",
+    "gale.core.utils.visualize": "core.utils.visualize.html",
+    "gale.core.utils.structures": "core.utils.structures.html",
+    "gale.core.utils": "core.nn.utils.html",
+    "gale.core.nn.losses": "core.nn.losses.html",
+    "gale.core.optim.optimizers": "core.optim.optimizers.html",
+    "gale.core.nn.optim.lr_schedulers": "core.nn.optim.lr_schedulers.html",
+    "gale.core.classes": "core.classes.html",
+    "gale.classification.modelling.backbones": "classification.modelling.backbones.html",
+    "gale.classification.modelling.heads": "classification.modelling.heads.html",
+    "gale.classification.modelling.meta_arch.common": "classification.modelling.meta_arch.common.html",
+    "gale.classification.modelling.meta_arch.vit": "classification.modelling.meta_arch.vit.html",
+    "gale.classification.data.common": "classification.data.common.html",
+    "gale.classification.data.transforms": "classification.data.transforms.html",
+    "gale.classification.data.build": "classification.data.build.html",
+    "gale.classification.task": "classification.task.html",
+    "gale.collections.pandas": "collections.pandas.html",
+    "gale.collections.callbacks.notebook": "collections.callbacks.notebook.html",
+    "gale.collections.callbacks.ema": "collections.callbacks.ema.html"
   }
 }

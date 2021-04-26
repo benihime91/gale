@@ -16,6 +16,13 @@
 ![Config: hydra](https://img.shields.io/badge/config-hydra-89b8cd?style=for-the-badge)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-black.svg?style=for-the-badge)
 
+## Requirements
+1. Linux or macOS with Python ≥ 3.6
+
+2. PyTorch ≥ 1.7.0 and [torchvision](https://github.com/pytorch/vision/) that matches the PyTorch installation. Install them together at [pytorch.org](https://pytorch.org/) to make sure of this.
+
+3. [PyTorch Image Models](https://github.com/rwightman/pytorch-image-models) ≥ 0.4.8. At the current moment `PyPI` does not have the latest version so you will probablbly need to manually download from github like so by using `pip install git+https://github.com/rwightman/pytorch-image-models`.
+
 ## Installation
 
 You can install PyTorch Gale from source

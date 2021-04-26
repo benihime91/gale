@@ -324,7 +324,7 @@ class GaleTask(pl.LightningModule, OptimSchedBuilder, metaclass=ABCMeta):
         metrics: Union[torchmetrics.Metric, Mapping, Sequence, None] = None,
     ):
         """
-        Base class from which all NeMo models should inherit.
+        Base class from which all PyTorch Lightning Tasks in Gale should inherit.
 
         Arguments:
         1. `cfg` `(DictConfig)`:  configuration object. cfg object should be inherited from `BaseGaleConfig`.
@@ -475,7 +475,7 @@ def setup_optimization(self: GaleTask, optim_config: DictConfig = None):
         self._optimizer = self.build_optimizer(self.param_dicts)
         self._scheduler = self.build_lr_scheduler(self._optimizer)
 
-
+# Cell
 @patch
 def configure_optimizers(self: GaleTask):
     """

@@ -1,10 +1,10 @@
 # @package model.backbone
 name: TimmBackboneBase
 init_args:
-  model_name: null
+  model_name: efficientnet_b0
   act: null
-  lr: null
-  wd: null
+  lr: 2e-03
+  wd: 2e-03
   freeze_bn: false
   freeze_at: false
   filter_wd: false
