@@ -39,69 +39,6 @@ nb_path: "nbs/03_core.classes.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gale.core.utils.logger</span> <span class="kn">import</span> <span class="n">setup_logger</span>
-
-<span class="c1"># setup logging</span>
-<span class="n">setup_logger</span><span class="p">()</span>
-<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;gale.core.classes&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="0e350c23-9466-4ec7-ac3e-70df11285785"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#0e350c23-9466-4ec7-ac3e-70df11285785');
-
-            setTimeout(function() {
-                var nbb_cell_id = 5;
-                var nbb_unformatted_code = "from gale.core.utils.logger import setup_logger\n\n# setup logging\nsetup_logger()\n_logger = logging.getLogger(\"gale.core.classes\")";
-                var nbb_formatted_code = "from gale.core.utils.logger import setup_logger\n\n# setup logging\nsetup_logger()\n_logger = logging.getLogger(\"gale.core.classes\")";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Configurable">Configurable<a class="anchor-link" href="#Configurable"> </a></h2>
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
 <div class="output">
@@ -136,13 +73,13 @@ var element = $('#0e350c23-9466-4ec7-ac3e-70df11285785');
 
 
 
-<div id="fe82782a-2590-4985-bda7-97fae61c8eec"></div>
+<div id="80dae038-5fb3-4e60-9632-51f1026f3b8e"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#fe82782a-2590-4985-bda7-97fae61c8eec');
+var element = $('#80dae038-5fb3-4e60-9632-51f1026f3b8e');
 
             setTimeout(function() {
-                var nbb_cell_id = 6;
+                var nbb_cell_id = 5;
                 var nbb_unformatted_code = "# export\nclass Configurable(ABC):\n    \"\"\"\n    Helper Class to instantiate obj from config\n    \"\"\"\n\n    @classmethod\n    def from_config_dict(cls, config: DictConfig, **kwargs):\n        \"\"\"\n        Instantiates object using `DictConfig-based` configuration. You can optionally\n        pass in extra `kwargs`\n        \"\"\"\n        # Resolve the config dict\n        if isinstance(config, DictConfig):\n            config = OmegaConf.to_container(config, resolve=True)\n            config = OmegaConf.create(config)\n\n        if \"_target_\" in config:\n            # regular hydra-based instantiation\n            instance = hydra.utils.instantiate(config=config, **kwargs)\n        else:\n            # instantiate directly using kwargs\n            try:\n                instance = cls(cfg=config, **kwargs)\n            except:\n                cfg = OmegaConf.to_container(config, resolve=True)\n                instance = cls(**config, **kwargs)\n\n        if not hasattr(instance, \"_cfg\"):\n            instance._cfg = config\n        return instance\n\n    def to_config_dict(self) -> DictConfig:\n        # fmt: off\n        \"\"\"Returns object's configuration to config dictionary\"\"\"\n        if hasattr(self, \"_cfg\") and self._cfg is not None and isinstance(self._cfg, DictConfig):\n            # Resolve the config dict\n            config = OmegaConf.to_container(self._cfg, resolve=True)\n            config = OmegaConf.create(config)\n            OmegaConf.set_struct(config, True)\n            self._cfg = config\n\n            return self._cfg\n        else:\n            raise NotImplementedError(\"to_config_dict() can currently only return object._cfg but current object does not have it.\")\n        # fmt: on";
                 var nbb_formatted_code = "# export\nclass Configurable(ABC):\n    \"\"\"\n    Helper Class to instantiate obj from config\n    \"\"\"\n\n    @classmethod\n    def from_config_dict(cls, config: DictConfig, **kwargs):\n        \"\"\"\n        Instantiates object using `DictConfig-based` configuration. You can optionally\n        pass in extra `kwargs`\n        \"\"\"\n        # Resolve the config dict\n        if isinstance(config, DictConfig):\n            config = OmegaConf.to_container(config, resolve=True)\n            config = OmegaConf.create(config)\n\n        if \"_target_\" in config:\n            # regular hydra-based instantiation\n            instance = hydra.utils.instantiate(config=config, **kwargs)\n        else:\n            # instantiate directly using kwargs\n            try:\n                instance = cls(cfg=config, **kwargs)\n            except:\n                cfg = OmegaConf.to_container(config, resolve=True)\n                instance = cls(**config, **kwargs)\n\n        if not hasattr(instance, \"_cfg\"):\n            instance._cfg = config\n        return instance\n\n    def to_config_dict(self) -> DictConfig:\n        # fmt: off\n        \"\"\"Returns object's configuration to config dictionary\"\"\"\n        if hasattr(self, \"_cfg\") and self._cfg is not None and isinstance(self._cfg, DictConfig):\n            # Resolve the config dict\n            config = OmegaConf.to_container(self._cfg, resolve=True)\n            config = OmegaConf.create(config)\n            OmegaConf.set_struct(config, True)\n            self._cfg = config\n\n            return self._cfg\n        else:\n            raise NotImplementedError(\"to_config_dict() can currently only return object._cfg but current object does not have it.\")\n        # fmt: on";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -167,6 +104,13 @@ var element = $('#fe82782a-2590-4985-bda7-97fae61c8eec');
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This class provides a common interface for modules so that, they can be easy loaded from a Hydra Config file. This class also supports instantiating via hydra.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -218,55 +162,6 @@ pass in extra <code>kwargs</code></p>
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="GaleModule">GaleModule<a class="anchor-link" href="#GaleModule"> </a></h2>
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="6b299804-f7c0-45c1-8c9b-2c770d099b32"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#6b299804-f7c0-45c1-8c9b-2c770d099b32');
-
-            setTimeout(function() {
-                var nbb_cell_id = 9;
-                var nbb_unformatted_code = "# export\nclass GaleModule(Module, Configurable, metaclass=ABCMeta):\n    \"\"\"\n    Abstract class offering interface which should be implemented by all `Backbones`,\n    `Heads` and `Meta Archs` in gale.\n    \"\"\"\n\n    @abstractmethod\n    def forward(self) -> Any:\n        \"\"\"\n        The main logic for the model lives here. Can return either features, logits\n        or loss.\n        \"\"\"\n        raise NotImplementedError\n\n    @abstractmethod\n    def build_param_dicts(self) -> Union[Iterable, List[Dict], Dict, List]:\n        \"\"\"\n        Should return the iterable of parameters to optimize or dicts defining parameter groups\n        for the Module.\n        \"\"\"\n        raise NotImplementedError\n\n    @property\n    def param_lists(self):\n        \"Returns the list of paramters in the module\"\n        return [p for p in self.parameters()]\n\n    def all_params(self, n=slice(None), with_grad=False):\n        \"List of `param_groups` upto n\"\n        res = L(p for p in self.param_lists[n])\n        # fmt: off\n        return L(o for o in res if hasattr(o, \"grad\") and o.grad is not None) if with_grad else res\n        # fmt: on\n\n    def _set_require_grad(self, rg, p):\n        p.requires_grad_(rg)\n\n    def unfreeze(self) -> None:\n        \"\"\"\n        Unfreeze all parameters for training.\n        \"\"\"\n        for param in self.parameters():\n            param.requires_grad = True\n\n        self.train()\n\n    def freeze(self) -> None:\n        \"\"\"\n        Freeze all params for inference & set model to eval\n        \"\"\"\n        for param in self.parameters():\n            param.requires_grad = False\n        self.eval()\n\n    def freeze_to(self, n) -> None:\n        \"Freeze parameter groups up to `n`\"\n        self.frozen_idx = n if n >= 0 else len(self.param_lists) + n\n        if self.frozen_idx >= len(self.param_lists):\n            # fmt: off\n            _logger.warning(f\"Freezing {self.frozen_idx} groups; model has {len(self.param_lists)}; whole model is frozen.\")\n            # fmt: on\n\n        for o in self.all_params(slice(n, None)):\n            self._set_require_grad(True, o)\n\n        for o in self.all_params(slice(None, n)):\n            self._set_require_grad(False, o)\n\n    @contextmanager\n    def as_frozen(self):\n        \"\"\"\n        Context manager which temporarily freezes a module, yields control\n        and finally unfreezes the module.\n        \"\"\"\n        self.freeze()\n\n        try:\n            yield\n        finally:\n            self.unfreeze()";
-                var nbb_formatted_code = "# export\nclass GaleModule(Module, Configurable, metaclass=ABCMeta):\n    \"\"\"\n    Abstract class offering interface which should be implemented by all `Backbones`,\n    `Heads` and `Meta Archs` in gale.\n    \"\"\"\n\n    @abstractmethod\n    def forward(self) -> Any:\n        \"\"\"\n        The main logic for the model lives here. Can return either features, logits\n        or loss.\n        \"\"\"\n        raise NotImplementedError\n\n    @abstractmethod\n    def build_param_dicts(self) -> Union[Iterable, List[Dict], Dict, List]:\n        \"\"\"\n        Should return the iterable of parameters to optimize or dicts defining parameter groups\n        for the Module.\n        \"\"\"\n        raise NotImplementedError\n\n    @property\n    def param_lists(self):\n        \"Returns the list of paramters in the module\"\n        return [p for p in self.parameters()]\n\n    def all_params(self, n=slice(None), with_grad=False):\n        \"List of `param_groups` upto n\"\n        res = L(p for p in self.param_lists[n])\n        # fmt: off\n        return L(o for o in res if hasattr(o, \"grad\") and o.grad is not None) if with_grad else res\n        # fmt: on\n\n    def _set_require_grad(self, rg, p):\n        p.requires_grad_(rg)\n\n    def unfreeze(self) -> None:\n        \"\"\"\n        Unfreeze all parameters for training.\n        \"\"\"\n        for param in self.parameters():\n            param.requires_grad = True\n\n        self.train()\n\n    def freeze(self) -> None:\n        \"\"\"\n        Freeze all params for inference & set model to eval\n        \"\"\"\n        for param in self.parameters():\n            param.requires_grad = False\n        self.eval()\n\n    def freeze_to(self, n) -> None:\n        \"Freeze parameter groups up to `n`\"\n        self.frozen_idx = n if n >= 0 else len(self.param_lists) + n\n        if self.frozen_idx >= len(self.param_lists):\n            # fmt: off\n            _logger.warning(f\"Freezing {self.frozen_idx} groups; model has {len(self.param_lists)}; whole model is frozen.\")\n            # fmt: on\n\n        for o in self.all_params(slice(n, None)):\n            self._set_require_grad(True, o)\n\n        for o in self.all_params(slice(None, n)):\n            self._set_require_grad(False, o)\n\n    @contextmanager\n    def as_frozen(self):\n        \"\"\"\n        Context manager which temporarily freezes a module, yields control\n        and finally unfreezes the module.\n        \"\"\"\n        self.freeze()\n\n        try:\n            yield\n        finally:\n            self.unfreeze()";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -293,6 +188,62 @@ var element = $('#6b299804-f7c0-45c1-8c9b-2c770d099b32');
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+
+<div id="6219126e-ba7e-48ba-b2e4-9d9202141ea8"></div>
+<div class="output_subarea output_javascript ">
+<script type="text/javascript">
+var element = $('#6219126e-ba7e-48ba-b2e4-9d9202141ea8');
+
+            setTimeout(function() {
+                var nbb_cell_id = 8;
+                var nbb_unformatted_code = "# export\nclass GaleModule(Module, Configurable, metaclass=ABCMeta):\n    \"\"\"\n    Abstract class offering interface which should be implemented by all `Backbones`,\n    `Heads` and `Meta Archs` in gale.\n    \"\"\"\n\n    @abstractmethod\n    def forward(self) -> Any:\n        \"\"\"\n        The main logic for the model lives here. Can return either features, logits\n        or loss.\n        \"\"\"\n        raise NotImplementedError\n\n    @abstractmethod\n    def build_param_dicts(self) -> Union[Iterable, List[Dict], Dict, List]:\n        \"\"\"\n        Should return the iterable of parameters to optimize or dicts defining parameter groups\n        for the Module.\n        \"\"\"\n        raise NotImplementedError\n\n    @property\n    def param_lists(self):\n        \"Returns the list of paramters in the module\"\n        return [p for p in self.parameters()]\n\n    def all_params(self, n=slice(None), with_grad=False):\n        \"List of `param_groups` upto n\"\n        res = L(p for p in self.param_lists[n])\n        # fmt: off\n        return L(o for o in res if hasattr(o, \"grad\") and o.grad is not None) if with_grad else res\n        # fmt: on\n\n    def _set_require_grad(self, rg, p):\n        p.requires_grad_(rg)\n\n    def unfreeze(self) -> None:\n        \"\"\"\n        Unfreeze all parameters for training.\n        \"\"\"\n        for param in self.parameters():\n            param.requires_grad = True\n\n        self.train()\n\n    def freeze(self) -> None:\n        \"\"\"\n        Freeze all params for inference & set model to eval\n        \"\"\"\n        for param in self.parameters():\n            param.requires_grad = False\n        self.eval()\n\n    def freeze_to(self, n) -> None:\n        \"Freeze parameter groups up to `n`\"\n        self.frozen_idx = n if n >= 0 else len(self.param_lists) + n\n        if self.frozen_idx >= len(self.param_lists):\n            # fmt: off\n            _logger.warning(f\"Freezing {self.frozen_idx} groups; model has {len(self.param_lists)}; whole model is frozen.\")\n            # fmt: on\n\n        for o in self.all_params(slice(n, None)):\n            self._set_require_grad(True, o)\n\n        for o in self.all_params(slice(None, n)):\n            self._set_require_grad(False, o)\n\n    @contextmanager\n    def as_frozen(self):\n        \"\"\"\n        Context manager which temporarily freezes a module, yields control\n        and finally unfreezes the module.\n        \"\"\"\n        self.freeze()\n\n        try:\n            yield\n        finally:\n            self.unfreeze()";
+                var nbb_formatted_code = "# export\nclass GaleModule(Module, Configurable, metaclass=ABCMeta):\n    \"\"\"\n    Abstract class offering interface which should be implemented by all `Backbones`,\n    `Heads` and `Meta Archs` in gale.\n    \"\"\"\n\n    @abstractmethod\n    def forward(self) -> Any:\n        \"\"\"\n        The main logic for the model lives here. Can return either features, logits\n        or loss.\n        \"\"\"\n        raise NotImplementedError\n\n    @abstractmethod\n    def build_param_dicts(self) -> Union[Iterable, List[Dict], Dict, List]:\n        \"\"\"\n        Should return the iterable of parameters to optimize or dicts defining parameter groups\n        for the Module.\n        \"\"\"\n        raise NotImplementedError\n\n    @property\n    def param_lists(self):\n        \"Returns the list of paramters in the module\"\n        return [p for p in self.parameters()]\n\n    def all_params(self, n=slice(None), with_grad=False):\n        \"List of `param_groups` upto n\"\n        res = L(p for p in self.param_lists[n])\n        # fmt: off\n        return L(o for o in res if hasattr(o, \"grad\") and o.grad is not None) if with_grad else res\n        # fmt: on\n\n    def _set_require_grad(self, rg, p):\n        p.requires_grad_(rg)\n\n    def unfreeze(self) -> None:\n        \"\"\"\n        Unfreeze all parameters for training.\n        \"\"\"\n        for param in self.parameters():\n            param.requires_grad = True\n\n        self.train()\n\n    def freeze(self) -> None:\n        \"\"\"\n        Freeze all params for inference & set model to eval\n        \"\"\"\n        for param in self.parameters():\n            param.requires_grad = False\n        self.eval()\n\n    def freeze_to(self, n) -> None:\n        \"Freeze parameter groups up to `n`\"\n        self.frozen_idx = n if n >= 0 else len(self.param_lists) + n\n        if self.frozen_idx >= len(self.param_lists):\n            # fmt: off\n            _logger.warning(f\"Freezing {self.frozen_idx} groups; model has {len(self.param_lists)}; whole model is frozen.\")\n            # fmt: on\n\n        for o in self.all_params(slice(n, None)):\n            self._set_require_grad(True, o)\n\n        for o in self.all_params(slice(None, n)):\n            self._set_require_grad(False, o)\n\n    @contextmanager\n    def as_frozen(self):\n        \"\"\"\n        Context manager which temporarily freezes a module, yields control\n        and finally unfreezes the module.\n        \"\"\"\n        self.freeze()\n\n        try:\n            yield\n        finally:\n            self.unfreeze()";
+                var nbb_cells = Jupyter.notebook.get_cells();
+                for (var i = 0; i < nbb_cells.length; ++i) {
+                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
+                             nbb_cells[i].set_text(nbb_formatted_code);
+                        }
+                        break;
+                    }
+                }
+            }, 500);
+            
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Any Module that is Registerd in Gale should inherit from this class or its subclass.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Internals">Internals<a class="anchor-link" href="#Internals"> </a></h2>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -438,6 +389,19 @@ pass in extra <code>kwargs</code></p>
 
 </div>
 
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
 <div class="output_area">
 
 
@@ -450,6 +414,19 @@ pass in extra <code>kwargs</code></p>
 
 </div>
 
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
 <div class="output_area">
 
 
@@ -461,6 +438,19 @@ pass in extra <code>kwargs</code></p>
 </div>
 
 </div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
 
 <div class="output_area">
 
@@ -481,12 +471,6 @@ and finally unfreezes the module.</p>
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="OptimSchedBuilder">OptimSchedBuilder<a class="anchor-link" href="#OptimSchedBuilder"> </a></h2>
-</div>
-</div>
-</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -500,7 +484,7 @@ and finally unfreezes the module.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="OptimSchedBuilder" class="doc_header"><code>class</code> <code>OptimSchedBuilder</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L157" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>OptimSchedBuilder</code>()</p>
 </blockquote>
-<p>Interface that constructs an Optimizer and Scheduler for <a href="/gale/core.classes.html#GaleTask"><code>GaleTask</code></a> from config.</p>
+<p>Interface that constructs an Optimizer and Scheduler a from config.</p>
 
 </div>
 
@@ -524,15 +508,15 @@ and finally unfreezes the module.</p>
 
 
 
-<div id="7616ba68-ffc8-4df0-9e22-01bf40ff6265"></div>
+<div id="b007793e-30d3-4c87-b68b-7f8829852732"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#7616ba68-ffc8-4df0-9e22-01bf40ff6265');
+var element = $('#b007793e-30d3-4c87-b68b-7f8829852732');
 
             setTimeout(function() {
-                var nbb_cell_id = 17;
-                var nbb_unformatted_code = "# export\nclass OptimSchedBuilder:\n    \"\"\"\n    Interface that constructs an Optimizer and Scheduler for `GaleTask` from config.\n    \"\"\"\n\n    _train_dl: Callable\n    _trainer: pl.Trainer\n    optimization_cfg: DictConfig";
-                var nbb_formatted_code = "# export\nclass OptimSchedBuilder:\n    \"\"\"\n    Interface that constructs an Optimizer and Scheduler for `GaleTask` from config.\n    \"\"\"\n\n    _train_dl: Callable\n    _trainer: pl.Trainer\n    optimization_cfg: DictConfig";
+                var nbb_cell_id = 18;
+                var nbb_unformatted_code = "# export\nclass OptimSchedBuilder:\n    \"\"\"\n    Interface that constructs an Optimizer and Scheduler a from config.\n    \"\"\"\n\n    _train_dl: Callable\n    _trainer: pl.Trainer\n    optimization_cfg: DictConfig";
+                var nbb_formatted_code = "# export\nclass OptimSchedBuilder:\n    \"\"\"\n    Interface that constructs an Optimizer and Scheduler a from config.\n    \"\"\"\n\n    _train_dl: Callable\n    _trainer: pl.Trainer\n    optimization_cfg: DictConfig";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -574,13 +558,6 @@ var element = $('#7616ba68-ffc8-4df0-9e22-01bf40ff6265');
 <span class="n">dset</span> <span class="o">=</span> <span class="n">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">data_path</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">cfg</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">()</span>
-
-<span class="n">builder</span> <span class="o">=</span> <span class="n">OptimSchedBuilder</span><span class="p">()</span>
-<span class="c1"># create mock dataloaders and trainer for builder</span>
-<span class="n">builder</span><span class="o">.</span><span class="n">_train_dl</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
-<span class="n">builder</span><span class="o">.</span><span class="n">_trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">accumulate_grad_batches</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># _logger.info(f&quot;optimization config: \n{OmegaConf.to_yaml(cfg.optimization)}&quot;)</span>
 </pre></div>
 
     </div>
@@ -595,27 +572,18 @@ var element = $('#7616ba68-ffc8-4df0-9e22-01bf40ff6265');
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>GPU available: False, used: False
-TPU available: False, using: 0 TPU cores
-</pre>
-</div>
-</div>
-
-<div class="output_area">
 
 
 
-
-<div id="8b2effe6-3ee9-4468-a755-240877ff1140"></div>
+<div id="ada42ead-f894-451c-bcdd-3471c61aa022"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#8b2effe6-3ee9-4468-a755-240877ff1140');
+var element = $('#ada42ead-f894-451c-bcdd-3471c61aa022');
 
             setTimeout(function() {
-                var nbb_cell_id = 18;
-                var nbb_unformatted_code = "# collapse-output\nfrom dataclasses import dataclass, field\n\nfrom fastcore.all import Path\nfrom nbdev.export import Config\nfrom torch.utils.data import DataLoader\nfrom torchvision.datasets import FashionMNIST\nfrom gale.config import get_config\n\ndata_path = Path(Config().path(\"nbs_path\")) / \"data\"\ndset = FashionMNIST(root=data_path, download=True)\n\ncfg = get_config()\n\nbuilder = OptimSchedBuilder()\n# create mock dataloaders and trainer for builder\nbuilder._train_dl = DataLoader(dset, batch_size=32)\nbuilder._trainer = pl.Trainer(max_epochs=10, accumulate_grad_batches=1)\n\n# _logger.info(f\"optimization config: \\n{OmegaConf.to_yaml(cfg.optimization)}\")";
-                var nbb_formatted_code = "# collapse-output\nfrom dataclasses import dataclass, field\n\nfrom fastcore.all import Path\nfrom nbdev.export import Config\nfrom torch.utils.data import DataLoader\nfrom torchvision.datasets import FashionMNIST\nfrom gale.config import get_config\n\ndata_path = Path(Config().path(\"nbs_path\")) / \"data\"\ndset = FashionMNIST(root=data_path, download=True)\n\ncfg = get_config()\n\nbuilder = OptimSchedBuilder()\n# create mock dataloaders and trainer for builder\nbuilder._train_dl = DataLoader(dset, batch_size=32)\nbuilder._trainer = pl.Trainer(max_epochs=10, accumulate_grad_batches=1)\n\n# _logger.info(f\"optimization config: \\n{OmegaConf.to_yaml(cfg.optimization)}\")";
+                var nbb_cell_id = 19;
+                var nbb_unformatted_code = "# collapse-output\nfrom dataclasses import dataclass, field\n\nfrom fastcore.all import Path\nfrom nbdev.export import Config\nfrom torch.utils.data import DataLoader\nfrom torchvision.datasets import FashionMNIST\nfrom gale.config import get_config\n\ndata_path = Path(Config().path(\"nbs_path\")) / \"data\"\ndset = FashionMNIST(root=data_path, download=True)\n\ncfg = get_config()";
+                var nbb_formatted_code = "# collapse-output\nfrom dataclasses import dataclass, field\n\nfrom fastcore.all import Path\nfrom nbdev.export import Config\nfrom torch.utils.data import DataLoader\nfrom torchvision.datasets import FashionMNIST\nfrom gale.config import get_config\n\ndata_path = Path(Config().path(\"nbs_path\")) / \"data\"\ndset = FashionMNIST(root=data_path, download=True)\n\ncfg = get_config()";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -639,6 +607,120 @@ var element = $('#8b2effe6-3ee9-4468-a755-240877ff1140');
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">builder</span> <span class="o">=</span> <span class="n">OptimSchedBuilder</span><span class="p">()</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">_train_dl</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">_trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">accumulate_grad_batches</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">OmegaConf</span><span class="o">.</span><span class="n">to_yaml</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">optimization</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>optimizer:
+  name: AdamW
+  init_args:
+    betas:
+    - 0.95
+    - 0.999
+    eps: 1.0e-05
+    weight_decay: 0.01
+    amsgrad: false
+scheduler:
+  name: OneCycleLR
+  init_args:
+    max_lr: -1
+    total_steps: null
+    epochs: -1
+    steps_per_epoch: null
+    pct_start: 0.3
+    anneal_strategy: cos
+    cycle_momentum: true
+    base_momentum: 0.85
+    max_momentum: 0.95
+    div_factor: 25.0
+    final_div_factor: 10000.0
+  interval: step
+  monitor: null
+steps_per_epoch: -1
+max_steps: -1
+max_epochs: -1
+
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+
+<div id="6c6a53f9-40d9-4978-9dde-d34a295b6613"></div>
+<div class="output_subarea output_javascript ">
+<script type="text/javascript">
+var element = $('#6c6a53f9-40d9-4978-9dde-d34a295b6613');
+
+            setTimeout(function() {
+                var nbb_cell_id = 20;
+                var nbb_unformatted_code = "# collapse-output\nbuilder = OptimSchedBuilder()\nbuilder._train_dl = DataLoader(dset, batch_size=32)\nbuilder._trainer = pl.Trainer(max_epochs=10, accumulate_grad_batches=1)\n\nprint(OmegaConf.to_yaml(cfg.optimization))";
+                var nbb_formatted_code = "# collapse-output\nbuilder = OptimSchedBuilder()\nbuilder._train_dl = DataLoader(dset, batch_size=32)\nbuilder._trainer = pl.Trainer(max_epochs=10, accumulate_grad_batches=1)\n\nprint(OmegaConf.to_yaml(cfg.optimization))";
+                var nbb_cells = Jupyter.notebook.get_cells();
+                for (var i = 0; i < nbb_cells.length; ++i) {
+                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
+                             nbb_cells[i].set_text(nbb_formatted_code);
+                        }
+                        break;
+                    }
+                }
+            }, 500);
+            
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="/gale/core.classes.html#OptimSchedBuilder"><code>OptimSchedBuilder</code></a> is used in to instantite the <code>optimizer</code> and the <code>lr_scheduler (optional)</code> given a OmegaConf config that follows the structure of gale default config ...</p>
+<p>A generic optimzation config structure for image classification is shown in above. Notice how some values are <code>-1</code>. These values are automatically computed during the training process. Also requested optimizers and schedulers should be present in <a href="/gale/core.utils.structures.html#OPTIM_REGISTRY"><code>OPTIM_REGISTRY</code></a> and <a href="/gale/core.utils.structures.html#SCHEDULER_REGISTRY"><code>SCHEDULER_REGISTRY</code></a> resp.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -679,13 +761,13 @@ which are required by some of the LearningRate Schedulers.</p>
 
 
 
-<div id="8c81fcb1-ecd3-40ac-bf7a-f37727104053"></div>
+<div id="7fb844ca-a0d8-414f-8d4d-bcc711fcb8d8"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#8c81fcb1-ecd3-40ac-bf7a-f37727104053');
+var element = $('#7fb844ca-a0d8-414f-8d4d-bcc711fcb8d8');
 
             setTimeout(function() {
-                var nbb_cell_id = 19;
+                var nbb_cell_id = 21;
                 var nbb_unformatted_code = "# export\n@patch\ndef prepare_optimization_config(self: OptimSchedBuilder, config: DictConfig):\n    \"\"\"\n    Prepares `OptimizationConfig` config and adds some interval\n    values and infers values like max_steps, max_epochs, etc.\n\n    This method also fills in the values for `max_iters` & `epochs`, `steps_per_epoch`\n    which are required by some of the LearningRate Schedulers.\n    \"\"\"\n    opt_config = copy.deepcopy(config)\n    self.optimization_cfg = opt_config\n\n    self.optimization_cfg[\"steps_per_epoch\"] = len(self._train_dl)\n\n    if self._trainer.max_epochs is None and self._trainer.max_steps is None:\n        msg = \"Either one of max_epochs or max_epochs must be provided in Trainer\"\n        log_main_process(_logger, logging.ERROR, msg)\n        raise ValueError\n\n    # compute effective num training steps\n    # fmt: off\n    if isinstance(self._trainer.limit_train_batches, int) and self._trainer.limit_train_batches != 0:\n    # fmt: on\n        dataset_size = self.trainer.limit_train_batches\n    \n    elif isinstance(self._trainer.limit_train_batches, float):\n        # limit_train_batches is a percentage of batches\n        dataset_size = len(self._train_dl)\n        dataset_size = int(dataset_size * self._trainer.limit_train_batches)\n    \n    else:\n        dataset_size = len(self._train_dl)\n\n    num_devices = max(1, self._trainer.num_gpus, self._trainer.num_processes)\n\n    if self._trainer.tpu_cores:\n        num_devices = max(num_devices, self._trainer.tpu_cores)\n\n    effective_batch_size = self._trainer.accumulate_grad_batches * num_devices\n    max_steps = (dataset_size // effective_batch_size) * self._trainer.max_epochs\n\n    if self._trainer.max_steps is None:\n        self.optimization_cfg[\"max_epochs\"] = self._trainer.max_epochs\n        self.optimization_cfg[\"max_steps\"] = max_steps\n\n    else:\n        epochs = self._trainer.max_steps * len(self._train_dl)\n        self.optimization_cfg[\"max_steps\"] = self._trainer.max_steps\n        self.optimization_cfg[\"max_epochs\"] = epochs\n\n    # covert config to Dictionary\n    # fmt: off\n    sched_config = OmegaConf.to_container(self.optimization_cfg.scheduler.init_args, resolve=True)\n\n    max_steps = self.optimization_cfg[\"max_steps\"]\n    max_epochs = self.optimization_cfg[\"max_epochs\"]\n    steps = self.optimization_cfg[\"steps_per_epoch\"]\n\n    # populate values in learning rate schedulers\n    if \"max_iters\" in sched_config:\n        if sched_config[\"max_iters\"] == -1:\n            OmegaConf.update(self.optimization_cfg, \"scheduler.init_args.max_iters\", max_steps)\n            msg = f\"Set the value of 'max_iters' to be {max_steps}.\"\n            log_main_process(_logger, logging.DEBUG, msg)\n\n    if \"epochs\" in sched_config:\n        if sched_config[\"epochs\"] == -1:\n            OmegaConf.update(self.optimization_cfg, \"scheduler.init_args.epochs\", max_epochs)\n            msg = f\"Set the value of 'epochs' to be {max_epochs}.\"\n            log_main_process(_logger, logging.DEBUG, msg)\n\n    if \"steps_per_epoch\" in sched_config:\n        if sched_config[\"steps_per_epoch\"] is None:\n            OmegaConf.update(self.optimization_cfg, \"scheduler.init_args.steps_per_epoch\", steps)\n            msg = f\"Set the value of 'steps_per_epoch' to be {steps}.\"\n            log_main_process(_logger, logging.DEBUG, msg)\n    # fmt: on";
                 var nbb_formatted_code = "# export\n@patch\ndef prepare_optimization_config(self: OptimSchedBuilder, config: DictConfig):\n    \"\"\"\n    Prepares `OptimizationConfig` config and adds some interval\n    values and infers values like max_steps, max_epochs, etc.\n\n    This method also fills in the values for `max_iters` & `epochs`, `steps_per_epoch`\n    which are required by some of the LearningRate Schedulers.\n    \"\"\"\n    opt_config = copy.deepcopy(config)\n    self.optimization_cfg = opt_config\n\n    self.optimization_cfg[\"steps_per_epoch\"] = len(self._train_dl)\n\n    if self._trainer.max_epochs is None and self._trainer.max_steps is None:\n        msg = \"Either one of max_epochs or max_epochs must be provided in Trainer\"\n        log_main_process(_logger, logging.ERROR, msg)\n        raise ValueError\n\n    # compute effective num training steps\n    # fmt: off\n    if isinstance(self._trainer.limit_train_batches, int) and self._trainer.limit_train_batches != 0:\n    # fmt: on\n        dataset_size = self.trainer.limit_train_batches\n    \n    elif isinstance(self._trainer.limit_train_batches, float):\n        # limit_train_batches is a percentage of batches\n        dataset_size = len(self._train_dl)\n        dataset_size = int(dataset_size * self._trainer.limit_train_batches)\n    \n    else:\n        dataset_size = len(self._train_dl)\n\n    num_devices = max(1, self._trainer.num_gpus, self._trainer.num_processes)\n\n    if self._trainer.tpu_cores:\n        num_devices = max(num_devices, self._trainer.tpu_cores)\n\n    effective_batch_size = self._trainer.accumulate_grad_batches * num_devices\n    max_steps = (dataset_size // effective_batch_size) * self._trainer.max_epochs\n\n    if self._trainer.max_steps is None:\n        self.optimization_cfg[\"max_epochs\"] = self._trainer.max_epochs\n        self.optimization_cfg[\"max_steps\"] = max_steps\n\n    else:\n        epochs = self._trainer.max_steps * len(self._train_dl)\n        self.optimization_cfg[\"max_steps\"] = self._trainer.max_steps\n        self.optimization_cfg[\"max_epochs\"] = epochs\n\n    # covert config to Dictionary\n    # fmt: off\n    sched_config = OmegaConf.to_container(self.optimization_cfg.scheduler.init_args, resolve=True)\n\n    max_steps = self.optimization_cfg[\"max_steps\"]\n    max_epochs = self.optimization_cfg[\"max_epochs\"]\n    steps = self.optimization_cfg[\"steps_per_epoch\"]\n\n    # populate values in learning rate schedulers\n    if \"max_iters\" in sched_config:\n        if sched_config[\"max_iters\"] == -1:\n            OmegaConf.update(self.optimization_cfg, \"scheduler.init_args.max_iters\", max_steps)\n            msg = f\"Set the value of 'max_iters' to be {max_steps}.\"\n            log_main_process(_logger, logging.DEBUG, msg)\n\n    if \"epochs\" in sched_config:\n        if sched_config[\"epochs\"] == -1:\n            OmegaConf.update(self.optimization_cfg, \"scheduler.init_args.epochs\", max_epochs)\n            msg = f\"Set the value of 'epochs' to be {max_epochs}.\"\n            log_main_process(_logger, logging.DEBUG, msg)\n\n    if \"steps_per_epoch\" in sched_config:\n        if sched_config[\"steps_per_epoch\"] is None:\n            OmegaConf.update(self.optimization_cfg, \"scheduler.init_args.steps_per_epoch\", steps)\n            msg = f\"Set the value of 'steps_per_epoch' to be {steps}.\"\n            log_main_process(_logger, logging.DEBUG, msg)\n    # fmt: on";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -718,7 +800,6 @@ var element = $('#8c81fcb1-ecd3-40ac-bf7a-f37727104053');
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">builder</span><span class="o">.</span><span class="n">prepare_optimization_config</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">optimization</span><span class="p">)</span>
-<span class="c1"># print(f&quot;Modified Optimization Config: \n{OmegaConf.to_yaml(builder.optimization_cfg)}&quot;)</span>
 </pre></div>
 
     </div>
@@ -730,27 +811,18 @@ var element = $('#8c81fcb1-ecd3-40ac-bf7a-f37727104053');
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-green-fg">[04/26 17:49:27 gale.core.classes]: </span>Set the value of &#39;epochs&#39; to be 10.
-<span class="ansi-green-fg">[04/26 17:49:27 gale.core.classes]: </span>Set the value of &#39;steps_per_epoch&#39; to be 1875.
-</pre>
-</div>
-</div>
-
-<div class="output_area">
 
 
 
-
-<div id="cef08ea7-6870-4af7-9a15-e78b1de3b9d7"></div>
+<div id="3d1bfffe-3771-4230-abe7-626377767058"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#cef08ea7-6870-4af7-9a15-e78b1de3b9d7');
+var element = $('#3d1bfffe-3771-4230-abe7-626377767058');
 
             setTimeout(function() {
-                var nbb_cell_id = 20;
-                var nbb_unformatted_code = "builder.prepare_optimization_config(config=cfg.optimization)\n# print(f\"Modified Optimization Config: \\n{OmegaConf.to_yaml(builder.optimization_cfg)}\")";
-                var nbb_formatted_code = "builder.prepare_optimization_config(config=cfg.optimization)\n# print(f\"Modified Optimization Config: \\n{OmegaConf.to_yaml(builder.optimization_cfg)}\")";
+                var nbb_cell_id = 22;
+                var nbb_unformatted_code = "builder.prepare_optimization_config(config=cfg.optimization)";
+                var nbb_formatted_code = "builder.prepare_optimization_config(config=cfg.optimization)";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -812,13 +884,13 @@ dict with the weights for the optimizer to optimizer.</p>
 
 
 
-<div id="aebfcef6-7ef4-477a-9f2c-848bb1788a36"></div>
+<div id="6ef9446a-d864-4f59-8269-da28ada8406b"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#aebfcef6-7ef4-477a-9f2c-848bb1788a36');
+var element = $('#6ef9446a-d864-4f59-8269-da28ada8406b');
 
             setTimeout(function() {
-                var nbb_cell_id = 21;
+                var nbb_cell_id = 23;
                 var nbb_unformatted_code = "# export\n@patch\ndef build_optimizer(self: OptimSchedBuilder, params: Any) -> torch.optim.Optimizer:\n    \"\"\"\n    Builds a single optimizer from `OptimizationConfig`. `params` are the parameter\n    dict with the weights for the optimizer to optimizer.\n\n    Note this method must be called after `prepare_optimization_config()`\n    \"\"\"\n    if not isinstance(self.optimization_cfg, DictConfig):\n        msg = \"optimization_cfg not found, did you call `prepare_optimization_config`.\"\n        log_main_process(_logger, logging.WARNING, msg)\n        raise NameError\n    else:\n        if self.optimization_cfg.optimizer.name is None:\n            msg = \"Optimizer is None, so no optimizer will be created.\"\n            log_main_process(_logger, logging.WARNING, msg)\n            opt = None\n        else:\n            opt = self.optimization_cfg.optimizer\n            opt = OPTIM_REGISTRY.get(opt.name)(params=params, **opt.init_args)\n            msg = f\"Built optimizer, {opt.__class__.__name__} with {len(opt.param_groups)} param group(s).\"\n            log_main_process(_logger, logging.DEBUG, msg)\n        return opt";
                 var nbb_formatted_code = "# export\n@patch\ndef build_optimizer(self: OptimSchedBuilder, params: Any) -> torch.optim.Optimizer:\n    \"\"\"\n    Builds a single optimizer from `OptimizationConfig`. `params` are the parameter\n    dict with the weights for the optimizer to optimizer.\n\n    Note this method must be called after `prepare_optimization_config()`\n    \"\"\"\n    if not isinstance(self.optimization_cfg, DictConfig):\n        msg = \"optimization_cfg not found, did you call `prepare_optimization_config`.\"\n        log_main_process(_logger, logging.WARNING, msg)\n        raise NameError\n    else:\n        if self.optimization_cfg.optimizer.name is None:\n            msg = \"Optimizer is None, so no optimizer will be created.\"\n            log_main_process(_logger, logging.WARNING, msg)\n            opt = None\n        else:\n            opt = self.optimization_cfg.optimizer\n            opt = OPTIM_REGISTRY.get(opt.name)(params=params, **opt.init_args)\n            msg = f\"Built optimizer, {opt.__class__.__name__} with {len(opt.param_groups)} param group(s).\"\n            log_main_process(_logger, logging.DEBUG, msg)\n        return opt";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -882,13 +954,13 @@ Note this method must be called after <code>prepare_optimization_config()</code>
 
 
 
-<div id="0dafed99-786c-4255-bbd9-e93a17ff9123"></div>
+<div id="09096a16-259c-4af1-8bc1-9aa2a94f96db"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#0dafed99-786c-4255-bbd9-e93a17ff9123');
+var element = $('#09096a16-259c-4af1-8bc1-9aa2a94f96db');
 
             setTimeout(function() {
-                var nbb_cell_id = 22;
+                var nbb_cell_id = 24;
                 var nbb_unformatted_code = "# export\n@patch\ndef build_lr_scheduler(\n    self: OptimSchedBuilder, optimizer: torch.optim.Optimizer\n) -> Any:\n    \"\"\"\n    Builds a LearningRate scheduler from `OptimizationConfig`. Returns an LRScheduler dict\n    that is required by PyTorch Lightning for LRSchedulers.\n    Note this method must be called after `prepare_optimization_config()`\n    \"\"\"\n    if not isinstance(self.optimization_cfg, DictConfig):\n        msg = \"optimization_cfg not found, did you call `prepare_optimization_config`.\"\n        log_main_process(_logger, logging.WARNING, msg)\n        raise NameError\n    else:\n        if self.optimization_cfg.scheduler.name is None:\n            msg = \"scheduler is None, so no scheduler will be created.\"\n            log_main_process(_logger, logging.WARNING, msg)\n            sched = None\n        else:\n            _c = self.optimization_cfg.scheduler.init_args\n            _temp = OmegaConf.to_container(_c, resolve=True)\n            kwds = {}\n\n            # if a key value is ListConfig then we convert it to simple list\n            for key, value in _temp.items():\n                if isinstance(value, list):\n                    kwds[key] = list(value)\n                else:\n                    kwds[key] = value\n\n            instance = SCHEDULER_REGISTRY.get(self.optimization_cfg.scheduler.name)\n            sch = instance(optimizer=optimizer, **kwds)\n\n            # convert the lr_scheduler to pytorch-lightning LRScheduler dictionary format\n            msg = f\"LRScheduler : {sch.__class__.__name__}.\"\n            log_main_process(_logger, logging.DEBUG, msg)\n            sched = {\n                \"scheduler\": sch,\n                \"interval\": self.optimization_cfg.scheduler.interval,\n                \"monitor\": self.optimization_cfg.scheduler.monitor,\n            }\n            return sched";
                 var nbb_formatted_code = "# export\n@patch\ndef build_lr_scheduler(\n    self: OptimSchedBuilder, optimizer: torch.optim.Optimizer\n) -> Any:\n    \"\"\"\n    Builds a LearningRate scheduler from `OptimizationConfig`. Returns an LRScheduler dict\n    that is required by PyTorch Lightning for LRSchedulers.\n    Note this method must be called after `prepare_optimization_config()`\n    \"\"\"\n    if not isinstance(self.optimization_cfg, DictConfig):\n        msg = \"optimization_cfg not found, did you call `prepare_optimization_config`.\"\n        log_main_process(_logger, logging.WARNING, msg)\n        raise NameError\n    else:\n        if self.optimization_cfg.scheduler.name is None:\n            msg = \"scheduler is None, so no scheduler will be created.\"\n            log_main_process(_logger, logging.WARNING, msg)\n            sched = None\n        else:\n            _c = self.optimization_cfg.scheduler.init_args\n            _temp = OmegaConf.to_container(_c, resolve=True)\n            kwds = {}\n\n            # if a key value is ListConfig then we convert it to simple list\n            for key, value in _temp.items():\n                if isinstance(value, list):\n                    kwds[key] = list(value)\n                else:\n                    kwds[key] = value\n\n            instance = SCHEDULER_REGISTRY.get(self.optimization_cfg.scheduler.name)\n            sch = instance(optimizer=optimizer, **kwds)\n\n            # convert the lr_scheduler to pytorch-lightning LRScheduler dictionary format\n            msg = f\"LRScheduler : {sch.__class__.__name__}.\"\n            log_main_process(_logger, logging.DEBUG, msg)\n            sched = {\n                \"scheduler\": sch,\n                \"interval\": self.optimization_cfg.scheduler.interval,\n                \"monitor\": self.optimization_cfg.scheduler.monitor,\n            }\n            return sched";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -924,7 +996,7 @@ var element = $('#0dafed99-786c-4255-bbd9-e93a17ff9123');
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build_optimizer</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">AdamW</span><span class="p">)</span>
 
-<span class="c1"># for onecycle lrs we need max_lrs</span>
+<span class="c1"># for onecycle lrs; we need max_lrs</span>
 <span class="n">builder</span><span class="o">.</span><span class="n">optimization_cfg</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">init_args</span><span class="o">.</span><span class="n">max_lr</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-03</span><span class="p">]</span>
 <span class="n">scheduler</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build_lr_scheduler</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span>
 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scheduler</span><span class="p">,</span> <span class="n">Dict</span><span class="p">)</span>
@@ -940,76 +1012,18 @@ var element = $('#0dafed99-786c-4255-bbd9-e93a17ff9123');
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-green-fg">[04/26 17:49:46 gale.core.classes]: </span>Built optimizer, AdamW with 1 param group(s).
-<span class="ansi-green-fg">[04/26 17:49:46 gale.core.classes]: </span>LRScheduler : OneCycleLR.
-</pre>
-</div>
-</div>
-
-<div class="output_area">
 
 
 
-
-<div id="152584d7-1335-47e5-aa08-9d3973ef89f9"></div>
+<div id="0a71851e-5fa6-4f6a-ac76-7270cf2d9829"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#152584d7-1335-47e5-aa08-9d3973ef89f9');
+var element = $('#0a71851e-5fa6-4f6a-ac76-7270cf2d9829');
 
             setTimeout(function() {
-                var nbb_cell_id = 23;
-                var nbb_unformatted_code = "params = [torch.nn.Parameter(torch.randn(1, 2))]\noptimizer = builder.build_optimizer(params)\nassert isinstance(optimizer, torch.optim.AdamW)\n\n# for onecycle lrs we need max_lrs\nbuilder.optimization_cfg.scheduler.init_args.max_lr = [1e-03]\nscheduler = builder.build_lr_scheduler(optimizer)\nassert isinstance(scheduler, Dict)\nassert isinstance(scheduler[\"scheduler\"], torch.optim.lr_scheduler.OneCycleLR)";
-                var nbb_formatted_code = "params = [torch.nn.Parameter(torch.randn(1, 2))]\noptimizer = builder.build_optimizer(params)\nassert isinstance(optimizer, torch.optim.AdamW)\n\n# for onecycle lrs we need max_lrs\nbuilder.optimization_cfg.scheduler.init_args.max_lr = [1e-03]\nscheduler = builder.build_lr_scheduler(optimizer)\nassert isinstance(scheduler, Dict)\nassert isinstance(scheduler[\"scheduler\"], torch.optim.lr_scheduler.OneCycleLR)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="GaleTask">GaleTask<a class="anchor-link" href="#GaleTask"> </a></h2>
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="50e93223-84d3-45e2-acc2-143efff3e0d2"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#50e93223-84d3-45e2-acc2-143efff3e0d2');
-
-            setTimeout(function() {
-                var nbb_cell_id = 24;
-                var nbb_unformatted_code = "# export\nclass GaleTask(pl.LightningModule, OptimSchedBuilder, metaclass=ABCMeta):\n    \"\"\"\n    Interface for Pytorch-lightning based Gale modules\n    \"\"\"\n\n    def __init__(\n        self,\n        cfg: DictConfig,\n        trainer: Optional[pl.Trainer] = None,\n        metrics: Union[torchmetrics.Metric, Mapping, Sequence, None] = None,\n    ):\n        \"\"\"\n        Base class from which all PyTorch Lightning Tasks in Gale should inherit.\n\n        Arguments:\n        1. `cfg` `(DictConfig)`:  configuration object. cfg object should be inherited from `BaseGaleConfig`.\n        2. `trainer` `(Optional, pl.Trainer)`: Pytorch Lightning Trainer instance\n        3. `metrics` `(Optional)`: Metrics to compute for training and evaluation.\n        \"\"\"\n        super().__init__()\n        self._cfg = OmegaConf.structured(cfg)\n\n        self.save_hyperparameters(self._cfg)\n        self._train_dl = noop\n        self._validation_dl = noop\n        self._test_dl = noop\n        self._optimizer = noop\n        self._scheduler = noop\n        self._trainer = trainer\n        self.metrics = metrics\n\n    def train_dataloader(self) -> torch.utils.data.DataLoader:\n        \"Returns the Dataloader used for Training\"\n        if self._train_dl is not None and self._train_dl is not noop:\n            return self._train_dl\n\n    def val_dataloader(self) -> Any:\n        \"Returns the List of Dataloaders or Dataloader used for Validation\"\n        if self._validation_dl is not None and self._validation_dl is not noop:\n            return self._validation_dl\n\n    def test_dataloader(self) -> Any:\n        \"Returns the List of Dataloaders or Dataloader used for Testing\"\n        if self._test_dl is not None and self._test_dl is not noop:\n            return self._test_dl\n\n    @abstractmethod\n    def forward(self, x: torch.Tensor):\n        \"\"\"\n        The Forward method for LightningModule, users should modify this method.\n        \"\"\"\n        raise NotImplementedError\n\n    @abstractmethod\n    def setup_training_data(self, train_data_config: Union[DictConfig, Dict]):\n        \"\"\"\n        Setups data loader to be used in training\n\n        Arguments:\n        1. `train_data_config`: training data loader parameters.\n        \"\"\"\n        raise NotImplementedError\n\n    @abstractmethod\n    def setup_validation_data(self, val_data_config: Union[DictConfig, Dict]):\n        \"\"\"\n        Setups data loader to be used in validation\n\n        Arguments:\n        1. `val_data_config`: validation data loader parameters.\n        \"\"\"\n        raise NotImplementedError\n\n    def setup_test_data(\n        self, test_data_config: Optional[Union[DictConfig, Dict]] = None\n    ):\n        \"\"\"\n        (Optionally) Setups data loader to be used in test\n\n        Arguments:\n        1. `test_data_config`: test data loader parameters.\n        \"\"\"\n        raise NotImplementedError\n\n    @property\n    def param_dicts(self) -> Union[Iterator, List[Dict]]:\n        \"\"\"\n        Property that returns the param dicts for optimization.\n        Override for custom training behaviour. Currently returns all the trainable paramters.\n        \"\"\"\n        return L(self).map(trainable_params)";
-                var nbb_formatted_code = "# export\nclass GaleTask(pl.LightningModule, OptimSchedBuilder, metaclass=ABCMeta):\n    \"\"\"\n    Interface for Pytorch-lightning based Gale modules\n    \"\"\"\n\n    def __init__(\n        self,\n        cfg: DictConfig,\n        trainer: Optional[pl.Trainer] = None,\n        metrics: Union[torchmetrics.Metric, Mapping, Sequence, None] = None,\n    ):\n        \"\"\"\n        Base class from which all PyTorch Lightning Tasks in Gale should inherit.\n\n        Arguments:\n        1. `cfg` `(DictConfig)`:  configuration object. cfg object should be inherited from `BaseGaleConfig`.\n        2. `trainer` `(Optional, pl.Trainer)`: Pytorch Lightning Trainer instance\n        3. `metrics` `(Optional)`: Metrics to compute for training and evaluation.\n        \"\"\"\n        super().__init__()\n        self._cfg = OmegaConf.structured(cfg)\n\n        self.save_hyperparameters(self._cfg)\n        self._train_dl = noop\n        self._validation_dl = noop\n        self._test_dl = noop\n        self._optimizer = noop\n        self._scheduler = noop\n        self._trainer = trainer\n        self.metrics = metrics\n\n    def train_dataloader(self) -> torch.utils.data.DataLoader:\n        \"Returns the Dataloader used for Training\"\n        if self._train_dl is not None and self._train_dl is not noop:\n            return self._train_dl\n\n    def val_dataloader(self) -> Any:\n        \"Returns the List of Dataloaders or Dataloader used for Validation\"\n        if self._validation_dl is not None and self._validation_dl is not noop:\n            return self._validation_dl\n\n    def test_dataloader(self) -> Any:\n        \"Returns the List of Dataloaders or Dataloader used for Testing\"\n        if self._test_dl is not None and self._test_dl is not noop:\n            return self._test_dl\n\n    @abstractmethod\n    def forward(self, x: torch.Tensor):\n        \"\"\"\n        The Forward method for LightningModule, users should modify this method.\n        \"\"\"\n        raise NotImplementedError\n\n    @abstractmethod\n    def setup_training_data(self, train_data_config: Union[DictConfig, Dict]):\n        \"\"\"\n        Setups data loader to be used in training\n\n        Arguments:\n        1. `train_data_config`: training data loader parameters.\n        \"\"\"\n        raise NotImplementedError\n\n    @abstractmethod\n    def setup_validation_data(self, val_data_config: Union[DictConfig, Dict]):\n        \"\"\"\n        Setups data loader to be used in validation\n\n        Arguments:\n        1. `val_data_config`: validation data loader parameters.\n        \"\"\"\n        raise NotImplementedError\n\n    def setup_test_data(\n        self, test_data_config: Optional[Union[DictConfig, Dict]] = None\n    ):\n        \"\"\"\n        (Optionally) Setups data loader to be used in test\n\n        Arguments:\n        1. `test_data_config`: test data loader parameters.\n        \"\"\"\n        raise NotImplementedError\n\n    @property\n    def param_dicts(self) -> Union[Iterator, List[Dict]]:\n        \"\"\"\n        Property that returns the param dicts for optimization.\n        Override for custom training behaviour. Currently returns all the trainable paramters.\n        \"\"\"\n        return L(self).map(trainable_params)";
+                var nbb_cell_id = 25;
+                var nbb_unformatted_code = "params = [torch.nn.Parameter(torch.randn(1, 2))]\noptimizer = builder.build_optimizer(params)\nassert isinstance(optimizer, torch.optim.AdamW)\n\n# for onecycle lrs; we need max_lrs\nbuilder.optimization_cfg.scheduler.init_args.max_lr = [1e-03]\nscheduler = builder.build_lr_scheduler(optimizer)\nassert isinstance(scheduler, Dict)\nassert isinstance(scheduler[\"scheduler\"], torch.optim.lr_scheduler.OneCycleLR)";
+                var nbb_formatted_code = "params = [torch.nn.Parameter(torch.randn(1, 2))]\noptimizer = builder.build_optimizer(params)\nassert isinstance(optimizer, torch.optim.AdamW)\n\n# for onecycle lrs; we need max_lrs\nbuilder.optimization_cfg.scheduler.init_args.max_lr = [1e-03]\nscheduler = builder.build_lr_scheduler(optimizer)\nassert isinstance(scheduler, Dict)\nassert isinstance(scheduler[\"scheduler\"], torch.optim.lr_scheduler.OneCycleLR)";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -1051,6 +1065,93 @@ var element = $('#50e93223-84d3-45e2-acc2-143efff3e0d2');
 
 </div>
 
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+
+<div id="605e499b-c93f-4591-ba43-62a2479ef495"></div>
+<div class="output_subarea output_javascript ">
+<script type="text/javascript">
+var element = $('#605e499b-c93f-4591-ba43-62a2479ef495');
+
+            setTimeout(function() {
+                var nbb_cell_id = 27;
+                var nbb_unformatted_code = "# export\nclass GaleTask(pl.LightningModule, OptimSchedBuilder, metaclass=ABCMeta):\n    \"\"\"\n    Interface for Pytorch-lightning based Gale modules\n    \"\"\"\n\n    def __init__(\n        self,\n        cfg: DictConfig,\n        trainer: Optional[pl.Trainer] = None,\n        metrics: Union[torchmetrics.Metric, Mapping, Sequence, None] = None,\n    ):\n        \"\"\"\n        Base class from which all PyTorch Lightning Tasks in Gale should inherit.\n\n        Arguments:\n        1. `cfg` `(DictConfig)`:  configuration object. cfg object should be inherited from `BaseGaleConfig`.\n        2. `trainer` `(Optional, pl.Trainer)`: Pytorch Lightning Trainer instance\n        3. `metrics` `(Optional)`: Metrics to compute for training and evaluation.\n        \"\"\"\n        super().__init__()\n        self._cfg = OmegaConf.structured(cfg)\n\n        self.save_hyperparameters(self._cfg)\n        self._train_dl = noop\n        self._validation_dl = noop\n        self._test_dl = noop\n        self._optimizer = noop\n        self._scheduler = noop\n        self._trainer = trainer\n        self.metrics = metrics\n\n    def train_dataloader(self) -> torch.utils.data.DataLoader:\n        \"Returns the Dataloader used for Training\"\n        if self._train_dl is not None and self._train_dl is not noop:\n            return self._train_dl\n\n    def val_dataloader(self) -> Any:\n        \"Returns the List of Dataloaders or Dataloader used for Validation\"\n        if self._validation_dl is not None and self._validation_dl is not noop:\n            return self._validation_dl\n\n    def test_dataloader(self) -> Any:\n        \"Returns the List of Dataloaders or Dataloader used for Testing\"\n        if self._test_dl is not None and self._test_dl is not noop:\n            return self._test_dl\n\n    @abstractmethod\n    def forward(self, x: torch.Tensor):\n        \"\"\"\n        The Forward method for LightningModule, users should modify this method.\n        \"\"\"\n        raise NotImplementedError\n\n    @abstractmethod\n    def setup_training_data(self, train_data_config: Union[DictConfig, Dict]):\n        \"\"\"\n        Setups data loader to be used in training\n\n        Arguments:\n        1. `train_data_config`: training data loader parameters.\n        \"\"\"\n        raise NotImplementedError\n\n    @abstractmethod\n    def setup_validation_data(self, val_data_config: Union[DictConfig, Dict]):\n        \"\"\"\n        Setups data loader to be used in validation\n\n        Arguments:\n        1. `val_data_config`: validation data loader parameters.\n        \"\"\"\n        raise NotImplementedError\n\n    def setup_test_data(\n        self, test_data_config: Optional[Union[DictConfig, Dict]] = None\n    ):\n        \"\"\"\n        (Optionally) Setups data loader to be used in test\n\n        Arguments:\n        1. `test_data_config`: test data loader parameters.\n        \"\"\"\n        raise NotImplementedError\n\n    @property\n    def param_dicts(self) -> Union[Iterator, List[Dict]]:\n        \"\"\"\n        Property that returns the param dicts for optimization.\n        Override for custom training behaviour. Currently returns all the trainable paramters.\n        \"\"\"\n        return L(self).map(trainable_params)\n\n    def shared_step(self, batch: Any, batch_idx: int, stage: str) -> Any:\n        \"\"\"\n        The common training/validation/test step. Override for custom behavior. This step\n        is shared between training/validation/test step. For training/validation/test steps\n        `stage` is train/val/test respectively. You training logic should go here avoid directly overriding\n        training/validation/test step methods.\n        \"\"\"\n        raise NotImplementedError\n\n    def training_step(self, batch: Any, batch_idx: int) -> Any:\n        \"\"\"\n        The training step of the LightningModule. For common use cases you need\n        not need to override this method. See `GaleTask.shared_step()`\n        \"\"\"\n        return self.shared_step(batch, batch_idx, stage=\"train\")\n\n    def validation_step(self, batch: Any, batch_idx: int) -> None:\n        \"\"\"\n        The validation step of the LightningModule. For common use cases you need\n        not need to override this method. See `GaleTask.shared_step()`\n        \"\"\"\n        return self.shared_step(batch, batch_idx, stage=\"val\")\n\n    def test_step(self, batch: Any, batch_idx: int) -> None:\n        \"\"\"\n        The test step of the LightningModule. For common use cases you need\n        not need to override this method. See `GaleTask.shared_step()`\n        \"\"\"\n        return self.shared_step(batch, batch_idx, stage=\"test\")\n\n    def setup_optimization(self, optim_config: DictConfig = None):\n        \"\"\"\n        Prepares an optimizer from a string name and its optional config parameters.\n\n        Args:\n        1. `optim_config`: A `dictionary`/`DictConfig` or instance of `OptimizationConfig`.\n        \"\"\"\n        # If config was not explicitly passed to us\n        if optim_config is None:\n            # See if internal config has `optim` namespace\n            if self._cfg is not None and hasattr(self._cfg, \"optimization\"):\n                optim_config = self._cfg.optimization\n\n        # If config is still None, or internal config has no Optim, return without instantiation\n        if optim_config is None:\n            msg = \"No optimizer config provided, therefore no optimizer was created\"\n            log_main_process(_logger, logging.WARNING, msg)\n            return\n\n        else:\n            # Preserve the configuration\n            if not isinstance(optim_config, DictConfig):\n                optim_config = OmegaConf.create(optim_config)\n\n            # prepare the optimization config\n            self.prepare_optimization_config(optim_config)\n\n            # Setup optimizer and scheduler\n            self._optimizer = self.build_optimizer(self.param_dicts)\n            self._scheduler = self.build_lr_scheduler(self._optimizer)\n\n    def configure_optimizers(self):\n        \"\"\"\n        Choose what optimizers and learning-rate schedulers to use in your optimization.\n        See https://pytorch-lightning.readthedocs.io/en/latest/common/optimizers.html\n        \"\"\"\n        # if self.setup_optimization() has been called manually no\n        # need to call again\n        if self._optimizer is noop and self._scheduler is noop:\n            self.setup_optimization()\n\n        if self._scheduler is None:\n            return self._optimizer\n        else:\n            return [self._optimizer], [self._scheduler]";
+                var nbb_formatted_code = "# export\nclass GaleTask(pl.LightningModule, OptimSchedBuilder, metaclass=ABCMeta):\n    \"\"\"\n    Interface for Pytorch-lightning based Gale modules\n    \"\"\"\n\n    def __init__(\n        self,\n        cfg: DictConfig,\n        trainer: Optional[pl.Trainer] = None,\n        metrics: Union[torchmetrics.Metric, Mapping, Sequence, None] = None,\n    ):\n        \"\"\"\n        Base class from which all PyTorch Lightning Tasks in Gale should inherit.\n\n        Arguments:\n        1. `cfg` `(DictConfig)`:  configuration object. cfg object should be inherited from `BaseGaleConfig`.\n        2. `trainer` `(Optional, pl.Trainer)`: Pytorch Lightning Trainer instance\n        3. `metrics` `(Optional)`: Metrics to compute for training and evaluation.\n        \"\"\"\n        super().__init__()\n        self._cfg = OmegaConf.structured(cfg)\n\n        self.save_hyperparameters(self._cfg)\n        self._train_dl = noop\n        self._validation_dl = noop\n        self._test_dl = noop\n        self._optimizer = noop\n        self._scheduler = noop\n        self._trainer = trainer\n        self.metrics = metrics\n\n    def train_dataloader(self) -> torch.utils.data.DataLoader:\n        \"Returns the Dataloader used for Training\"\n        if self._train_dl is not None and self._train_dl is not noop:\n            return self._train_dl\n\n    def val_dataloader(self) -> Any:\n        \"Returns the List of Dataloaders or Dataloader used for Validation\"\n        if self._validation_dl is not None and self._validation_dl is not noop:\n            return self._validation_dl\n\n    def test_dataloader(self) -> Any:\n        \"Returns the List of Dataloaders or Dataloader used for Testing\"\n        if self._test_dl is not None and self._test_dl is not noop:\n            return self._test_dl\n\n    @abstractmethod\n    def forward(self, x: torch.Tensor):\n        \"\"\"\n        The Forward method for LightningModule, users should modify this method.\n        \"\"\"\n        raise NotImplementedError\n\n    @abstractmethod\n    def setup_training_data(self, train_data_config: Union[DictConfig, Dict]):\n        \"\"\"\n        Setups data loader to be used in training\n\n        Arguments:\n        1. `train_data_config`: training data loader parameters.\n        \"\"\"\n        raise NotImplementedError\n\n    @abstractmethod\n    def setup_validation_data(self, val_data_config: Union[DictConfig, Dict]):\n        \"\"\"\n        Setups data loader to be used in validation\n\n        Arguments:\n        1. `val_data_config`: validation data loader parameters.\n        \"\"\"\n        raise NotImplementedError\n\n    def setup_test_data(\n        self, test_data_config: Optional[Union[DictConfig, Dict]] = None\n    ):\n        \"\"\"\n        (Optionally) Setups data loader to be used in test\n\n        Arguments:\n        1. `test_data_config`: test data loader parameters.\n        \"\"\"\n        raise NotImplementedError\n\n    @property\n    def param_dicts(self) -> Union[Iterator, List[Dict]]:\n        \"\"\"\n        Property that returns the param dicts for optimization.\n        Override for custom training behaviour. Currently returns all the trainable paramters.\n        \"\"\"\n        return L(self).map(trainable_params)\n\n    def shared_step(self, batch: Any, batch_idx: int, stage: str) -> Any:\n        \"\"\"\n        The common training/validation/test step. Override for custom behavior. This step\n        is shared between training/validation/test step. For training/validation/test steps\n        `stage` is train/val/test respectively. You training logic should go here avoid directly overriding\n        training/validation/test step methods.\n        \"\"\"\n        raise NotImplementedError\n\n    def training_step(self, batch: Any, batch_idx: int) -> Any:\n        \"\"\"\n        The training step of the LightningModule. For common use cases you need\n        not need to override this method. See `GaleTask.shared_step()`\n        \"\"\"\n        return self.shared_step(batch, batch_idx, stage=\"train\")\n\n    def validation_step(self, batch: Any, batch_idx: int) -> None:\n        \"\"\"\n        The validation step of the LightningModule. For common use cases you need\n        not need to override this method. See `GaleTask.shared_step()`\n        \"\"\"\n        return self.shared_step(batch, batch_idx, stage=\"val\")\n\n    def test_step(self, batch: Any, batch_idx: int) -> None:\n        \"\"\"\n        The test step of the LightningModule. For common use cases you need\n        not need to override this method. See `GaleTask.shared_step()`\n        \"\"\"\n        return self.shared_step(batch, batch_idx, stage=\"test\")\n\n    def setup_optimization(self, optim_config: DictConfig = None):\n        \"\"\"\n        Prepares an optimizer from a string name and its optional config parameters.\n\n        Args:\n        1. `optim_config`: A `dictionary`/`DictConfig` or instance of `OptimizationConfig`.\n        \"\"\"\n        # If config was not explicitly passed to us\n        if optim_config is None:\n            # See if internal config has `optim` namespace\n            if self._cfg is not None and hasattr(self._cfg, \"optimization\"):\n                optim_config = self._cfg.optimization\n\n        # If config is still None, or internal config has no Optim, return without instantiation\n        if optim_config is None:\n            msg = \"No optimizer config provided, therefore no optimizer was created\"\n            log_main_process(_logger, logging.WARNING, msg)\n            return\n\n        else:\n            # Preserve the configuration\n            if not isinstance(optim_config, DictConfig):\n                optim_config = OmegaConf.create(optim_config)\n\n            # prepare the optimization config\n            self.prepare_optimization_config(optim_config)\n\n            # Setup optimizer and scheduler\n            self._optimizer = self.build_optimizer(self.param_dicts)\n            self._scheduler = self.build_lr_scheduler(self._optimizer)\n\n    def configure_optimizers(self):\n        \"\"\"\n        Choose what optimizers and learning-rate schedulers to use in your optimization.\n        See https://pytorch-lightning.readthedocs.io/en/latest/common/optimizers.html\n        \"\"\"\n        # if self.setup_optimization() has been called manually no\n        # need to call again\n        if self._optimizer is noop and self._scheduler is noop:\n            self.setup_optimization()\n\n        if self._scheduler is None:\n            return self._optimizer\n        else:\n            return [self._optimizer], [self._scheduler]";
+                var nbb_cells = Jupyter.notebook.get_cells();
+                for (var i = 0; i < nbb_cells.length; ++i) {
+                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
+                             nbb_cells[i].set_text(nbb_formatted_code);
+                        }
+                        break;
+                    }
+                }
+            }, 500);
+            
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Methods-and-Properties">Methods and Properties<a class="anchor-link" href="#Methods-and-Properties"> </a></h2>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="GaleTask.forward" class="doc_header"><code>GaleTask.forward</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L361" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.forward</code>(<strong><code>x</code></strong>:<code>Tensor</code>)</p>
+</blockquote>
+<p>The Forward method for LightningModule, users should modify this method.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
 <div class="output_area">
 
 
@@ -1062,6 +1163,69 @@ var element = $('#50e93223-84d3-45e2-acc2-143efff3e0d2');
 </div>
 
 </div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="GaleTask.val_dataloader" class="doc_header"><code>GaleTask.val_dataloader</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L351" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.val_dataloader</code>()</p>
+</blockquote>
+<p>Returns the List of Dataloaders or Dataloader used for Validation</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="GaleTask.test_dataloader" class="doc_header"><code>GaleTask.test_dataloader</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L356" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.test_dataloader</code>()</p>
+</blockquote>
+<p>Returns the List of Dataloaders or Dataloader used for Testing</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
 
 <div class="output_area">
 
@@ -1079,17 +1243,18 @@ var element = $('#50e93223-84d3-45e2-acc2-143efff3e0d2');
 
 </div>
 
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="GaleTask.val_dataloader" class="doc_header"><code>GaleTask.val_dataloader</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L351" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.val_dataloader</code>()</p>
-</blockquote>
-<p>Returns the List of Dataloaders or Dataloader used for Validation</p>
-
+</div>
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
 
 <div class="output_area">
 
@@ -1107,17 +1272,18 @@ var element = $('#50e93223-84d3-45e2-acc2-143efff3e0d2');
 
 </div>
 
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="GaleTask.test_dataloader" class="doc_header"><code>GaleTask.test_dataloader</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L356" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.test_dataloader</code>()</p>
-</blockquote>
-<p>Returns the List of Dataloaders or Dataloader used for Testing</p>
-
+</div>
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
 
 <div class="output_area">
 
@@ -1152,13 +1318,107 @@ var element = $('#50e93223-84d3-45e2-acc2-143efff3e0d2');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="GaleTask.forward" class="doc_header"><code>GaleTask.forward</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L361" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.forward</code>(<strong><code>x</code></strong>:<code>Tensor</code>)</p>
+<h4 id="GaleTask.shared_step" class="doc_header"><code>GaleTask.shared_step</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L407" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.shared_step</code>(<strong><code>batch</code></strong>:<code>Any</code>, <strong><code>batch_idx</code></strong>:<code>int</code>, <strong><code>stage</code></strong>:<code>str</code>)</p>
 </blockquote>
-<p>The Forward method for LightningModule, users should modify this method.</p>
+<p>The common training/validation/test step. Override for custom behavior. This step
+is shared between training/validation/test step. For training/validation/test steps
+<code>stage</code> is train/val/test respectively. You training logic should go here avoid directly overriding
+training/validation/test step methods.</p>
 
 </div>
 
 </div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="GaleTask.training_step" class="doc_header"><code>GaleTask.training_step</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L416" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.training_step</code>(<strong><code>batch</code></strong>:<code>Any</code>, <strong><code>batch_idx</code></strong>:<code>int</code>)</p>
+</blockquote>
+<p>The training step of the LightningModule. For common use cases you need
+not need to override this method. See <a href="/gale/core.classes.html#GaleTask.shared_step("><code>GaleTask.shared_step()</code></a>)</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="GaleTask.validation_step" class="doc_header"><code>GaleTask.validation_step</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L423" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.validation_step</code>(<strong><code>batch</code></strong>:<code>Any</code>, <strong><code>batch_idx</code></strong>:<code>int</code>)</p>
+</blockquote>
+<p>The validation step of the LightningModule. For common use cases you need
+not need to override this method. See <a href="/gale/core.classes.html#GaleTask.shared_step("><code>GaleTask.shared_step()</code></a>)</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="GaleTask.test_step" class="doc_header"><code>GaleTask.test_step</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L430" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.test_step</code>(<strong><code>batch</code></strong>:<code>Any</code>, <strong><code>batch_idx</code></strong>:<code>int</code>)</p>
+</blockquote>
+<p>The test step of the LightningModule. For common use cases you need
+not need to override this method. See <a href="/gale/core.classes.html#GaleTask.shared_step("><code>GaleTask.shared_step()</code></a>)</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
 
 <div class="output_area">
 
@@ -1188,357 +1448,7 @@ Override for custom training behaviour. Currently returns all the trainable para
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="GaleTask.shared_step" class="doc_header"><code>GaleTask.shared_step</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L408" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.shared_step</code>(<strong><code>batch</code></strong>:<code>Any</code>, <strong><code>batch_idx</code></strong>:<code>int</code>, <strong><code>stage</code></strong>:<code>str</code>)</p>
-</blockquote>
-<p>The common training/validation/test step. Override for custom behavior. This step
-is shared between training/validation/test step. For training/validation/test steps
-<code>stage</code> is train/val/test respectively. You training logic should go here avoid directly overriding
-training/validation/test step methods.</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="355874e5-6faa-46a1-957b-42c64269fc01"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#355874e5-6faa-46a1-957b-42c64269fc01');
-
-            setTimeout(function() {
-                var nbb_cell_id = 27;
-                var nbb_unformatted_code = "# export\n@patch\ndef shared_step(self: GaleTask, batch: Any, batch_idx: int, stage: str) -> Any:\n    \"\"\"\n    The common training/validation/test step. Override for custom behavior. This step\n    is shared between training/validation/test step. For training/validation/test steps\n    `stage` is train/val/test respectively. You training logic should go here avoid directly overriding\n    training/validation/test step methods.\n    \"\"\"\n    raise NotImplementedError";
-                var nbb_formatted_code = "# export\n@patch\ndef shared_step(self: GaleTask, batch: Any, batch_idx: int, stage: str) -> Any:\n    \"\"\"\n    The common training/validation/test step. Override for custom behavior. This step\n    is shared between training/validation/test step. For training/validation/test steps\n    `stage` is train/val/test respectively. You training logic should go here avoid directly overriding\n    training/validation/test step methods.\n    \"\"\"\n    raise NotImplementedError";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="GaleTask.training_step" class="doc_header"><code>GaleTask.training_step</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L419" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.training_step</code>(<strong><code>batch</code></strong>:<code>Any</code>, <strong><code>batch_idx</code></strong>:<code>int</code>)</p>
-</blockquote>
-<p>The training step of the LightningModule. For common use cases you need
-not need to override this method. See <a href="/gale/core.classes.html#GaleTask.shared_step("><code>GaleTask.shared_step()</code></a>)</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="4de56367-37fd-4ae8-9299-1ec9741a57e5"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#4de56367-37fd-4ae8-9299-1ec9741a57e5');
-
-            setTimeout(function() {
-                var nbb_cell_id = 28;
-                var nbb_unformatted_code = "# export\n@patch\ndef training_step(self: GaleTask, batch: Any, batch_idx: int) -> Any:\n    \"\"\"\n    The training step of the LightningModule. For common use cases you need\n    not need to override this method. See `GaleTask.shared_step()`\n    \"\"\"\n    return self.shared_step(batch, batch_idx, stage=\"train\")";
-                var nbb_formatted_code = "# export\n@patch\ndef training_step(self: GaleTask, batch: Any, batch_idx: int) -> Any:\n    \"\"\"\n    The training step of the LightningModule. For common use cases you need\n    not need to override this method. See `GaleTask.shared_step()`\n    \"\"\"\n    return self.shared_step(batch, batch_idx, stage=\"train\")";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="GaleTask.validation_step" class="doc_header"><code>GaleTask.validation_step</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L428" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.validation_step</code>(<strong><code>batch</code></strong>:<code>Any</code>, <strong><code>batch_idx</code></strong>:<code>int</code>)</p>
-</blockquote>
-<p>The validation step of the LightningModule. For common use cases you need
-not need to override this method. See <a href="/gale/core.classes.html#GaleTask.shared_step("><code>GaleTask.shared_step()</code></a>)</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="50f38fb6-b876-41a5-bae5-6990fc8b71bd"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#50f38fb6-b876-41a5-bae5-6990fc8b71bd');
-
-            setTimeout(function() {
-                var nbb_cell_id = 29;
-                var nbb_unformatted_code = "# export\n@patch\ndef validation_step(self: GaleTask, batch: Any, batch_idx: int) -> None:\n    \"\"\"\n    The validation step of the LightningModule. For common use cases you need\n    not need to override this method. See `GaleTask.shared_step()`\n    \"\"\"\n    return self.shared_step(batch, batch_idx, stage=\"val\")";
-                var nbb_formatted_code = "# export\n@patch\ndef validation_step(self: GaleTask, batch: Any, batch_idx: int) -> None:\n    \"\"\"\n    The validation step of the LightningModule. For common use cases you need\n    not need to override this method. See `GaleTask.shared_step()`\n    \"\"\"\n    return self.shared_step(batch, batch_idx, stage=\"val\")";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="GaleTask.test_step" class="doc_header"><code>GaleTask.test_step</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L437" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.test_step</code>(<strong><code>batch</code></strong>:<code>Any</code>, <strong><code>batch_idx</code></strong>:<code>int</code>)</p>
-</blockquote>
-<p>The test step of the LightningModule. For common use cases you need
-not need to override this method. See <a href="/gale/core.classes.html#GaleTask.shared_step("><code>GaleTask.shared_step()</code></a>)</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="d4f41e4c-da62-42b0-8c27-16815c0219f1"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#d4f41e4c-da62-42b0-8c27-16815c0219f1');
-
-            setTimeout(function() {
-                var nbb_cell_id = 30;
-                var nbb_unformatted_code = "# export\n@patch\ndef test_step(self: GaleTask, batch: Any, batch_idx: int) -> None:\n    \"\"\"\n    The test step of the LightningModule. For common use cases you need\n    not need to override this method. See `GaleTask.shared_step()`\n    \"\"\"\n    return self.shared_step(batch, batch_idx, stage=\"test\")";
-                var nbb_formatted_code = "# export\n@patch\ndef test_step(self: GaleTask, batch: Any, batch_idx: int) -> None:\n    \"\"\"\n    The test step of the LightningModule. For common use cases you need\n    not need to override this method. See `GaleTask.shared_step()`\n    \"\"\"\n    return self.shared_step(batch, batch_idx, stage=\"test\")";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="GaleTask.setup_optimization" class="doc_header"><code>GaleTask.setup_optimization</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L446" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.setup_optimization</code>(<strong><code>optim_config</code></strong>:<code>DictConfig</code>=<em><code>None</code></em>)</p>
-</blockquote>
-<p>Prepares an optimizer from a string name and its optional config parameters.</p>
-<p>Args:</p>
-<ol>
-<li><code>optim_config</code>: A <code>dictionary</code>/<code>DictConfig</code> or instance of <code>OptimizationConfig</code>.</li>
-</ol>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="0e058b8c-3df4-4793-826b-e69bc6fed867"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#0e058b8c-3df4-4793-826b-e69bc6fed867');
-
-            setTimeout(function() {
-                var nbb_cell_id = 31;
-                var nbb_unformatted_code = "# export\n@patch\ndef setup_optimization(self: GaleTask, optim_config: DictConfig = None):\n    \"\"\"\n    Prepares an optimizer from a string name and its optional config parameters.\n\n    Args:\n    1. `optim_config`: A `dictionary`/`DictConfig` or instance of `OptimizationConfig`.\n    \"\"\"\n    # If config was not explicitly passed to us\n    if optim_config is None:\n        # See if internal config has `optim` namespace\n        if self._cfg is not None and hasattr(self._cfg, \"optimization\"):\n            optim_config = self._cfg.optimization\n\n    # If config is still None, or internal config has no Optim, return without instantiation\n    if optim_config is None:\n        msg = \"No optimizer config provided, therefore no optimizer was created\"\n        log_main_process(_logger, logging.WARNING, msg)\n        return\n\n    else:\n        # Preserve the configuration\n        if not isinstance(optim_config, DictConfig):\n            optim_config = OmegaConf.create(optim_config)\n\n        # prepare the optimization config\n        self.prepare_optimization_config(optim_config)\n\n        # Setup optimizer and scheduler\n        self._optimizer = self.build_optimizer(self.param_dicts)\n        self._scheduler = self.build_lr_scheduler(self._optimizer)";
-                var nbb_formatted_code = "# export\n@patch\ndef setup_optimization(self: GaleTask, optim_config: DictConfig = None):\n    \"\"\"\n    Prepares an optimizer from a string name and its optional config parameters.\n\n    Args:\n    1. `optim_config`: A `dictionary`/`DictConfig` or instance of `OptimizationConfig`.\n    \"\"\"\n    # If config was not explicitly passed to us\n    if optim_config is None:\n        # See if internal config has `optim` namespace\n        if self._cfg is not None and hasattr(self._cfg, \"optimization\"):\n            optim_config = self._cfg.optimization\n\n    # If config is still None, or internal config has no Optim, return without instantiation\n    if optim_config is None:\n        msg = \"No optimizer config provided, therefore no optimizer was created\"\n        log_main_process(_logger, logging.WARNING, msg)\n        return\n\n    else:\n        # Preserve the configuration\n        if not isinstance(optim_config, DictConfig):\n            optim_config = OmegaConf.create(optim_config)\n\n        # prepare the optimization config\n        self.prepare_optimization_config(optim_config)\n\n        # Setup optimizer and scheduler\n        self._optimizer = self.build_optimizer(self.param_dicts)\n        self._scheduler = self.build_lr_scheduler(self._optimizer)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="GaleTask.configure_optimizers" class="doc_header"><code>GaleTask.configure_optimizers</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L479" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.configure_optimizers</code>()</p>
+<h4 id="GaleTask.configure_optimizers" class="doc_header"><code>GaleTask.configure_optimizers</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L468" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.configure_optimizers</code>()</p>
 </blockquote>
 <p>Choose what optimizers and learning-rate schedulers to use in your optimization.
 See <a href="https://pytorch-lightning.readthedocs.io/en/latest/common/optimizers.html">https://pytorch-lightning.readthedocs.io/en/latest/common/optimizers.html</a></p>
@@ -1563,29 +1473,15 @@ See <a href="https://pytorch-lightning.readthedocs.io/en/latest/common/optimizer
 <div class="output_area">
 
 
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="GaleTask.setup_optimization" class="doc_header"><code>GaleTask.setup_optimization</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/classes.py#L437" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GaleTask.setup_optimization</code>(<strong><code>optim_config</code></strong>:<code>DictConfig</code>=<em><code>None</code></em>)</p>
+</blockquote>
+<p>Prepares an optimizer from a string name and its optional config parameters.</p>
+<p>Args:</p>
+<ol>
+<li><code>optim_config</code>: A <code>dictionary</code>/<code>DictConfig</code> or instance of <code>OptimizationConfig</code>.</li>
+</ol>
 
-
-<div id="219b05ec-1e01-47ca-bc51-ed146198fba7"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#219b05ec-1e01-47ca-bc51-ed146198fba7');
-
-            setTimeout(function() {
-                var nbb_cell_id = 32;
-                var nbb_unformatted_code = "# export\n@patch\ndef configure_optimizers(self: GaleTask):\n    \"\"\"\n    Choose what optimizers and learning-rate schedulers to use in your optimization.\n    See https://pytorch-lightning.readthedocs.io/en/latest/common/optimizers.html\n    \"\"\"\n    # if self.setup_optimization() has been called manually no\n    # need to call again\n    if self._optimizer is noop and self._scheduler is noop:\n        self.setup_optimization()\n\n    if self._scheduler is None:\n        return self._optimizer\n    else:\n        return [self._optimizer], [self._scheduler]";
-                var nbb_formatted_code = "# export\n@patch\ndef configure_optimizers(self: GaleTask):\n    \"\"\"\n    Choose what optimizers and learning-rate schedulers to use in your optimization.\n    See https://pytorch-lightning.readthedocs.io/en/latest/common/optimizers.html\n    \"\"\"\n    # if self.setup_optimization() has been called manually no\n    # need to call again\n    if self._optimizer is noop and self._scheduler is noop:\n        self.setup_optimization()\n\n    if self._scheduler is None:\n        return self._optimizer\n    else:\n        return [self._optimizer], [self._scheduler]";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
 </div>
 
 </div>

@@ -156,7 +156,7 @@ class GaleModule(Module, Configurable, metaclass=ABCMeta):
 # Cell
 class OptimSchedBuilder:
     """
-    Interface that constructs an Optimizer and Scheduler for `GaleTask` from config.
+    Interface that constructs an Optimizer and Scheduler a from config.
     """
 
     _train_dl: Callable
@@ -404,90 +404,78 @@ class GaleTask(pl.LightningModule, OptimSchedBuilder, metaclass=ABCMeta):
         """
         return L(self).map(trainable_params)
 
-# Cell
-@patch
-def shared_step(self: GaleTask, batch: Any, batch_idx: int, stage: str) -> Any:
-    """
-    The common training/validation/test step. Override for custom behavior. This step
-    is shared between training/validation/test step. For training/validation/test steps
-    `stage` is train/val/test respectively. You training logic should go here avoid directly overriding
-    training/validation/test step methods.
-    """
-    raise NotImplementedError
+    def shared_step(self, batch: Any, batch_idx: int, stage: str) -> Any:
+        """
+        The common training/validation/test step. Override for custom behavior. This step
+        is shared between training/validation/test step. For training/validation/test steps
+        `stage` is train/val/test respectively. You training logic should go here avoid directly overriding
+        training/validation/test step methods.
+        """
+        raise NotImplementedError
 
-# Cell
-@patch
-def training_step(self: GaleTask, batch: Any, batch_idx: int) -> Any:
-    """
-    The training step of the LightningModule. For common use cases you need
-    not need to override this method. See `GaleTask.shared_step()`
-    """
-    return self.shared_step(batch, batch_idx, stage="train")
+    def training_step(self, batch: Any, batch_idx: int) -> Any:
+        """
+        The training step of the LightningModule. For common use cases you need
+        not need to override this method. See `GaleTask.shared_step()`
+        """
+        return self.shared_step(batch, batch_idx, stage="train")
 
-# Cell
-@patch
-def validation_step(self: GaleTask, batch: Any, batch_idx: int) -> None:
-    """
-    The validation step of the LightningModule. For common use cases you need
-    not need to override this method. See `GaleTask.shared_step()`
-    """
-    return self.shared_step(batch, batch_idx, stage="val")
+    def validation_step(self, batch: Any, batch_idx: int) -> None:
+        """
+        The validation step of the LightningModule. For common use cases you need
+        not need to override this method. See `GaleTask.shared_step()`
+        """
+        return self.shared_step(batch, batch_idx, stage="val")
 
-# Cell
-@patch
-def test_step(self: GaleTask, batch: Any, batch_idx: int) -> None:
-    """
-    The test step of the LightningModule. For common use cases you need
-    not need to override this method. See `GaleTask.shared_step()`
-    """
-    return self.shared_step(batch, batch_idx, stage="test")
+    def test_step(self, batch: Any, batch_idx: int) -> None:
+        """
+        The test step of the LightningModule. For common use cases you need
+        not need to override this method. See `GaleTask.shared_step()`
+        """
+        return self.shared_step(batch, batch_idx, stage="test")
 
-# Cell
-@patch
-def setup_optimization(self: GaleTask, optim_config: DictConfig = None):
-    """
-    Prepares an optimizer from a string name and its optional config parameters.
+    def setup_optimization(self, optim_config: DictConfig = None):
+        """
+        Prepares an optimizer from a string name and its optional config parameters.
 
-    Args:
-    1. `optim_config`: A `dictionary`/`DictConfig` or instance of `OptimizationConfig`.
-    """
-    # If config was not explicitly passed to us
-    if optim_config is None:
-        # See if internal config has `optim` namespace
-        if self._cfg is not None and hasattr(self._cfg, "optimization"):
-            optim_config = self._cfg.optimization
+        Args:
+        1. `optim_config`: A `dictionary`/`DictConfig` or instance of `OptimizationConfig`.
+        """
+        # If config was not explicitly passed to us
+        if optim_config is None:
+            # See if internal config has `optim` namespace
+            if self._cfg is not None and hasattr(self._cfg, "optimization"):
+                optim_config = self._cfg.optimization
 
-    # If config is still None, or internal config has no Optim, return without instantiation
-    if optim_config is None:
-        msg = "No optimizer config provided, therefore no optimizer was created"
-        log_main_process(_logger, logging.WARNING, msg)
-        return
+        # If config is still None, or internal config has no Optim, return without instantiation
+        if optim_config is None:
+            msg = "No optimizer config provided, therefore no optimizer was created"
+            log_main_process(_logger, logging.WARNING, msg)
+            return
 
-    else:
-        # Preserve the configuration
-        if not isinstance(optim_config, DictConfig):
-            optim_config = OmegaConf.create(optim_config)
+        else:
+            # Preserve the configuration
+            if not isinstance(optim_config, DictConfig):
+                optim_config = OmegaConf.create(optim_config)
 
-        # prepare the optimization config
-        self.prepare_optimization_config(optim_config)
+            # prepare the optimization config
+            self.prepare_optimization_config(optim_config)
 
-        # Setup optimizer and scheduler
-        self._optimizer = self.build_optimizer(self.param_dicts)
-        self._scheduler = self.build_lr_scheduler(self._optimizer)
+            # Setup optimizer and scheduler
+            self._optimizer = self.build_optimizer(self.param_dicts)
+            self._scheduler = self.build_lr_scheduler(self._optimizer)
 
-# Cell
-@patch
-def configure_optimizers(self: GaleTask):
-    """
-    Choose what optimizers and learning-rate schedulers to use in your optimization.
-    See https://pytorch-lightning.readthedocs.io/en/latest/common/optimizers.html
-    """
-    # if self.setup_optimization() has been called manually no
-    # need to call again
-    if self._optimizer is noop and self._scheduler is noop:
-        self.setup_optimization()
+    def configure_optimizers(self):
+        """
+        Choose what optimizers and learning-rate schedulers to use in your optimization.
+        See https://pytorch-lightning.readthedocs.io/en/latest/common/optimizers.html
+        """
+        # if self.setup_optimization() has been called manually no
+        # need to call again
+        if self._optimizer is noop and self._scheduler is noop:
+            self.setup_optimization()
 
-    if self._scheduler is None:
-        return self._optimizer
-    else:
-        return [self._optimizer], [self._scheduler]
+        if self._scheduler is None:
+            return self._optimizer
+        else:
+            return [self._optimizer], [self._scheduler]

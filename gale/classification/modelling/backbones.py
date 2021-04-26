@@ -143,12 +143,16 @@ class TimmBackboneBase(ImageClassificationBackbone):
         if act is not None:
             act = ACTIVATION_REGISTRY.get(act)
 
-        # fmt: off
-        model = create_model(model_name, act_layer=act, global_pool="", num_classes=0,
-                             in_chans=input_shape.channels, **kwargs)
-        # fmt: on
+        model = create_model(
+            model_name,
+            act_layer=act,
+            global_pool="",
+            num_classes=0,
+            in_chans=input_shape.channels,
+            **kwargs,
+        )
 
-        # save some of the input information from timm models
+        # save some of information from timm models
         self.num_features = model.num_features
         self.timm_model_cfg = model.default_cfg
         self.model = prepare_backbone(model)
@@ -168,9 +172,12 @@ class TimmBackboneBase(ImageClassificationBackbone):
         if self.filter_wd:
             ps = filter_weight_decay(self.model, lr=self.lr, weight_decay=self.wd)
         else:
-            # fmt: off
-            ps = [{"params": trainable_params(self.model),"lr": self.lr,"weight_decay": self.wd}]
-            # fmt: on
+            ps = {
+                "params": trainable_params(self.model),
+                "lr": self.lr,
+                "weight_decay": self.wd,
+            }
+            ps = [ps]
         return ps
 
     def output_shape(self) -> ShapeSpec:

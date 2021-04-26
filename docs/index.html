@@ -34,7 +34,7 @@ nb_path: "nbs/index.ipynb"
 <p><img src="https://github.com/benihime91/gale/workflows/CI/badge.svg" alt="CI">
 <img src="https://img.shields.io/website?down_message=down&amp;label=docs&amp;up_color=green&amp;up_message=passing&amp;url=https%3A%2F%2Fbenihime91.github.io%2Fgale%2F" alt="Docs">
 <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a></p>
-<p><strong>Flexible interface for solving computer vision tasks leveraging <a href="https://github.com/PyTorchLightning/pytorch-lightning">Pytorch Lightning</a>, <a href="https://github.com/rwightman/pytorch-image-models">PyTorch Image Models</a> , and <a href="https://github.com/facebookresearch/hydra">Hydra</a>.</strong></p>
+<p><strong>⚡️Flexible interface for solving computer vision tasks leveraging <a href="https://github.com/PyTorchLightning/pytorch-lightning">Pytorch Lightning</a>, <a href="https://github.com/rwightman/pytorch-image-models">PyTorch Image Models</a> , and <a href="https://github.com/facebookresearch/hydra">Hydra</a>. ⚡️</strong></p>
 <hr>
 
 </div>
@@ -56,8 +56,6 @@ nb_path: "nbs/index.ipynb"
 <li><p>Linux or macOS with Python ≥ 3.6</p>
 </li>
 <li><p>PyTorch ≥ 1.7.0 and <a href="https://github.com/pytorch/vision/">torchvision</a> that matches the PyTorch installation. Install them together at <a href="https://pytorch.org/">pytorch.org</a> to make sure of this.</p>
-</li>
-<li><p><a href="https://github.com/rwightman/pytorch-image-models">PyTorch Image Models</a> ≥ 0.4.8. At the current moment <code>PyPI</code> does not have the latest version so you will probablbly need to manually download from github like so by using <code>pip install git+https://github.com/rwightman/pytorch-image-models</code>.</p>
 </li>
 </ol>
 
@@ -85,6 +83,8 @@ pip install -e <span class="s2">&quot;gale[dev]&quot;</span>
 <p>This project was started as a way to collect interesting techniques dotted throughout Kaggle competitions and varous deep learning forums which have been usefull in training accuracte deep learning models for Computer Vision Tasks.</p>
 <p>Currently PyTorch Gale only supports Image Classification. The final goal is to be able to support both Object Detection and Image Segmentation hopefully.</p>
 <p>PyTorch Gale is beta software. The project is under active development and our APIs are subject to change in future releases. The current API of PyTorch Gale is highly inspired from <a href="https://github.com/facebookresearch/detectron2">Detectron 2</a>.</p>
+<p>PyTorch Gale comes with all the goodness that comes in PyTorch Lightning. Using the training script <code>train.py</code> [WIP] you can override any config parameter from command line. The same code can be trained on CPU, GPU even TPUs. Hydra configuration makes it easy to keep track of training hyperparameters enabling you to interate over different parameters without changing the code, just make minor changes to the config. Some examples configs are given in <code>references</code> [WIP].</p>
+<p>PyTorch Gale also comes with a few usefull tricks to streamline you trainings and also has extensive callbacks for PyTorch Lightning.</p>
 
 </div>
 </div>
@@ -98,8 +98,31 @@ pip install -e <span class="s2">&quot;gale[dev]&quot;</span>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Getting-Started-(Documentation)">Getting Started (Documentation)<a class="anchor-link" href="#Getting-Started-(Documentation)"> </a></h2><p>My current documentation for <code>PyTorch</code> Gale covers the basics. It is still getting updated. I plan to add more tutorials and examples in the comming weeks</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Contributions">Contributions<a class="anchor-link" href="#Contributions"> </a></h2><p>Have a question? Found a bug? Missing a specific feature? Ran into a problem? Feel free to file a new issue or PR with respective title and description. If you already found a solution to your problem, don't hesitate to share it. Suggestions for new best practices and tricks are always welcome!</p>
 <p>After you clone this repository, please run <code>nbdev_install_git_hooks</code> in your terminal. This sets up git hooks, which clean up the notebooks to remove the extraneous stuff stored in the notebooks (e.g. which cells you ran) which causes unnecessary merge conflicts.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Quick-recipes-[WIP]">Quick recipes [WIP]<a class="anchor-link" href="#Quick-recipes-[WIP]"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Tests">Tests<a class="anchor-link" href="#Tests"> </a></h2><p>To run the tests in parallel, launch:</p>
+<p><code>nbdev_test_nbs</code></p>
+<p>For all the tests to pass, you'll need to install the <code>gale[dev]</code>.</p>
+<p>Tests are written using <code>nbdev</code>.</p>
 
 </div>
 </div>

@@ -124,5 +124,5 @@ class _DatasetCatalog(UserDict):
 
     __repr__ = __str__
 
-# Cell
+
 DatasetCatalog = _DatasetCatalog()

@@ -48,13 +48,13 @@ nb_path: "nbs/04b_classification.modelling.meta_arch.vit.ipynb"
 
 
 
-<div id="30fa69c0-dcab-45af-b26f-8d4db98c85ca"></div>
+<div id="4fa51928-dedb-479c-ab0c-0d89bd235dd0"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#30fa69c0-dcab-45af-b26f-8d4db98c85ca');
+var element = $('#4fa51928-dedb-479c-ab0c-0d89bd235dd0');
 
             setTimeout(function() {
-                var nbb_cell_id = 13;
+                var nbb_cell_id = 5;
                 var nbb_unformatted_code = "# export\n# @TODO: Add support for Discriminative Lr's\nclass ViT(GaleModule):\n    \"\"\"\n    A interface to create a Vision Transformer from timm. For available model check :\n    https://github.com/rwightman/pytorch-image-models/timm/models/vision_transformer.py\n    \"\"\"\n\n    @use_kwargs_dict(\n        keep=True,\n        num_classes=1000,\n        drop_rate=0.0,\n        attn_drop_rate=0.0,\n        drop_path_rate=0.0,\n    )\n    def __init__(\n        self,\n        model_name: str,\n        input_shape: ShapeSpec,\n        lr: float = 1e-03,\n        wd: float = 1e-05,\n        pretrained: bool = True,\n        freeze_to: Optional[int] = None,\n        finetune: Optional[bool] = None,\n        act: Optional[str] = None,\n        reset_classifier: bool = True,\n        filter_wd: bool = True,\n        **kwargs,\n    ):\n        \"\"\"\n        Arguments:\n        1. `input_shape` (ShapeSpec): input image shape. For ViT `height=width` and check the above link for avilable model shapes.\n        2. `model_name` (str): name of the ViT model, check the above link for avilable models.\n        3. `pretrained` (bool): load weights pretrained on imagenet.\n        4. `act` (str): name of the activation layer. Must be registerd in `ACTIVATION_REGISTRY`\n        5. `num_classes` (int): num output classes.\n        6. `drop_rate` (float): dropout rate.\n        7. `attn_drop_rate` (float): attention dropout rate.\n        8. `drop_path_rate` (float): stochastic depth rate.\n        9. `reset_classifier` (bool): resets the weights of the classifier.\n        10. `freeze_to` (int): Freeze the param meter groups of the model upto n.\n        11. `finetune` (bool): Freeze all the layers and keep only the `classifier` trainable.\n        \"\"\"\n        super(ViT, self).__init__()\n        # create model from timm\n        assert input_shape.height == input_shape.width\n        in_chans = input_shape.channels\n\n        if act is not None:\n            act = ACTIVATION_REGISTRY.get(act)\n        # fmt: off\n        self.model: VisionTransformer = create_model(model_name, pretrained, in_chans=in_chans, act=act, **kwargs)\n        # fmt: on\n        assert isinstance(self.model, VisionTransformer)\n\n        if reset_classifier:\n            num_cls = kwargs.pop(\"num_classes\")\n            self.model.reset_classifier(num_cls)\n\n        if freeze_to is not None:\n            self.freeze_to(freeze_to)\n\n        if finetune:\n            if freeze_to is not None and isinstance(freeze_to, int):\n                msg = \"You have sprecified freeze_to along with finetune\"\n                _logger.warning(msg)\n            _logger.info(\"Freezing all the model parameters except for the classifier\")\n            self.freeze()\n\n            classifier = [\"head\", \"head_dist\"]\n\n            for name, module in self.model.named_children():\n                if name in classifier:\n                    for p in module.parameters():\n                        p.requires_grad_(True)\n\n        store_attr(\"wd, lr, filter_wd\")\n\n    def forward(self, batched_inputs: torch.Tensor) -> torch.Tensor:\n        \"\"\"\n        Runs the batched_inputs through the created model.\n        \"\"\"\n        out = self.model(batched_inputs)\n        return out\n\n    @classmethod\n    def from_config_dict(cls, cfg: DictConfig):\n        \"\"\"\n        Instantiate the Meta Architecture from gale config\n        \"\"\"\n        # fmt: off\n        input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)\n        _logger.debug(f\"Inputs: {input_shape}\")\n        instance = super().from_config_dict(cfg.model.meta_architecture.init_args, input_shape=input_shape)\n        param_count = get_human_readable_count(sum([m.numel() for m in instance.parameters()]))\n        _logger.debug('{} created, param count: {}.'.format(cfg.model.meta_architecture.init_args.model_name, param_count))\n        # fmt: on\n        return instance\n\n    def build_param_dicts(self):\n        \"\"\"\n        Builds up the Paramters dicts for optimization.\n        \"\"\"\n        if self.filter_wd:\n            param_lists = add_weight_decay(\n                self.model,\n                weight_decay=self.wd,\n                skip_list=self.model.no_weight_decay(),\n            )\n            param_lists[0][\"lr\"] = self.lr\n            param_lists[1][\"lr\"] = self.lr\n        else:\n            ps = trainable_params(self.model)\n            param_lists = dict(params=ps, lr=self.lr, wd=self.wd)\n        return param_lists\n\n    def get_lrs(self) -> List:\n        \"\"\"\n        Returns a List containining the Lrs' for\n        each parameter group. This is required to build schedulers\n        like `torch.optim.lr_scheduler.OneCycleScheduler` which needs\n        the max lrs' for all the Param Groups.\n        \"\"\"\n        lrs = []\n\n        for p in self.build_param_dicts():\n            lrs.append(p[\"lr\"])\n        return lrs";
                 var nbb_formatted_code = "# export\n# @TODO: Add support for Discriminative Lr's\nclass ViT(GaleModule):\n    \"\"\"\n    A interface to create a Vision Transformer from timm. For available model check :\n    https://github.com/rwightman/pytorch-image-models/timm/models/vision_transformer.py\n    \"\"\"\n\n    @use_kwargs_dict(\n        keep=True,\n        num_classes=1000,\n        drop_rate=0.0,\n        attn_drop_rate=0.0,\n        drop_path_rate=0.0,\n    )\n    def __init__(\n        self,\n        model_name: str,\n        input_shape: ShapeSpec,\n        lr: float = 1e-03,\n        wd: float = 1e-05,\n        pretrained: bool = True,\n        freeze_to: Optional[int] = None,\n        finetune: Optional[bool] = None,\n        act: Optional[str] = None,\n        reset_classifier: bool = True,\n        filter_wd: bool = True,\n        **kwargs,\n    ):\n        \"\"\"\n        Arguments:\n        1. `input_shape` (ShapeSpec): input image shape. For ViT `height=width` and check the above link for avilable model shapes.\n        2. `model_name` (str): name of the ViT model, check the above link for avilable models.\n        3. `pretrained` (bool): load weights pretrained on imagenet.\n        4. `act` (str): name of the activation layer. Must be registerd in `ACTIVATION_REGISTRY`\n        5. `num_classes` (int): num output classes.\n        6. `drop_rate` (float): dropout rate.\n        7. `attn_drop_rate` (float): attention dropout rate.\n        8. `drop_path_rate` (float): stochastic depth rate.\n        9. `reset_classifier` (bool): resets the weights of the classifier.\n        10. `freeze_to` (int): Freeze the param meter groups of the model upto n.\n        11. `finetune` (bool): Freeze all the layers and keep only the `classifier` trainable.\n        \"\"\"\n        super(ViT, self).__init__()\n        # create model from timm\n        assert input_shape.height == input_shape.width\n        in_chans = input_shape.channels\n\n        if act is not None:\n            act = ACTIVATION_REGISTRY.get(act)\n        # fmt: off\n        self.model: VisionTransformer = create_model(model_name, pretrained, in_chans=in_chans, act=act, **kwargs)\n        # fmt: on\n        assert isinstance(self.model, VisionTransformer)\n\n        if reset_classifier:\n            num_cls = kwargs.pop(\"num_classes\")\n            self.model.reset_classifier(num_cls)\n\n        if freeze_to is not None:\n            self.freeze_to(freeze_to)\n\n        if finetune:\n            if freeze_to is not None and isinstance(freeze_to, int):\n                msg = \"You have sprecified freeze_to along with finetune\"\n                _logger.warning(msg)\n            _logger.info(\"Freezing all the model parameters except for the classifier\")\n            self.freeze()\n\n            classifier = [\"head\", \"head_dist\"]\n\n            for name, module in self.model.named_children():\n                if name in classifier:\n                    for p in module.parameters():\n                        p.requires_grad_(True)\n\n        store_attr(\"wd, lr, filter_wd\")\n\n    def forward(self, batched_inputs: torch.Tensor) -> torch.Tensor:\n        \"\"\"\n        Runs the batched_inputs through the created model.\n        \"\"\"\n        out = self.model(batched_inputs)\n        return out\n\n    @classmethod\n    def from_config_dict(cls, cfg: DictConfig):\n        \"\"\"\n        Instantiate the Meta Architecture from gale config\n        \"\"\"\n        # fmt: off\n        input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)\n        _logger.debug(f\"Inputs: {input_shape}\")\n        instance = super().from_config_dict(cfg.model.meta_architecture.init_args, input_shape=input_shape)\n        param_count = get_human_readable_count(sum([m.numel() for m in instance.parameters()]))\n        _logger.debug('{} created, param count: {}.'.format(cfg.model.meta_architecture.init_args.model_name, param_count))\n        # fmt: on\n        return instance\n\n    def build_param_dicts(self):\n        \"\"\"\n        Builds up the Paramters dicts for optimization.\n        \"\"\"\n        if self.filter_wd:\n            param_lists = add_weight_decay(\n                self.model,\n                weight_decay=self.wd,\n                skip_list=self.model.no_weight_decay(),\n            )\n            param_lists[0][\"lr\"] = self.lr\n            param_lists[1][\"lr\"] = self.lr\n        else:\n            ps = trainable_params(self.model)\n            param_lists = dict(params=ps, lr=self.lr, wd=self.wd)\n        return param_lists\n\n    def get_lrs(self) -> List:\n        \"\"\"\n        Returns a List containining the Lrs' for\n        each parameter group. This is required to build schedulers\n        like `torch.optim.lr_scheduler.OneCycleScheduler` which needs\n        the max lrs' for all the Param Groups.\n        \"\"\"\n        lrs = []\n\n        for p in self.build_param_dicts():\n            lrs.append(p[\"lr\"])\n        return lrs";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -99,13 +99,15 @@ var element = $('#30fa69c0-dcab-45af-b26f-8d4db98c85ca');
 
 </div>
 
-<div class="output_area">
+</div>
+</div>
 
+</div>
+    {% endraw %}
 
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="ViT.__init__" class="doc_header"><code>ViT.__init__</code><a href="https://github.com/benihime91/gale/tree/master/gale/classification/modelling/meta_arch/vit.py#L32" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ViT.__init__</code>(<strong><code>model_name</code></strong>:<code>str</code>, <strong><code>input_shape</code></strong>:<code>ShapeSpec</code>, <strong><code>lr</code></strong>:<code>float</code>=<em><code>0.001</code></em>, <strong><code>wd</code></strong>:<code>float</code>=<em><code>1e-05</code></em>, <strong><code>pretrained</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>freeze_to</code></strong>:<code>Optional</code>[<code>int</code>]=<em><code>None</code></em>, <strong><code>finetune</code></strong>:<code>Optional</code>[<code>bool</code>]=<em><code>None</code></em>, <strong><code>act</code></strong>:<code>Optional</code>[<code>str</code>]=<em><code>None</code></em>, <strong><code>reset_classifier</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>filter_wd</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>num_classes</code></strong>=<em><code>1000</code></em>, <strong><code>drop_rate</code></strong>=<em><code>0.0</code></em>, <strong><code>attn_drop_rate</code></strong>=<em><code>0.0</code></em>, <strong><code>drop_path_rate</code></strong>=<em><code>0.0</code></em>, <strong>**<code>kwargs</code></strong>)</p>
-</blockquote>
-<p>Arguments:</p>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Arguments :</strong></p>
 <ol>
 <li><code>input_shape</code> (ShapeSpec): input image shape. For ViT <code>height=width</code> and check the above link for avilable model shapes.</li>
 <li><code>model_name</code> (str): name of the ViT model, check the above link for avilable models.</li>
@@ -121,51 +123,8 @@ var element = $('#30fa69c0-dcab-45af-b26f-8d4db98c85ca');
 </ol>
 
 </div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="ViT.from_config_dict" class="doc_header"><code>ViT.from_config_dict</code><a href="https://github.com/benihime91/gale/tree/master/gale/classification/modelling/meta_arch/vit.py#L109" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ViT.from_config_dict</code>(<strong><code>cfg</code></strong>:<code>DictConfig</code>)</p>
-</blockquote>
-<p>Instantiate the Meta Architecture from gale config</p>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="ViT.forward" class="doc_header"><code>ViT.forward</code><a href="https://github.com/benihime91/gale/tree/master/gale/classification/modelling/meta_arch/vit.py#L102" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ViT.forward</code>(<strong><code>batched_inputs</code></strong>:<code>Tensor</code>)</p>
-</blockquote>
-<p>Runs the batched_inputs through the created model.</p>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="ViT.build_param_dicts" class="doc_header"><code>ViT.build_param_dicts</code><a href="https://github.com/benihime91/gale/tree/master/gale/classification/modelling/meta_arch/vit.py#L123" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ViT.build_param_dicts</code>()</p>
-</blockquote>
-<p>Builds up the Paramters dicts for optimization.</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -194,24 +153,16 @@ var element = $('#30fa69c0-dcab-45af-b26f-8d4db98c85ca');
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-green-fg">[04/25 22:54:48 gale.classification.modelling.meta_arch.vit]: </span>Freezing all the model parameters except for the classifier
-</pre>
-</div>
-</div>
-
-<div class="output_area">
 
 
 
-
-<div id="12df7be7-1070-4069-b7ac-e467a19c37ec"></div>
+<div id="0acb28ad-7d6e-4faa-86fb-ab77f1768fef"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#12df7be7-1070-4069-b7ac-e467a19c37ec');
+var element = $('#0acb28ad-7d6e-4faa-86fb-ab77f1768fef');
 
             setTimeout(function() {
-                var nbb_cell_id = 15;
+                var nbb_cell_id = 7;
                 var nbb_unformatted_code = "inp = ShapeSpec(3, 224, 224)\n\nm = ViT(\n    model_name=\"vit_small_patch16_224\",\n    pretrained=False,\n    input_shape=inp,\n    finetune=True,\n    reset_classifier=True,\n    num_classes=10,\n)";
                 var nbb_formatted_code = "inp = ShapeSpec(3, 224, 224)\n\nm = ViT(\n    model_name=\"vit_small_patch16_224\",\n    pretrained=False,\n    input_shape=inp,\n    finetune=True,\n    reset_classifier=True,\n    num_classes=10,\n)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -259,13 +210,13 @@ var element = $('#12df7be7-1070-4069-b7ac-e467a19c37ec');
 
 
 
-<div id="f6a1db63-5d0c-45d6-879c-fc3e9075ccdb"></div>
+<div id="16aea81e-503f-4a1e-855a-76ab8194b3f4"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#f6a1db63-5d0c-45d6-879c-fc3e9075ccdb');
+var element = $('#16aea81e-503f-4a1e-855a-76ab8194b3f4');
 
             setTimeout(function() {
-                var nbb_cell_id = 16;
+                var nbb_cell_id = 8;
                 var nbb_unformatted_code = "i = torch.randn(2, inp.channels, inp.height, inp.width)\no = m(i)";
                 var nbb_formatted_code = "i = torch.randn(2, inp.channels, inp.height, inp.width)\no = m(i)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -292,7 +243,9 @@ var element = $('#f6a1db63-5d0c-45d6-879c-fc3e9075ccdb');
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Instantiation-via-config">Instantiation via config<a class="anchor-link" href="#Instantiation-via-config"> </a></h2>
+<p>Similar to <a href="/gale/classification.modelling.meta_arch.common.html#GeneralizedImageClassifier"><code>GeneralizedImageClassifier</code></a> we can also instantiate <a href="/gale/classification.modelling.meta_arch.vit.html#ViT"><code>ViT</code></a> from a config. <a href="/gale/classification.modelling.meta_arch.vit.html#ViT"><code>ViT</code></a> does not require neither a <code>backbone</code> nor a <code>head</code> configuration. We just need the particular initialization arguments for the vit model defined in <code>model_name</code>.
+{% include note.html content='You input shape must match the dimensions that the Vision Transformer model supports. Unlike <a href="/gale/classification.modelling.meta_arch.common.html#GeneralizedImageClassifier"><code>GeneralizedImageClassifier</code></a>, <a href="/gale/classification.modelling.meta_arch.vit.html#ViT"><code>ViT</code></a> is dependent on the shape.' %}</p>
+
 </div>
 </div>
 </div>
@@ -319,13 +272,13 @@ var element = $('#f6a1db63-5d0c-45d6-879c-fc3e9075ccdb');
 
 
 
-<div id="b3acdf6c-5d44-48f9-989f-0ee76ab8c5fb"></div>
+<div id="c8eaad25-90d5-4397-99ec-e07bb8b18b1b"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#b3acdf6c-5d44-48f9-989f-0ee76ab8c5fb');
+var element = $('#c8eaad25-90d5-4397-99ec-e07bb8b18b1b');
 
             setTimeout(function() {
-                var nbb_cell_id = 17;
+                var nbb_cell_id = 9;
                 var nbb_unformatted_code = "from dataclasses import dataclass, field\nfrom omegaconf import MISSING, OmegaConf";
                 var nbb_formatted_code = "from dataclasses import dataclass, field\nfrom omegaconf import MISSING, OmegaConf";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -399,13 +352,13 @@ var element = $('#b3acdf6c-5d44-48f9-989f-0ee76ab8c5fb');
 
 
 
-<div id="c8fc327e-d1c2-4630-9a73-a40a6a42a013"></div>
+<div id="209b8b83-e97a-4587-ac5d-c3c5980adfe1"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#c8fc327e-d1c2-4630-9a73-a40a6a42a013');
+var element = $('#209b8b83-e97a-4587-ac5d-c3c5980adfe1');
 
             setTimeout(function() {
-                var nbb_cell_id = 18;
+                var nbb_cell_id = 10;
                 var nbb_unformatted_code = "@dataclass\nclass ModelConf:\n    model_name: str = \"vit_small_patch16_224\"\n    pretrained: bool = False\n    finetune: bool = True\n    reset_classifier: bool = True\n    num_classes: int = 10\n\n\ninp = ShapeSpec(3, 224, 224)\n\nmeta_args = OmegaConf.structured(ModelConf())\n\nmeta = OmegaConf.create()\nmeta.name = \"ViT\"\nmeta.init_args = meta_args\n\ni = OmegaConf.create()\ni.channels = inp.channels\ni.height = inp.height\ni.width = inp.width\n\nC = OmegaConf.create()\nC.input = i\nC.model = OmegaConf.create()\nC.model.meta_architecture = meta\n\n# print(OmegaConf.to_yaml(C, resolve=True))";
                 var nbb_formatted_code = "@dataclass\nclass ModelConf:\n    model_name: str = \"vit_small_patch16_224\"\n    pretrained: bool = False\n    finetune: bool = True\n    reset_classifier: bool = True\n    num_classes: int = 10\n\n\ninp = ShapeSpec(3, 224, 224)\n\nmeta_args = OmegaConf.structured(ModelConf())\n\nmeta = OmegaConf.create()\nmeta.name = \"ViT\"\nmeta.init_args = meta_args\n\ni = OmegaConf.create()\ni.channels = inp.channels\ni.height = inp.height\ni.width = inp.width\n\nC = OmegaConf.create()\nC.input = i\nC.model = OmegaConf.create()\nC.model.meta_architecture = meta\n\n# print(OmegaConf.to_yaml(C, resolve=True))";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -438,10 +391,275 @@ var element = $('#c8fc327e-d1c2-4630-9a73-a40a6a42a013');
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">ViT</span><span class="o">.</span><span class="n">from_config_dict</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+
 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">ViT</span><span class="p">)</span>
 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">VisionTransformer</span><span class="p">)</span>
+</pre></div>
 
-<span class="n">i</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">inp</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span> <span class="n">inp</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">inp</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+
+<div id="3fcb77b9-e8ab-45f9-964e-c497e509ca0f"></div>
+<div class="output_subarea output_javascript ">
+<script type="text/javascript">
+var element = $('#3fcb77b9-e8ab-45f9-964e-c497e509ca0f');
+
+            setTimeout(function() {
+                var nbb_cell_id = 11;
+                var nbb_unformatted_code = "m = ViT.from_config_dict(C)\n\nassert isinstance(m, ViT)\nassert isinstance(m.model, VisionTransformer)";
+                var nbb_formatted_code = "m = ViT.from_config_dict(C)\n\nassert isinstance(m, ViT)\nassert isinstance(m.model, VisionTransformer)";
+                var nbb_cells = Jupyter.notebook.get_cells();
+                for (var i = 0; i < nbb_cells.length; ++i) {
+                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
+                             nbb_cells[i].set_text(nbb_formatted_code);
+                        }
+                        break;
+                    }
+                }
+            }, 500);
+            
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>ViT(
+  (model): VisionTransformer(
+    (patch_embed): PatchEmbed(
+      (proj): Conv2d(3, 768, kernel_size=(16, 16), stride=(16, 16))
+    )
+    (pos_drop): Dropout(p=0.0, inplace=False)
+    (blocks): ModuleList(
+      (0): Block(
+        (norm1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=False)
+          (attn_drop): Dropout(p=0.0, inplace=False)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+          (proj_drop): Dropout(p=0.0, inplace=False)
+        )
+        (drop_path): Identity()
+        (norm2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=2304, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=2304, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (1): Block(
+        (norm1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=False)
+          (attn_drop): Dropout(p=0.0, inplace=False)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+          (proj_drop): Dropout(p=0.0, inplace=False)
+        )
+        (drop_path): Identity()
+        (norm2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=2304, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=2304, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (2): Block(
+        (norm1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=False)
+          (attn_drop): Dropout(p=0.0, inplace=False)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+          (proj_drop): Dropout(p=0.0, inplace=False)
+        )
+        (drop_path): Identity()
+        (norm2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=2304, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=2304, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (3): Block(
+        (norm1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=False)
+          (attn_drop): Dropout(p=0.0, inplace=False)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+          (proj_drop): Dropout(p=0.0, inplace=False)
+        )
+        (drop_path): Identity()
+        (norm2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=2304, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=2304, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (4): Block(
+        (norm1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=False)
+          (attn_drop): Dropout(p=0.0, inplace=False)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+          (proj_drop): Dropout(p=0.0, inplace=False)
+        )
+        (drop_path): Identity()
+        (norm2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=2304, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=2304, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (5): Block(
+        (norm1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=False)
+          (attn_drop): Dropout(p=0.0, inplace=False)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+          (proj_drop): Dropout(p=0.0, inplace=False)
+        )
+        (drop_path): Identity()
+        (norm2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=2304, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=2304, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (6): Block(
+        (norm1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=False)
+          (attn_drop): Dropout(p=0.0, inplace=False)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+          (proj_drop): Dropout(p=0.0, inplace=False)
+        )
+        (drop_path): Identity()
+        (norm2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=2304, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=2304, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (7): Block(
+        (norm1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=False)
+          (attn_drop): Dropout(p=0.0, inplace=False)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+          (proj_drop): Dropout(p=0.0, inplace=False)
+        )
+        (drop_path): Identity()
+        (norm2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=2304, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=2304, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (norm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    (pre_logits): Identity()
+    (head): Linear(in_features=768, out_features=10, bias=True)
+  )
+)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+
+<div id="a3181119-52a2-4c93-80a2-68c160da6ab4"></div>
+<div class="output_subarea output_javascript ">
+<script type="text/javascript">
+var element = $('#a3181119-52a2-4c93-80a2-68c160da6ab4');
+
+            setTimeout(function() {
+                var nbb_cell_id = 13;
+                var nbb_unformatted_code = "# collapse-output\nprint(m)";
+                var nbb_formatted_code = "# collapse-output\nprint(m)";
+                var nbb_cells = Jupyter.notebook.get_cells();
+                for (var i = 0; i < nbb_cells.length; ++i) {
+                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
+                             nbb_cells[i].set_text(nbb_formatted_code);
+                        }
+                        break;
+                    }
+                }
+            }, 500);
+            
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">inp</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span> <span class="n">inp</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">inp</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
 <span class="n">o</span> <span class="o">=</span> <span class="n">m</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 
@@ -454,28 +672,18 @@ var element = $('#c8fc327e-d1c2-4630-9a73-a40a6a42a013');
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-green-fg">[04/25 22:54:48 gale.classification.modelling.meta_arch.vit]: </span>Inputs: ShapeSpec(channels=3, height=224, width=224)
-<span class="ansi-green-fg">[04/25 22:54:50 gale.classification.modelling.meta_arch.vit]: </span>Freezing all the model parameters except for the classifier
-<span class="ansi-green-fg">[04/25 22:54:50 gale.classification.modelling.meta_arch.vit]: </span>vit_small_patch16_224 created, param count: 48.0 M.
-</pre>
-</div>
-</div>
-
-<div class="output_area">
 
 
 
-
-<div id="bb326371-f35b-4d39-ad4e-1670e2e2fc34"></div>
+<div id="a82a6cec-69a8-42a7-b9ff-0f23311e6593"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#bb326371-f35b-4d39-ad4e-1670e2e2fc34');
+var element = $('#a82a6cec-69a8-42a7-b9ff-0f23311e6593');
 
             setTimeout(function() {
-                var nbb_cell_id = 19;
-                var nbb_unformatted_code = "m = ViT.from_config_dict(C)\nassert isinstance(m, ViT)\nassert isinstance(m.model, VisionTransformer)\n\ni = torch.randn(2, inp.channels, inp.height, inp.width)\no = m(i)";
-                var nbb_formatted_code = "m = ViT.from_config_dict(C)\nassert isinstance(m, ViT)\nassert isinstance(m.model, VisionTransformer)\n\ni = torch.randn(2, inp.channels, inp.height, inp.width)\no = m(i)";
+                var nbb_cell_id = 12;
+                var nbb_unformatted_code = "i = torch.randn(2, inp.channels, inp.height, inp.width)\no = m(i)";
+                var nbb_formatted_code = "i = torch.randn(2, inp.channels, inp.height, inp.width)\no = m(i)";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {

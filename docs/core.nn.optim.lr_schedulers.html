@@ -29,61 +29,13 @@ nb_path: "nbs/02a_core.nn.optim.lr_schedulers.ipynb"
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> nb_black
-<span class="o">%</span><span class="k">load_ext</span> autoreload
-<span class="o">%</span><span class="k">autoreload</span> 2
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="6e46195e-fbae-48cb-8005-7ea1561c4be7"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#6e46195e-fbae-48cb-8005-7ea1561c4be7');
-
-            setTimeout(function() {
-                var nbb_cell_id = 2;
-                var nbb_unformatted_code = "%load_ext nb_black\n%load_ext autoreload\n%autoreload 2";
-                var nbb_formatted_code = "%load_ext nb_black\n%load_ext autoreload\n%autoreload 2";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Learning Schedulers can be used to scheduler the Learning Rates of any Optimizer in PyTorch. All Learning rate schedulers need to inherit from <code>_LRScheduler</code> class from PyTorch.</p>
 
 </div>
 </div>
-
 </div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -114,13 +66,13 @@ var element = $('#6e46195e-fbae-48cb-8005-7ea1561c4be7');
 
 
 
-<div id="d8d18270-1b02-4d2e-92cf-fb83e54e5829"></div>
+<div id="e68d252f-f009-47f3-bbb4-13280918e052"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#d8d18270-1b02-4d2e-92cf-fb83e54e5829');
+var element = $('#e68d252f-f009-47f3-bbb4-13280918e052');
 
             setTimeout(function() {
-                var nbb_cell_id = 6;
+                var nbb_cell_id = 5;
                 var nbb_unformatted_code = "from gale.core.nn.optim.optimizers import Adam\nimport matplotlib.pyplot as plt";
                 var nbb_formatted_code = "from gale.core.nn.optim.optimizers import Adam\nimport matplotlib.pyplot as plt";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -157,13 +109,13 @@ var element = $('#d8d18270-1b02-4d2e-92cf-fb83e54e5829');
 
 
 
-<div id="28ffdd8f-d08f-4d5c-bdc0-ad17f4cc0d91"></div>
+<div id="42e78484-9100-4374-a820-ad91b1eed942"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#28ffdd8f-d08f-4d5c-bdc0-ad17f4cc0d91');
+var element = $('#42e78484-9100-4374-a820-ad91b1eed942');
 
             setTimeout(function() {
-                var nbb_cell_id = 7;
+                var nbb_cell_id = 6;
                 var nbb_unformatted_code = "# export\n# fmt: off\n_all_ = [\"CosineAnnealingWarmRestarts\", \"OneCycleLR\", \"ReduceLROnPlateau\", \"StepLR\", \"MultiStepLR\"]\n# fmt: on";
                 var nbb_formatted_code = "# export\n# fmt: off\n_all_ = [\"CosineAnnealingWarmRestarts\", \"OneCycleLR\", \"ReduceLROnPlateau\", \"StepLR\", \"MultiStepLR\"]\n# fmt: on";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -188,6 +140,13 @@ var element = $('#28ffdd8f-d08f-4d5c-bdc0-ad17f4cc0d91');
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Generate a few mock paramters to test the schedulers -</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -218,13 +177,13 @@ var element = $('#28ffdd8f-d08f-4d5c-bdc0-ad17f4cc0d91');
 
 
 
-<div id="afe38804-9f81-4249-bfa0-558bf81cd357"></div>
+<div id="55cf4fdb-a472-4ad4-ab10-b0e4bd6cede3"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#afe38804-9f81-4249-bfa0-558bf81cd357');
+var element = $('#55cf4fdb-a472-4ad4-ab10-b0e4bd6cede3');
 
             setTimeout(function() {
-                var nbb_cell_id = 8;
+                var nbb_cell_id = 7;
                 var nbb_unformatted_code = "# mock training parameters\nepoch: int = 10\nbatch_nb: int = 10\nmax_steps: int = epoch * batch_nb\n\n# mock model\nmodel = [torch.nn.Parameter(torch.randn(2, 2, requires_grad=True))]\n\n# mock optimizer\noptim = Adam(model, lr=1e-04)";
                 var nbb_formatted_code = "# mock training parameters\nepoch: int = 10\nbatch_nb: int = 10\nmax_steps: int = epoch * batch_nb\n\n# mock model\nmodel = [torch.nn.Parameter(torch.randn(2, 2, requires_grad=True))]\n\n# mock optimizer\noptim = Adam(model, lr=1e-04)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -262,7 +221,7 @@ var element = $('#afe38804-9f81-4249-bfa0-558bf81cd357');
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="LRMultiplier" class="doc_header"><code>class</code> <code>LRMultiplier</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L27" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>LRMultiplier</code>(<strong><code>optimizer</code></strong>:<code>Optimizer</code>, <strong><code>multiplier</code></strong>:<code>ParamScheduler</code>, <strong><code>max_iter</code></strong>:<code>int</code>, <strong><code>last_iter</code></strong>:<code>int</code>=<em><code>-1</code></em>) :: <code>_LRScheduler</code></p>
 </blockquote>
-<p>A LRScheduler which uses fvcore  <code>ParamScheduler</code> to multiply the
+<p>A LRScheduler which uses fvcore <code>ParamScheduler</code> to multiply the
 learning rate of each param in the optimizer.
 Every step, the learning rate of each parameter becomes its initial value
 multiplied by the output of the given <code>ParamScheduler</code>.
@@ -293,15 +252,98 @@ not change during training.</p>
 
 
 
-<div id="09c0d0ce-17db-4867-aa2f-2bac2b8448ea"></div>
+<div id="0e11e933-dafd-46d9-9a72-a219ae8ffe80"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#09c0d0ce-17db-4867-aa2f-2bac2b8448ea');
+var element = $('#0e11e933-dafd-46d9-9a72-a219ae8ffe80');
 
             setTimeout(function() {
-                var nbb_cell_id = 9;
+                var nbb_cell_id = 8;
                 var nbb_unformatted_code = "# export\nclass LRMultiplier(torch.optim.lr_scheduler._LRScheduler):\n    \"\"\"\n    A LRScheduler which uses fvcore  `ParamScheduler` to multiply the\n    learning rate of each param in the optimizer.\n    Every step, the learning rate of each parameter becomes its initial value\n    multiplied by the output of the given `ParamScheduler`.\n    The absolute learning rate value of each parameter can be different.\n    This scheduler can be used as long as the relative scale among them do\n    not change during training.\n\n    Source: https://github.com/facebookresearch/detectron2/blob/master/detectron2/solver/lr_scheduler.py\n    \"\"\"\n\n    # NOTES: in the most general case, every LR can use its own scheduler.\n    # Supporting this requires interaction with the optimizer when its parameter\n    # group is initialized. For example, classyvision implements its own optimizer\n    # that allows different schedulers for every parameter group.\n    # To avoid this complexity, we use this class to support the most common cases\n    # where the relative scale among all LRs stay unchanged during training.  In this\n    # case we only need a total of one scheduler that defines the relative LR multiplier.\n\n    def __init__(\n        self,\n        optimizer: Optimizer,\n        multiplier: ParamScheduler,\n        max_iter: int,\n        last_iter: int = -1,\n    ):\n        \"\"\"\n        Args:\n            optimizer, last_iter: See ``torch.optim.lr_scheduler._LRScheduler``.\n                ``last_iter`` is the same as ``last_epoch``.\n            multiplier: a fvcore ParamScheduler that defines the multiplier on\n                every LR of the optimizer\n            max_iter: the total number of training iterations\n        \"\"\"\n        if not isinstance(multiplier, ParamScheduler):\n            raise ValueError(\n                \"_LRMultiplier(multiplier=) must be an instance of fvcore \"\n                f\"ParamScheduler. Got {multiplier} instead.\"\n            )\n        self._multiplier = multiplier\n        self._max_iter = max_iter\n        super().__init__(optimizer, last_epoch=last_iter)\n\n    def state_dict(self):\n        # fvcore schedulers are stateless. Only keep pytorch scheduler states\n        return {\"base_lrs\": self.base_lrs, \"last_epoch\": self.last_epoch}\n\n    def get_lr(self) -> List[float]:\n        multiplier = self._multiplier(self.last_epoch / self._max_iter)\n        return [base_lr * multiplier for base_lr in self.base_lrs]";
                 var nbb_formatted_code = "# export\nclass LRMultiplier(torch.optim.lr_scheduler._LRScheduler):\n    \"\"\"\n    A LRScheduler which uses fvcore  `ParamScheduler` to multiply the\n    learning rate of each param in the optimizer.\n    Every step, the learning rate of each parameter becomes its initial value\n    multiplied by the output of the given `ParamScheduler`.\n    The absolute learning rate value of each parameter can be different.\n    This scheduler can be used as long as the relative scale among them do\n    not change during training.\n\n    Source: https://github.com/facebookresearch/detectron2/blob/master/detectron2/solver/lr_scheduler.py\n    \"\"\"\n\n    # NOTES: in the most general case, every LR can use its own scheduler.\n    # Supporting this requires interaction with the optimizer when its parameter\n    # group is initialized. For example, classyvision implements its own optimizer\n    # that allows different schedulers for every parameter group.\n    # To avoid this complexity, we use this class to support the most common cases\n    # where the relative scale among all LRs stay unchanged during training.  In this\n    # case we only need a total of one scheduler that defines the relative LR multiplier.\n\n    def __init__(\n        self,\n        optimizer: Optimizer,\n        multiplier: ParamScheduler,\n        max_iter: int,\n        last_iter: int = -1,\n    ):\n        \"\"\"\n        Args:\n            optimizer, last_iter: See ``torch.optim.lr_scheduler._LRScheduler``.\n                ``last_iter`` is the same as ``last_epoch``.\n            multiplier: a fvcore ParamScheduler that defines the multiplier on\n                every LR of the optimizer\n            max_iter: the total number of training iterations\n        \"\"\"\n        if not isinstance(multiplier, ParamScheduler):\n            raise ValueError(\n                \"_LRMultiplier(multiplier=) must be an instance of fvcore \"\n                f\"ParamScheduler. Got {multiplier} instead.\"\n            )\n        self._multiplier = multiplier\n        self._max_iter = max_iter\n        super().__init__(optimizer, last_epoch=last_iter)\n\n    def state_dict(self):\n        # fvcore schedulers are stateless. Only keep pytorch scheduler states\n        return {\"base_lrs\": self.base_lrs, \"last_epoch\": self.last_epoch}\n\n    def get_lr(self) -> List[float]:\n        multiplier = self._multiplier(self.last_epoch / self._max_iter)\n        return [base_lr * multiplier for base_lr in self.base_lrs]";
+                var nbb_cells = Jupyter.notebook.get_cells();
+                for (var i = 0; i < nbb_cells.length; ++i) {
+                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
+                             nbb_cells[i].set_text(nbb_formatted_code);
+                        }
+                        break;
+                    }
+                }
+            }, 500);
+            
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A <a href="/gale/core.nn.optim.lr_schedulers.html#LRMultiplier"><code>LRMultiplier</code></a> can be used to convert any fvcore <code>ParamScheduler</code> to a LerningRate Scheduler -</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fvcore.common.param_scheduler</span> <span class="kn">import</span> <span class="n">PolynomialDecayParamScheduler</span>
+
+<span class="n">param_scheduler</span> <span class="o">=</span> <span class="n">PolynomialDecayParamScheduler</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">scheduler</span> <span class="o">=</span> <span class="n">LRMultiplier</span><span class="p">(</span><span class="n">optim</span><span class="p">,</span> <span class="n">param_scheduler</span><span class="p">,</span> <span class="n">max_steps</span><span class="p">)</span>
+
+<span class="n">lrs</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_steps</span><span class="p">):</span>
+    <span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">lrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scheduler</span><span class="o">.</span><span class="n">get_lr</span><span class="p">())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lrs</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+
+<div id="22740b49-9bb9-46bb-a479-38bac346da87"></div>
+<div class="output_subarea output_javascript ">
+<script type="text/javascript">
+var element = $('#22740b49-9bb9-46bb-a479-38bac346da87');
+
+            setTimeout(function() {
+                var nbb_cell_id = 28;
+                var nbb_unformatted_code = "from fvcore.common.param_scheduler import PolynomialDecayParamScheduler\n\nparam_scheduler = PolynomialDecayParamScheduler(1, 10)\nscheduler = LRMultiplier(optim, param_scheduler, max_steps)\n\nlrs = []\n\nfor _ in range(max_steps):\n    scheduler.step()\n    lrs.append(scheduler.get_lr())\n\nplt.plot(lrs);";
+                var nbb_formatted_code = "from fvcore.common.param_scheduler import PolynomialDecayParamScheduler\n\nparam_scheduler = PolynomialDecayParamScheduler(1, 10)\nscheduler = LRMultiplier(optim, param_scheduler, max_steps)\n\nlrs = []\n\nfor _ in range(max_steps):\n    scheduler.step()\n    lrs.append(scheduler.get_lr())\n\nplt.plot(lrs)";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -335,7 +377,76 @@ var element = $('#09c0d0ce-17db-4867-aa2f-2bac2b8448ea');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="CosineLR" class="doc_header"><code>CosineLR</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L81" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CosineLR</code>(<strong><code>optim</code></strong>:<code>Optimizer</code>, <strong><code>max_iters</code></strong>:<code>int</code>, <strong><code>start_value</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>end_value</code></strong>:<code>int</code>=<em><code>0</code></em>)</p>
+<h2 id="WarmupParamScheduler" class="doc_header"><code>class</code> <code>WarmupParamScheduler</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L81" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>WarmupParamScheduler</code>(<strong><code>scheduler</code></strong>:<code>ParamScheduler</code>, <strong><code>warmup_factor</code></strong>:<code>float</code>, <strong><code>warmup_length</code></strong>:<code>float</code>, <strong><code>warmup_method</code></strong>:<code>str</code>=<em><code>'linear'</code></em>) :: <code>CompositeParamScheduler</code></p>
+</blockquote>
+<p>Add an initial warmup stage to another scheduler.</p>
+<p>Source - <a href="https://github.com/facebookresearch/fvcore/blob/master/fvcore/common/param_scheduler.py">https://github.com/facebookresearch/fvcore/blob/master/fvcore/common/param_scheduler.py</a></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+
+<div id="96a34766-e4f2-40bd-9535-fd74c3e3c76f"></div>
+<div class="output_subarea output_javascript ">
+<script type="text/javascript">
+var element = $('#96a34766-e4f2-40bd-9535-fd74c3e3c76f');
+
+            setTimeout(function() {
+                var nbb_cell_id = 32;
+                var nbb_unformatted_code = "# export\nclass WarmupParamScheduler(CompositeParamScheduler):\n    \"\"\"\n    Add an initial warmup stage to another scheduler.\n\n    Source - https://github.com/facebookresearch/fvcore/blob/master/fvcore/common/param_scheduler.py\n    \"\"\"\n\n    def __init__(\n        self,\n        scheduler: ParamScheduler,\n        warmup_factor: float,\n        warmup_length: float,\n        warmup_method: str = \"linear\",\n    ):\n        \"\"\"\n        Args:\n            scheduler: warmup will be added at the beginning of this scheduler\n            warmup_factor: the factor w.r.t the initial value of ``scheduler``, e.g. 0.001\n            warmup_length: the relative length (in [0, 1]) of warmup steps w.r.t the entire\n                training, e.g. 0.01\n            warmup_method: one of \"linear\" or \"constant\"\n        \"\"\"\n        end_value = scheduler(warmup_length)  # the value to reach when warmup ends\n        start_value = warmup_factor * scheduler(0.0)\n        if warmup_method == \"constant\":\n            warmup = ConstantParamScheduler(start_value)\n        elif warmup_method == \"linear\":\n            warmup = LinearParamScheduler(start_value, end_value)\n        else:\n            raise ValueError(\"Unknown warmup method: {}\".format(warmup_method))\n        super().__init__(\n            [warmup, scheduler],\n            interval_scaling=[\"rescaled\", \"fixed\"],\n            lengths=[warmup_length, 1 - warmup_length],\n        )";
+                var nbb_formatted_code = "# export\nclass WarmupParamScheduler(CompositeParamScheduler):\n    \"\"\"\n    Add an initial warmup stage to another scheduler.\n\n    Source - https://github.com/facebookresearch/fvcore/blob/master/fvcore/common/param_scheduler.py\n    \"\"\"\n\n    def __init__(\n        self,\n        scheduler: ParamScheduler,\n        warmup_factor: float,\n        warmup_length: float,\n        warmup_method: str = \"linear\",\n    ):\n        \"\"\"\n        Args:\n            scheduler: warmup will be added at the beginning of this scheduler\n            warmup_factor: the factor w.r.t the initial value of ``scheduler``, e.g. 0.001\n            warmup_length: the relative length (in [0, 1]) of warmup steps w.r.t the entire\n                training, e.g. 0.01\n            warmup_method: one of \"linear\" or \"constant\"\n        \"\"\"\n        end_value = scheduler(warmup_length)  # the value to reach when warmup ends\n        start_value = warmup_factor * scheduler(0.0)\n        if warmup_method == \"constant\":\n            warmup = ConstantParamScheduler(start_value)\n        elif warmup_method == \"linear\":\n            warmup = LinearParamScheduler(start_value, end_value)\n        else:\n            raise ValueError(\"Unknown warmup method: {}\".format(warmup_method))\n        super().__init__(\n            [warmup, scheduler],\n            interval_scaling=[\"rescaled\", \"fixed\"],\n            lengths=[warmup_length, 1 - warmup_length],\n        )";
+                var nbb_cells = Jupyter.notebook.get_cells();
+                for (var i = 0; i < nbb_cells.length; ++i) {
+                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
+                             nbb_cells[i].set_text(nbb_formatted_code);
+                        }
+                        break;
+                    }
+                }
+            }, 500);
+            
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="CosineLR" class="doc_header"><code>CosineLR</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L118" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CosineLR</code>(<strong><code>optim</code></strong>:<code>Optimizer</code>, <strong><code>max_iters</code></strong>:<code>int</code>, <strong><code>start_value</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>end_value</code></strong>:<code>int</code>=<em><code>0</code></em>)</p>
 </blockquote>
 <p>Cosine decay or cosine warmup schedules based on start and end values.
 These values are relative to the values of your LR's.
@@ -363,14 +474,14 @@ This scheduler is meant to be called after each "training step" .</p>
 
 
 
-<div id="8855032d-3ba8-4881-948e-b266508abc01"></div>
+<div id="2e98d9af-2761-4550-a982-4c5b09932c28"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#8855032d-3ba8-4881-948e-b266508abc01');
+var element = $('#2e98d9af-2761-4550-a982-4c5b09932c28');
 
             setTimeout(function() {
-                var nbb_cell_id = 11;
-                var nbb_unformatted_code = "# export\ndef CosineLR(\n    optim: Optimizer, max_iters: int, start_value: int = 1, end_value: int = 0,\n) -> torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Cosine decay or cosine warmup schedules based on start and end values.\n    These values are relative to the values of your LR's.\n    This scheduler is meant to be called after each \"training step\" .\n    \"\"\"\n    param_sched = CosineParamScheduler(start_value, end_value)\n    scheduler = LRMultiplier(optim, max_iter=max_steps, multiplier=param_sched)\n    return scheduler";
+                var nbb_cell_id = 29;
+                var nbb_unformatted_code = "# export\ndef CosineLR(\n    optim: Optimizer,\n    max_iters: int,\n    start_value: int = 1,\n    end_value: int = 0,\n) -> torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Cosine decay or cosine warmup schedules based on start and end values.\n    These values are relative to the values of your LR's.\n    This scheduler is meant to be called after each \"training step\" .\n    \"\"\"\n    param_sched = CosineParamScheduler(start_value, end_value)\n    scheduler = LRMultiplier(optim, max_iter=max_steps, multiplier=param_sched)\n    return scheduler";
                 var nbb_formatted_code = "# export\ndef CosineLR(\n    optim: Optimizer,\n    max_iters: int,\n    start_value: int = 1,\n    end_value: int = 0,\n) -> torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Cosine decay or cosine warmup schedules based on start and end values.\n    These values are relative to the values of your LR's.\n    This scheduler is meant to be called after each \"training step\" .\n    \"\"\"\n    param_sched = CosineParamScheduler(start_value, end_value)\n    scheduler = LRMultiplier(optim, max_iter=max_steps, multiplier=param_sched)\n    return scheduler";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
@@ -440,13 +551,13 @@ var element = $('#8855032d-3ba8-4881-948e-b266508abc01');
 
 
 
-<div id="8adb764d-ed6a-48ea-89cf-2c87ba1da72f"></div>
+<div id="248ecf33-8b90-4ce6-a1ad-ce28dafd8c05"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#8adb764d-ed6a-48ea-89cf-2c87ba1da72f');
+var element = $('#248ecf33-8b90-4ce6-a1ad-ce28dafd8c05');
 
             setTimeout(function() {
-                var nbb_cell_id = 13;
+                var nbb_cell_id = 31;
                 var nbb_unformatted_code = "scheduler = CosineLR(optim, max_iters=max_steps)\n\nlr = []\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n        optim.zero_grad()\n        scheduler.step()\n        lr.append(scheduler.get_lr())\n\nplt.plot(lr, label=\"Cosine Annealing Schedule\")\nplt.legend();";
                 var nbb_formatted_code = "scheduler = CosineLR(optim, max_iters=max_steps)\n\nlr = []\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n        optim.zero_grad()\n        scheduler.step()\n        lr.append(scheduler.get_lr())\n\nplt.plot(lr, label=\"Cosine Annealing Schedule\")\nplt.legend()";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -482,7 +593,7 @@ var element = $('#8adb764d-ed6a-48ea-89cf-2c87ba1da72f');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="FlatCosScheduler" class="doc_header"><code>FlatCosScheduler</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L98" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FlatCosScheduler</code>(<strong><code>optimizer</code></strong>:<code>Optimizer</code>, <strong><code>pct_start</code></strong>:<code>float</code>, <strong><code>max_iters</code></strong>:<code>int</code>)</p>
+<h4 id="FlatCosScheduler" class="doc_header"><code>FlatCosScheduler</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L134" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FlatCosScheduler</code>(<strong><code>optimizer</code></strong>:<code>Optimizer</code>, <strong><code>pct_start</code></strong>:<code>float</code>, <strong><code>max_iters</code></strong>:<code>int</code>)</p>
 </blockquote>
 <p>Schedule the LearningRate at flat <code>lr</code> for <code>pct_start</code> of <code>max_iters</code> before cosine annealing.
 This scheduler is meant to be called after a batch has been used for training.</p>
@@ -510,15 +621,15 @@ This scheduler is meant to be called after a batch has been used for training.</
 
 
 
-<div id="212aff93-d83c-40e8-a04a-1afdd22349f3"></div>
+<div id="0e9030e0-94b6-45a3-a8ed-93088e418228"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#212aff93-d83c-40e8-a04a-1afdd22349f3');
+var element = $('#0e9030e0-94b6-45a3-a8ed-93088e418228');
 
             setTimeout(function() {
-                var nbb_cell_id = 14;
-                var nbb_unformatted_code = "# export\n# @SCHEDULER_REGISTRY.register()\ndef FlatCosScheduler(optimizer: Optimizer, pct_start: float, max_iters: int, ) ->torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Schedule the LearningRate at flat `lr` for `pct_start` of `max_iters` before cosine annealing.\n    This scheduler is meant to be called after a batch has been used for training.\n\n    Inspired From - https://docs.fast.ai/callback.schedule.html#Learner.fit_flat_cos.\n    \"\"\"\n\n    schedulers = [LinearParamScheduler(1, 1), CosineParamScheduler(1, 0)]\n\n    sched = CompositeParamScheduler(\n        schedulers,\n        lengths=[pct_start, 1 - pct_start],\n        interval_scaling=[\"rescaled\", \"rescaled\"],\n    )\n\n    # Wrap Param Scheduler under LRMultiplier class\n    sched = LRMultiplier(optimizer, sched, max_iter=max_iters)\n    return sched";
-                var nbb_formatted_code = "# export\n# @SCHEDULER_REGISTRY.register()\ndef FlatCosScheduler(\n    optimizer: Optimizer,\n    pct_start: float,\n    max_iters: int,\n) -> torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Schedule the LearningRate at flat `lr` for `pct_start` of `max_iters` before cosine annealing.\n    This scheduler is meant to be called after a batch has been used for training.\n\n    Inspired From - https://docs.fast.ai/callback.schedule.html#Learner.fit_flat_cos.\n    \"\"\"\n\n    schedulers = [LinearParamScheduler(1, 1), CosineParamScheduler(1, 0)]\n\n    sched = CompositeParamScheduler(\n        schedulers,\n        lengths=[pct_start, 1 - pct_start],\n        interval_scaling=[\"rescaled\", \"rescaled\"],\n    )\n\n    # Wrap Param Scheduler under LRMultiplier class\n    sched = LRMultiplier(optimizer, sched, max_iter=max_iters)\n    return sched";
+                var nbb_cell_id = 33;
+                var nbb_unformatted_code = "# export\ndef FlatCosScheduler(\n    optimizer: Optimizer,\n    pct_start: float,\n    max_iters: int,\n) -> torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Schedule the LearningRate at flat `lr` for `pct_start` of `max_iters` before cosine annealing.\n    This scheduler is meant to be called after a batch has been used for training.\n\n    Inspired From - https://docs.fast.ai/callback.schedule.html#Learner.fit_flat_cos.\n    \"\"\"\n\n    schedulers = [LinearParamScheduler(1, 1), CosineParamScheduler(1, 0)]\n\n    sched = CompositeParamScheduler(\n        schedulers,\n        lengths=[pct_start, 1 - pct_start],\n        interval_scaling=[\"rescaled\", \"rescaled\"],\n    )\n\n    # Wrap Param Scheduler under LRMultiplier class\n    sched = LRMultiplier(optimizer, sched, max_iter=max_iters)\n    return sched";
+                var nbb_formatted_code = "# export\ndef FlatCosScheduler(\n    optimizer: Optimizer,\n    pct_start: float,\n    max_iters: int,\n) -> torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Schedule the LearningRate at flat `lr` for `pct_start` of `max_iters` before cosine annealing.\n    This scheduler is meant to be called after a batch has been used for training.\n\n    Inspired From - https://docs.fast.ai/callback.schedule.html#Learner.fit_flat_cos.\n    \"\"\"\n\n    schedulers = [LinearParamScheduler(1, 1), CosineParamScheduler(1, 0)]\n\n    sched = CompositeParamScheduler(\n        schedulers,\n        lengths=[pct_start, 1 - pct_start],\n        interval_scaling=[\"rescaled\", \"rescaled\"],\n    )\n\n    # Wrap Param Scheduler under LRMultiplier class\n    sched = LRMultiplier(optimizer, sched, max_iter=max_iters)\n    return sched";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -587,13 +698,13 @@ var element = $('#212aff93-d83c-40e8-a04a-1afdd22349f3');
 
 
 
-<div id="960c3c49-5ecf-4e9b-9449-a85d63d9ded7"></div>
+<div id="a28ffcb5-d0d9-4e52-82ec-89f0dc66bf52"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#960c3c49-5ecf-4e9b-9449-a85d63d9ded7');
+var element = $('#a28ffcb5-d0d9-4e52-82ec-89f0dc66bf52');
 
             setTimeout(function() {
-                var nbb_cell_id = 15;
+                var nbb_cell_id = 34;
                 var nbb_unformatted_code = "lr = []\n\nscheduler = FlatCosScheduler(optim, pct_start=0.72, max_iters=max_steps)\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n        optim.zero_grad()\n        scheduler.step()\n        lr.append(scheduler.get_lr())\n\nplt.plot(lr, label=\"Flat Cosine Schedule\")\nplt.legend();";
                 var nbb_formatted_code = "lr = []\n\nscheduler = FlatCosScheduler(optim, pct_start=0.72, max_iters=max_steps)\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n        optim.zero_grad()\n        scheduler.step()\n        lr.append(scheduler.get_lr())\n\nplt.plot(lr, label=\"Flat Cosine Schedule\")\nplt.legend()";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -629,76 +740,7 @@ var element = $('#960c3c49-5ecf-4e9b-9449-a85d63d9ded7');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="WarmupParamScheduler" class="doc_header"><code>class</code> <code>WarmupParamScheduler</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L123" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>WarmupParamScheduler</code>(<strong><code>scheduler</code></strong>:<code>ParamScheduler</code>, <strong><code>warmup_factor</code></strong>:<code>float</code>, <strong><code>warmup_length</code></strong>:<code>float</code>, <strong><code>warmup_method</code></strong>:<code>str</code>=<em><code>'linear'</code></em>) :: <code>CompositeParamScheduler</code></p>
-</blockquote>
-<p>Add an initial warmup stage to another scheduler.</p>
-<p>Source - <a href="https://github.com/facebookresearch/fvcore/blob/master/fvcore/common/param_scheduler.py">https://github.com/facebookresearch/fvcore/blob/master/fvcore/common/param_scheduler.py</a></p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="4c422b41-8fda-44e3-964f-6a7bed39f32b"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#4c422b41-8fda-44e3-964f-6a7bed39f32b');
-
-            setTimeout(function() {
-                var nbb_cell_id = 16;
-                var nbb_unformatted_code = "# export\nclass WarmupParamScheduler(CompositeParamScheduler):\n    \"\"\"\n    Add an initial warmup stage to another scheduler.\n\n    Source - https://github.com/facebookresearch/fvcore/blob/master/fvcore/common/param_scheduler.py\n    \"\"\"\n\n    def __init__(\n        self,\n        scheduler: ParamScheduler,\n        warmup_factor: float,\n        warmup_length: float,\n        warmup_method: str = \"linear\",\n    ):\n        \"\"\"\n        Args:\n            scheduler: warmup will be added at the beginning of this scheduler\n            warmup_factor: the factor w.r.t the initial value of ``scheduler``, e.g. 0.001\n            warmup_length: the relative length (in [0, 1]) of warmup steps w.r.t the entire\n                training, e.g. 0.01\n            warmup_method: one of \"linear\" or \"constant\"\n        \"\"\"\n        end_value = scheduler(warmup_length)  # the value to reach when warmup ends\n        start_value = warmup_factor * scheduler(0.0)\n        if warmup_method == \"constant\":\n            warmup = ConstantParamScheduler(start_value)\n        elif warmup_method == \"linear\":\n            warmup = LinearParamScheduler(start_value, end_value)\n        else:\n            raise ValueError(\"Unknown warmup method: {}\".format(warmup_method))\n        super().__init__(\n            [warmup, scheduler],\n            interval_scaling=[\"rescaled\", \"fixed\"],\n            lengths=[warmup_length, 1 - warmup_length],\n        )";
-                var nbb_formatted_code = "# export\nclass WarmupParamScheduler(CompositeParamScheduler):\n    \"\"\"\n    Add an initial warmup stage to another scheduler.\n\n    Source - https://github.com/facebookresearch/fvcore/blob/master/fvcore/common/param_scheduler.py\n    \"\"\"\n\n    def __init__(\n        self,\n        scheduler: ParamScheduler,\n        warmup_factor: float,\n        warmup_length: float,\n        warmup_method: str = \"linear\",\n    ):\n        \"\"\"\n        Args:\n            scheduler: warmup will be added at the beginning of this scheduler\n            warmup_factor: the factor w.r.t the initial value of ``scheduler``, e.g. 0.001\n            warmup_length: the relative length (in [0, 1]) of warmup steps w.r.t the entire\n                training, e.g. 0.01\n            warmup_method: one of \"linear\" or \"constant\"\n        \"\"\"\n        end_value = scheduler(warmup_length)  # the value to reach when warmup ends\n        start_value = warmup_factor * scheduler(0.0)\n        if warmup_method == \"constant\":\n            warmup = ConstantParamScheduler(start_value)\n        elif warmup_method == \"linear\":\n            warmup = LinearParamScheduler(start_value, end_value)\n        else:\n            raise ValueError(\"Unknown warmup method: {}\".format(warmup_method))\n        super().__init__(\n            [warmup, scheduler],\n            interval_scaling=[\"rescaled\", \"fixed\"],\n            lengths=[warmup_length, 1 - warmup_length],\n        )";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="WarmupCosineLR" class="doc_header"><code>WarmupCosineLR</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L161" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>WarmupCosineLR</code>(<strong><code>optimizer</code></strong>:<code>Optimizer</code>, <strong><code>max_iters</code></strong>:<code>int</code>, <strong><code>pct_start</code></strong>:<code>Optional</code>[<code>float</code>]=<em><code>None</code></em>, <strong><code>warmup_steps</code></strong>:<code>Optional</code>[<code>int</code>]=<em><code>None</code></em>, <strong><code>warmup_factor</code></strong>:<code>float</code>=<em><code>0.001</code></em>)</p>
+<h4 id="WarmupCosineLR" class="doc_header"><code>WarmupCosineLR</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L160" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>WarmupCosineLR</code>(<strong><code>optimizer</code></strong>:<code>Optimizer</code>, <strong><code>max_iters</code></strong>:<code>int</code>, <strong><code>pct_start</code></strong>:<code>Optional</code>[<code>float</code>]=<em><code>None</code></em>, <strong><code>warmup_steps</code></strong>:<code>Optional</code>[<code>int</code>]=<em><code>None</code></em>, <strong><code>warmup_factor</code></strong>:<code>float</code>=<em><code>0.001</code></em>)</p>
 </blockquote>
 <p>Linearly increase <code>lr</code> for <code>pct_start</code> or <code>warmup_steps</code> before cosine annealing from
 <code>pct_start</code> or <code>warmup_steps</code>.</p>
@@ -725,13 +767,13 @@ var element = $('#4c422b41-8fda-44e3-964f-6a7bed39f32b');
 
 
 
-<div id="eaefb21c-8388-48dc-bff8-efa11bbd4537"></div>
+<div id="9fe16453-2810-4f24-a046-74fa88c451be"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#eaefb21c-8388-48dc-bff8-efa11bbd4537');
+var element = $('#9fe16453-2810-4f24-a046-74fa88c451be');
 
             setTimeout(function() {
-                var nbb_cell_id = 17;
+                var nbb_cell_id = 35;
                 var nbb_unformatted_code = "# export\n# @SCHEDULER_REGISTRY.register()\ndef WarmupCosineLR(\n    optimizer: torch.optim.Optimizer,\n    max_iters: int,\n    pct_start: Optional[float] = None,\n    warmup_steps: Optional[int] = None,\n    warmup_factor: float = (1.0 / 1000),\n) -> torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Linearly increase `lr` for `pct_start` or `warmup_steps` before cosine annealing from\n    `pct_start` or `warmup_steps`.\n    \"\"\"\n\n    # warmup iterations\n    if pct_start is None and warmup_steps is None:\n        raise ValueError(\"You must define either pct_start OR warmup_steps\")\n\n    if warmup_steps is not None and (\n        warmup_steps <= 0 or not isinstance(warmup_steps, int)\n    ):\n        raise ValueError(\n            \"Expected positive interger warmup_steps, but got {}\".format(warmup_steps)\n        )\n    if pct_start is not None and (pct_start <= 0 and not isinstance(pct_start, float)):\n        raise ValueError(\n            \"Expected positive float pct_start, but got {}\".format(pct_start)\n        )\n\n    if pct_start is not None:\n        warmup_length = pct_start\n\n    elif warmup_steps is not None:\n        warmup_length = warmup_steps / max_iters\n\n    sched = CosineParamScheduler(1, 0)\n\n    sched = WarmupParamScheduler(\n        sched,\n        warmup_factor=warmup_factor,\n        warmup_length=warmup_length,\n        warmup_method=\"linear\",\n    )\n    return LRMultiplier(optimizer, multiplier=sched, max_iter=max_iters)";
                 var nbb_formatted_code = "# export\n# @SCHEDULER_REGISTRY.register()\ndef WarmupCosineLR(\n    optimizer: torch.optim.Optimizer,\n    max_iters: int,\n    pct_start: Optional[float] = None,\n    warmup_steps: Optional[int] = None,\n    warmup_factor: float = (1.0 / 1000),\n) -> torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Linearly increase `lr` for `pct_start` or `warmup_steps` before cosine annealing from\n    `pct_start` or `warmup_steps`.\n    \"\"\"\n\n    # warmup iterations\n    if pct_start is None and warmup_steps is None:\n        raise ValueError(\"You must define either pct_start OR warmup_steps\")\n\n    if warmup_steps is not None and (\n        warmup_steps <= 0 or not isinstance(warmup_steps, int)\n    ):\n        raise ValueError(\n            \"Expected positive interger warmup_steps, but got {}\".format(warmup_steps)\n        )\n    if pct_start is not None and (pct_start <= 0 and not isinstance(pct_start, float)):\n        raise ValueError(\n            \"Expected positive float pct_start, but got {}\".format(pct_start)\n        )\n\n    if pct_start is not None:\n        warmup_length = pct_start\n\n    elif warmup_steps is not None:\n        warmup_length = warmup_steps / max_iters\n\n    sched = CosineParamScheduler(1, 0)\n\n    sched = WarmupParamScheduler(\n        sched,\n        warmup_factor=warmup_factor,\n        warmup_length=warmup_length,\n        warmup_method=\"linear\",\n    )\n    return LRMultiplier(optimizer, multiplier=sched, max_iter=max_iters)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -816,13 +858,13 @@ var element = $('#eaefb21c-8388-48dc-bff8-efa11bbd4537');
 
 
 
-<div id="ebad26d6-0d98-461d-baa4-890a05714afe"></div>
+<div id="99a6e254-3319-4076-b5cf-7cae9cfd9f30"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#ebad26d6-0d98-461d-baa4-890a05714afe');
+var element = $('#99a6e254-3319-4076-b5cf-7cae9cfd9f30');
 
             setTimeout(function() {
-                var nbb_cell_id = 27;
+                var nbb_cell_id = 36;
                 var nbb_unformatted_code = "lr1 = []\n\nscheduler = WarmupCosineLR(optim, pct_start=0.1, max_iters=max_steps)\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n        scheduler.step()\n        lr1.append(scheduler.get_lr())\n\nplt.plot(lr1, label=\"CosineLR + Warmup\")\nplt.legend();";
                 var nbb_formatted_code = "lr1 = []\n\nscheduler = WarmupCosineLR(optim, pct_start=0.1, max_iters=max_steps)\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n        scheduler.step()\n        lr1.append(scheduler.get_lr())\n\nplt.plot(lr1, label=\"CosineLR + Warmup\")\nplt.legend()";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -858,7 +900,7 @@ var element = $('#ebad26d6-0d98-461d-baa4-890a05714afe');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="WarmupLinearLR" class="doc_header"><code>WarmupLinearLR</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L205" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>WarmupLinearLR</code>(<strong><code>optimizer</code></strong>:<code>Optimizer</code>, <strong><code>max_iters</code></strong>:<code>int</code>, <strong><code>pct_start</code></strong>:<code>Optional</code>[<code>float</code>]=<em><code>None</code></em>, <strong><code>warmup_steps</code></strong>:<code>Optional</code>[<code>int</code>]=<em><code>None</code></em>, <strong><code>warmup_factor</code></strong>:<code>float</code>=<em><code>0.001</code></em>)</p>
+<h4 id="WarmupLinearLR" class="doc_header"><code>WarmupLinearLR</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L204" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>WarmupLinearLR</code>(<strong><code>optimizer</code></strong>:<code>Optimizer</code>, <strong><code>max_iters</code></strong>:<code>int</code>, <strong><code>pct_start</code></strong>:<code>Optional</code>[<code>float</code>]=<em><code>None</code></em>, <strong><code>warmup_steps</code></strong>:<code>Optional</code>[<code>int</code>]=<em><code>None</code></em>, <strong><code>warmup_factor</code></strong>:<code>float</code>=<em><code>0.001</code></em>)</p>
 </blockquote>
 <p>Linearly increase <code>lr</code> for <code>pct_start</code> or <code>warmup_steps</code> before
 linear decreasing of <code>lr</code>.</p>
@@ -885,13 +927,13 @@ linear decreasing of <code>lr</code>.</p>
 
 
 
-<div id="7bf5bb7c-a5f7-44db-9a82-1fa0a0b0bfb1"></div>
+<div id="caed20a0-9465-47a2-a905-674a3f5a9afc"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#7bf5bb7c-a5f7-44db-9a82-1fa0a0b0bfb1');
+var element = $('#caed20a0-9465-47a2-a905-674a3f5a9afc');
 
             setTimeout(function() {
-                var nbb_cell_id = 28;
+                var nbb_cell_id = 37;
                 var nbb_unformatted_code = "# export\ndef WarmupLinearLR(\n    optimizer: Optimizer,\n    max_iters: int,\n    pct_start: Optional[float] = None,\n    warmup_steps: Optional[int] = None,\n    warmup_factor: float = (1.0 / 1000),\n) -> torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Linearly increase `lr` for `pct_start` or `warmup_steps` before\n    linear decreasing of `lr`.\n    \"\"\"\n    # warmup iterations\n    if pct_start is None and warmup_steps is None:\n        raise ValueError(\"You must define either pct_start OR warmup_steps\")\n\n    if warmup_steps is not None and (\n        warmup_steps <= 0 or not isinstance(warmup_steps, int)\n    ):\n        raise ValueError(\n            \"Expected positive interger warmup_steps, but got {}\".format(warmup_steps)\n        )\n    if pct_start is not None and (pct_start <= 0 and not isinstance(pct_start, float)):\n        raise ValueError(\n            \"Expected positive float pct_start, but got {}\".format(pct_start)\n        )\n\n    if pct_start is not None:\n        warmup_length = pct_start\n\n    elif warmup_steps is not None:\n        warmup_length = warmup_steps / max_iters\n\n    sched = LinearParamScheduler(1, 0)\n    sched = WarmupParamScheduler(\n        sched,\n        warmup_factor=warmup_factor,\n        warmup_length=warmup_length,\n        warmup_method=\"linear\",\n    )\n    return LRMultiplier(optimizer, multiplier=sched, max_iter=max_iters)";
                 var nbb_formatted_code = "# export\ndef WarmupLinearLR(\n    optimizer: Optimizer,\n    max_iters: int,\n    pct_start: Optional[float] = None,\n    warmup_steps: Optional[int] = None,\n    warmup_factor: float = (1.0 / 1000),\n) -> torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Linearly increase `lr` for `pct_start` or `warmup_steps` before\n    linear decreasing of `lr`.\n    \"\"\"\n    # warmup iterations\n    if pct_start is None and warmup_steps is None:\n        raise ValueError(\"You must define either pct_start OR warmup_steps\")\n\n    if warmup_steps is not None and (\n        warmup_steps <= 0 or not isinstance(warmup_steps, int)\n    ):\n        raise ValueError(\n            \"Expected positive interger warmup_steps, but got {}\".format(warmup_steps)\n        )\n    if pct_start is not None and (pct_start <= 0 and not isinstance(pct_start, float)):\n        raise ValueError(\n            \"Expected positive float pct_start, but got {}\".format(pct_start)\n        )\n\n    if pct_start is not None:\n        warmup_length = pct_start\n\n    elif warmup_steps is not None:\n        warmup_length = warmup_steps / max_iters\n\n    sched = LinearParamScheduler(1, 0)\n    sched = WarmupParamScheduler(\n        sched,\n        warmup_factor=warmup_factor,\n        warmup_length=warmup_length,\n        warmup_method=\"linear\",\n    )\n    return LRMultiplier(optimizer, multiplier=sched, max_iter=max_iters)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -976,13 +1018,13 @@ var element = $('#7bf5bb7c-a5f7-44db-9a82-1fa0a0b0bfb1');
 
 
 
-<div id="6a2847e1-490a-4644-8dbd-b23e54029a8c"></div>
+<div id="f3f2dc1c-d273-4c83-9ccb-a770defeca89"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#6a2847e1-490a-4644-8dbd-b23e54029a8c');
+var element = $('#f3f2dc1c-d273-4c83-9ccb-a770defeca89');
 
             setTimeout(function() {
-                var nbb_cell_id = 29;
+                var nbb_cell_id = 38;
                 var nbb_unformatted_code = "lr2 = []\n\nscheduler = WarmupLinearLR(optim, pct_start=0.1, max_iters=max_steps)\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n        scheduler.step()\n        lr2.append(scheduler.get_lr())\n\nplt.plot(lr2, label=\"LinearLR + Warmup\")\nplt.legend();";
                 var nbb_formatted_code = "lr2 = []\n\nscheduler = WarmupLinearLR(optim, pct_start=0.1, max_iters=max_steps)\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n        scheduler.step()\n        lr2.append(scheduler.get_lr())\n\nplt.plot(lr2, label=\"LinearLR + Warmup\")\nplt.legend()";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -1018,7 +1060,7 @@ var element = $('#6a2847e1-490a-4644-8dbd-b23e54029a8c');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="WarmupConstantLR" class="doc_header"><code>WarmupConstantLR</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L248" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>WarmupConstantLR</code>(<strong><code>optimizer</code></strong>:<code>Optimizer</code>, <strong><code>max_iters</code></strong>:<code>int</code>, <strong><code>pct_start</code></strong>:<code>Optional</code>[<code>float</code>]=<em><code>None</code></em>, <strong><code>warmup_steps</code></strong>:<code>Optional</code>[<code>int</code>]=<em><code>None</code></em>, <strong><code>warmup_factor</code></strong>:<code>float</code>=<em><code>0.001</code></em>)</p>
+<h4 id="WarmupConstantLR" class="doc_header"><code>WarmupConstantLR</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L246" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>WarmupConstantLR</code>(<strong><code>optimizer</code></strong>:<code>Optimizer</code>, <strong><code>max_iters</code></strong>:<code>int</code>, <strong><code>pct_start</code></strong>:<code>Optional</code>[<code>float</code>]=<em><code>None</code></em>, <strong><code>warmup_steps</code></strong>:<code>Optional</code>[<code>int</code>]=<em><code>None</code></em>, <strong><code>warmup_factor</code></strong>:<code>float</code>=<em><code>0.001</code></em>)</p>
 </blockquote>
 <p>Linearly increase <code>lr</code> for <code>pct_start</code> or <code>warmup_steps</code> after
 which keep the <code>lr</code> at constant value.</p>
@@ -1045,13 +1087,13 @@ which keep the <code>lr</code> at constant value.</p>
 
 
 
-<div id="7f1b09d4-dd10-431d-acb9-9889a8f041b9"></div>
+<div id="3d889733-77f3-4a88-956c-fccf00e6d7ec"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#7f1b09d4-dd10-431d-acb9-9889a8f041b9');
+var element = $('#3d889733-77f3-4a88-956c-fccf00e6d7ec');
 
             setTimeout(function() {
-                var nbb_cell_id = 30;
+                var nbb_cell_id = 39;
                 var nbb_unformatted_code = "# export\n# @SCHEDULER_REGISTRY.register()\ndef WarmupConstantLR(\n    optimizer: Optimizer,\n    max_iters: int,\n    pct_start: Optional[float] = None,\n    warmup_steps: Optional[int] = None,\n    warmup_factor: float = (1.0 / 1000),\n) -> torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Linearly increase `lr` for `pct_start` or `warmup_steps` after\n    which keep the `lr` at constant value.\n    \"\"\"\n    # warmup iterations\n    if pct_start is None and warmup_steps is None:\n        raise ValueError(\"You must define either pct_start OR warmup_steps\")\n\n    if warmup_steps is not None and (\n        warmup_steps <= 0 or not isinstance(warmup_steps, int)\n    ):\n        raise ValueError(\n            \"Expected positive interger warmup_steps, but got {}\".format(warmup_steps)\n        )\n    if pct_start is not None and (pct_start <= 0 and not isinstance(pct_start, float)):\n        raise ValueError(\n            \"Expected positive float pct_start, but got {}\".format(pct_start)\n        )\n\n    if pct_start is not None:\n        warmup_length = pct_start\n\n    elif warmup_steps is not None:\n        warmup_length = warmup_steps / max_iters\n\n    sched = LinearParamScheduler(1, 1)\n    sched = WarmupParamScheduler(\n        sched,\n        warmup_factor=warmup_factor,\n        warmup_length=warmup_length,\n        warmup_method=\"linear\",\n    )\n    return LRMultiplier(optimizer, multiplier=sched, max_iter=max_iters)";
                 var nbb_formatted_code = "# export\n# @SCHEDULER_REGISTRY.register()\ndef WarmupConstantLR(\n    optimizer: Optimizer,\n    max_iters: int,\n    pct_start: Optional[float] = None,\n    warmup_steps: Optional[int] = None,\n    warmup_factor: float = (1.0 / 1000),\n) -> torch.optim.lr_scheduler._LRScheduler:\n    \"\"\"\n    Linearly increase `lr` for `pct_start` or `warmup_steps` after\n    which keep the `lr` at constant value.\n    \"\"\"\n    # warmup iterations\n    if pct_start is None and warmup_steps is None:\n        raise ValueError(\"You must define either pct_start OR warmup_steps\")\n\n    if warmup_steps is not None and (\n        warmup_steps <= 0 or not isinstance(warmup_steps, int)\n    ):\n        raise ValueError(\n            \"Expected positive interger warmup_steps, but got {}\".format(warmup_steps)\n        )\n    if pct_start is not None and (pct_start <= 0 and not isinstance(pct_start, float)):\n        raise ValueError(\n            \"Expected positive float pct_start, but got {}\".format(pct_start)\n        )\n\n    if pct_start is not None:\n        warmup_length = pct_start\n\n    elif warmup_steps is not None:\n        warmup_length = warmup_steps / max_iters\n\n    sched = LinearParamScheduler(1, 1)\n    sched = WarmupParamScheduler(\n        sched,\n        warmup_factor=warmup_factor,\n        warmup_length=warmup_length,\n        warmup_method=\"linear\",\n    )\n    return LRMultiplier(optimizer, multiplier=sched, max_iter=max_iters)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -1136,13 +1178,13 @@ var element = $('#7f1b09d4-dd10-431d-acb9-9889a8f041b9');
 
 
 
-<div id="59b99fdb-050a-444e-9b0c-07326adf986c"></div>
+<div id="5bd435c4-dc48-47eb-954f-5e99a70d2569"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#59b99fdb-050a-444e-9b0c-07326adf986c');
+var element = $('#5bd435c4-dc48-47eb-954f-5e99a70d2569');
 
             setTimeout(function() {
-                var nbb_cell_id = 31;
+                var nbb_cell_id = 40;
                 var nbb_unformatted_code = "lr3 = []\n\nscheduler = WarmupConstantLR(optim, pct_start=0.1, max_iters=max_steps)\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n        scheduler.step()\n        lr3.append(scheduler.get_lr())\n\nplt.plot(lr3, label=\"ConstantLR + Warmup\")\nplt.legend();";
                 var nbb_formatted_code = "lr3 = []\n\nscheduler = WarmupConstantLR(optim, pct_start=0.1, max_iters=max_steps)\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n        scheduler.step()\n        lr3.append(scheduler.get_lr())\n\nplt.plot(lr3, label=\"ConstantLR + Warmup\")\nplt.legend()";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -1167,6 +1209,13 @@ var element = $('#59b99fdb-050a-444e-9b0c-07326adf986c');
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Comparison of all the Warmup LR Schedulers -</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -1205,13 +1254,13 @@ var element = $('#59b99fdb-050a-444e-9b0c-07326adf986c');
 
 
 
-<div id="134eeb30-38fd-4d24-8f4d-37f9e25fe623"></div>
+<div id="16843642-86a5-4b1c-8767-2b3ba16a0d46"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#134eeb30-38fd-4d24-8f4d-37f9e25fe623');
+var element = $('#16843642-86a5-4b1c-8767-2b3ba16a0d46');
 
             setTimeout(function() {
-                var nbb_cell_id = 33;
+                var nbb_cell_id = 41;
                 var nbb_unformatted_code = "plt.plot(lr2, label=\"LinearLR + Warmup\")\nplt.plot(lr1, label=\"CosineLR + Warmup\")\nplt.plot(lr3, label=\"ConstantLR + Warmup\")\nplt.legend()\nplt.title(\"Warmup LR Schedulers\");";
                 var nbb_formatted_code = "plt.plot(lr2, label=\"LinearLR + Warmup\")\nplt.plot(lr1, label=\"CosineLR + Warmup\")\nplt.plot(lr3, label=\"ConstantLR + Warmup\")\nplt.legend()\nplt.title(\"Warmup LR Schedulers\")";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -1247,7 +1296,7 @@ var element = $('#134eeb30-38fd-4d24-8f4d-37f9e25fe623');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="WarmupStepLR" class="doc_header"><code>WarmupStepLR</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L291" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>WarmupStepLR</code>(<strong><code>optimizer</code></strong>:<code>Optimizer</code>, <strong><code>epochs</code></strong>:<code>int</code>, <strong><code>num_decays</code></strong>:<code>int</code>, <strong><code>warmup_epochs</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>decay_rate</code></strong>:<code>float</code>=<em><code>1.0</code></em>, <strong><code>warmup_factor</code></strong>:<code>float</code>=<em><code>1e-05</code></em>)</p>
+<h4 id="WarmupStepLR" class="doc_header"><code>WarmupStepLR</code><a href="https://github.com/benihime91/gale/tree/master/gale/core/nn/optim/lr_schedulers.py#L288" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>WarmupStepLR</code>(<strong><code>optimizer</code></strong>:<code>Optimizer</code>, <strong><code>epochs</code></strong>:<code>int</code>, <strong><code>num_decays</code></strong>:<code>int</code>, <strong><code>warmup_epochs</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>decay_rate</code></strong>:<code>float</code>=<em><code>1.0</code></em>, <strong><code>warmup_factor</code></strong>:<code>float</code>=<em><code>1e-05</code></em>)</p>
 </blockquote>
 <p>Decays the learning rate of each parameter group by <code>decay_rate</code> at equal number of epochs
 given by <code>num_decays</code>. You can optionally add a warmup scheduler using <code>warmup_epochs</code>.
@@ -1275,15 +1324,15 @@ This scheduler is meant to be called after each epoch.</p>
 
 
 
-<div id="d96b0c00-9c3b-4c8b-a30e-a837c188d213"></div>
+<div id="36665d94-409d-4067-b18f-e16bd14b9f23"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#d96b0c00-9c3b-4c8b-a30e-a837c188d213');
+var element = $('#36665d94-409d-4067-b18f-e16bd14b9f23');
 
             setTimeout(function() {
-                var nbb_cell_id = 46;
-                var nbb_unformatted_code = "# export\n# @SCHEDULER_REGISTRY.register()\ndef WarmupStepLR(\n    optimizer: Optimizer,\n    epochs: int,\n    num_decays: int,\n    warmup_epochs: int = 0,\n    decay_rate: float = 1.0,\n    warmup_factor: float = 1e-05,\n):\n    \"\"\"\n    Decays the learning rate of each parameter group by `decay_rate` at equal number of epochs\n    given by `num_decays`. You can optionally add a warmup scheduler using `warmup_epochs`.\n    This scheduler is meant to be called after each epoch.\n    \"\"\"\n    warmup_length = warmup_epochs / epochs\n\n    sched = StepWithFixedGammaParamScheduler(\n        1,\n        num_decays,\n        decay_rate,\n        epochs + 1 - warmup_epochs\n    )\n\n    sched = WarmupParamScheduler(\n        sched,\n        warmup_factor=warmup_factor,\n        warmup_length=warmup_length,\n        warmup_method=\"linear\",\n    )\n    return LRMultiplier(optimizer, multiplier=sched, max_iter=epochs + 1)";
-                var nbb_formatted_code = "# export\n# @SCHEDULER_REGISTRY.register()\ndef WarmupStepLR(\n    optimizer: Optimizer,\n    epochs: int,\n    num_decays: int,\n    warmup_epochs: int = 0,\n    decay_rate: float = 1.0,\n    warmup_factor: float = 1e-05,\n):\n    \"\"\"\n    Decays the learning rate of each parameter group by `decay_rate` at equal number of epochs\n    given by `num_decays`. You can optionally add a warmup scheduler using `warmup_epochs`.\n    This scheduler is meant to be called after each epoch.\n    \"\"\"\n    warmup_length = warmup_epochs / epochs\n\n    sched = StepWithFixedGammaParamScheduler(\n        1, num_decays, decay_rate, epochs + 1 - warmup_epochs\n    )\n\n    sched = WarmupParamScheduler(\n        sched,\n        warmup_factor=warmup_factor,\n        warmup_length=warmup_length,\n        warmup_method=\"linear\",\n    )\n    return LRMultiplier(optimizer, multiplier=sched, max_iter=epochs + 1)";
+                var nbb_cell_id = 42;
+                var nbb_unformatted_code = "# export\ndef WarmupStepLR(\n    optimizer: Optimizer,\n    epochs: int,\n    num_decays: int,\n    warmup_epochs: int = 0,\n    decay_rate: float = 1.0,\n    warmup_factor: float = 1e-05,\n):\n    \"\"\"\n    Decays the learning rate of each parameter group by `decay_rate` at equal number of epochs\n    given by `num_decays`. You can optionally add a warmup scheduler using `warmup_epochs`.\n    This scheduler is meant to be called after each epoch.\n    \"\"\"\n    warmup_length = warmup_epochs / epochs\n\n    sched = StepWithFixedGammaParamScheduler(\n        1, num_decays, decay_rate, epochs + 1 - warmup_epochs\n    )\n\n    sched = WarmupParamScheduler(\n        sched,\n        warmup_factor=warmup_factor,\n        warmup_length=warmup_length,\n        warmup_method=\"linear\",\n    )\n    return LRMultiplier(optimizer, multiplier=sched, max_iter=epochs + 1)";
+                var nbb_formatted_code = "# export\ndef WarmupStepLR(\n    optimizer: Optimizer,\n    epochs: int,\n    num_decays: int,\n    warmup_epochs: int = 0,\n    decay_rate: float = 1.0,\n    warmup_factor: float = 1e-05,\n):\n    \"\"\"\n    Decays the learning rate of each parameter group by `decay_rate` at equal number of epochs\n    given by `num_decays`. You can optionally add a warmup scheduler using `warmup_epochs`.\n    This scheduler is meant to be called after each epoch.\n    \"\"\"\n    warmup_length = warmup_epochs / epochs\n\n    sched = StepWithFixedGammaParamScheduler(\n        1, num_decays, decay_rate, epochs + 1 - warmup_epochs\n    )\n\n    sched = WarmupParamScheduler(\n        sched,\n        warmup_factor=warmup_factor,\n        warmup_length=warmup_length,\n        warmup_method=\"linear\",\n    )\n    return LRMultiplier(optimizer, multiplier=sched, max_iter=epochs + 1)";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -1333,7 +1382,6 @@ var element = $('#d96b0c00-9c3b-4c8b-a30e-a837c188d213');
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lr2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;With Warmup&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lr1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Without Warmup&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
-<span class="c1"># fmt: on</span>
 </pre></div>
 
     </div>
@@ -1360,15 +1408,15 @@ var element = $('#d96b0c00-9c3b-4c8b-a30e-a837c188d213');
 
 
 
-<div id="1b712076-0193-4c21-850a-e3b57c367984"></div>
+<div id="b19b5bed-f1bd-400d-8c1e-0a5b4b9b0ef6"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#1b712076-0193-4c21-850a-e3b57c367984');
+var element = $('#b19b5bed-f1bd-400d-8c1e-0a5b4b9b0ef6');
 
             setTimeout(function() {
-                var nbb_cell_id = 71;
-                var nbb_unformatted_code = "lr1, lr2 = [], []\nepoch = 100\n\n# fmt: off\nscheduler = WarmupStepLR(optim, epochs=epoch, num_decays=5, warmup_epochs=0, decay_rate=0.8)\nwrm_scheduler = WarmupStepLR(optim, epochs=epoch, num_decays=5, warmup_epochs=3, decay_rate=0.8)\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n    \n    # scheduler is called after each epoch\n    scheduler.step()\n    wrm_scheduler.step()\n    lr1.append(scheduler.get_lr())\n    lr2.append(wrm_scheduler.get_lr())\n\nplt.plot(lr2, label=\"With Warmup\")\nplt.plot(lr1, alpha=0.8, label=\"Without Warmup\")\nplt.legend();\n# fmt: on";
-                var nbb_formatted_code = "lr1, lr2 = [], []\nepoch = 100\n\n# fmt: off\nscheduler = WarmupStepLR(optim, epochs=epoch, num_decays=5, warmup_epochs=0, decay_rate=0.8)\nwrm_scheduler = WarmupStepLR(optim, epochs=epoch, num_decays=5, warmup_epochs=3, decay_rate=0.8)\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n    \n    # scheduler is called after each epoch\n    scheduler.step()\n    wrm_scheduler.step()\n    lr1.append(scheduler.get_lr())\n    lr2.append(wrm_scheduler.get_lr())\n\nplt.plot(lr2, label=\"With Warmup\")\nplt.plot(lr1, alpha=0.8, label=\"Without Warmup\")\nplt.legend();\n# fmt: on";
+                var nbb_cell_id = 44;
+                var nbb_unformatted_code = "lr1, lr2 = [], []\nepoch = 100\n\n# fmt: off\nscheduler = WarmupStepLR(optim, epochs=epoch, num_decays=5, warmup_epochs=0, decay_rate=0.8)\nwrm_scheduler = WarmupStepLR(optim, epochs=epoch, num_decays=5, warmup_epochs=3, decay_rate=0.8)\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n    \n    # scheduler is called after each epoch\n    scheduler.step()\n    wrm_scheduler.step()\n    lr1.append(scheduler.get_lr())\n    lr2.append(wrm_scheduler.get_lr())\n\nplt.plot(lr2, label=\"With Warmup\")\nplt.plot(lr1, alpha=0.8, label=\"Without Warmup\")\nplt.legend();";
+                var nbb_formatted_code = "lr1, lr2 = [], []\nepoch = 100\n\n# fmt: off\nscheduler = WarmupStepLR(optim, epochs=epoch, num_decays=5, warmup_epochs=0, decay_rate=0.8)\nwrm_scheduler = WarmupStepLR(optim, epochs=epoch, num_decays=5, warmup_epochs=3, decay_rate=0.8)\n\nfor _ in range(epoch):\n    for _ in range(batch_nb):\n        optim.step()\n    \n    # scheduler is called after each epoch\n    scheduler.step()\n    wrm_scheduler.step()\n    lr1.append(scheduler.get_lr())\n    lr2.append(wrm_scheduler.get_lr())\n\nplt.plot(lr2, label=\"With Warmup\")\nplt.plot(lr1, alpha=0.8, label=\"Without Warmup\")\nplt.legend();";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {

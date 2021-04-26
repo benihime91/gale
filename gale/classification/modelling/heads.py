@@ -98,7 +98,6 @@ class FastaiHead(ImageClassificationHead):
     """
     Model head that takes `in_planes` features, runs through `lin_ftrs`, and out `num_classes` classes.
 
-
     From -
     https://github.com/fastai/fastai/blob/8b1da8765fc07f1232c20fa8dc5e909d2835640c/fastai/vision/learner.py#L76
     """
