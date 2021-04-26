@@ -74,15 +74,15 @@ entries:
           title: Generalized Image Classifier
           url: classification.modelling.meta_arch.common.html
         - output: web,pdf
-          title: Vision Transformer (ViT)
+          title: Vision Transformer
           url: classification.modelling.meta_arch.vit.html
         title: Meta Architectures
-    - output: web,pdf
-      title: Task
-      url: classification.task.html
     output: web
     title: Classification
   - folderitems:
+    - output: web,pdf
+      title: Pandas
+      url: collections.pandas.html
       subfolders:
       - output: web
         subfolderitems:
@@ -93,10 +93,13 @@ entries:
           title: Progress Bar
           url: collections.callbacks.notebook.html
         title: Callbacks
-    - output: web,pdf
-      title: Pandas
-      url: collections.pandas.html
     output: web
     title: Collections
+  - folderitems:
+    - output: web,pdf
+      title: Classification
+      url: classification.task.html
+    output: web
+    title: Tasks
   output: web
   title: Sidebar

@@ -37,18 +37,20 @@
     "empty2": {
       "Meta Architectures": {
         "Generalized Image Classifier": "classification.modelling.meta_arch.common.html",
-        "Vision Transformer (ViT)": "classification.modelling.meta_arch.vit.html"
+        "Vision Transformer": "classification.modelling.meta_arch.vit.html"
       }
-    },
-    "Task": "classification.task.html"
+    }
   },
   "Collections": {
+    "Pandas": "collections.pandas.html",
     "": {
       "Callbacks": {
         "Model EMA": "collections.callbacks.ema.html",
         "Progress Bar": "collections.callbacks.notebook.html"
       }
-    },
-    "Pandas": "collections.pandas.html"
+    }
+  },
+  "Tasks": {
+    "Classification": "classification.task.html"
   }
 }
