@@ -46,19 +46,16 @@ entries:
     output: web
     title: Core
   - folderitems:
+    - output: web,pdf
+      title: Data Augmentation
+      url: classification.data.transforms.html
+    - output: web,pdf
+      title: Data
+      url: classification.data.common.html
+    - output: web,pdf
+      title: Data Build
+      url: classification.data.build.html
       subfolders:
-      - output: web
-        subfolderitems:
-        - output: web,pdf
-          title: Build
-          url: classification.data.build.html
-        - output: web,pdf
-          title: Common
-          url: classification.data.common.html
-        - output: web,pdf
-          title: Transforms
-          url: classification.data.transforms.html
-        title: Data
       - output: web
         subfolderitems:
         - output: web,pdf
