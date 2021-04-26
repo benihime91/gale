@@ -52,6 +52,9 @@ entries:
       title: Data augmentation in computer vision
       url: classification.data.transforms.html
     - output: web,pdf
+      title: Build
+      url: classification.data.build.html
+    - output: web,pdf
       title: Pandas
       url: collections.pandas.html
     - output: web,pdf

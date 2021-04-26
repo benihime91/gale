@@ -15,6 +15,7 @@
     "Meta Architectures : Vision Transformer (ViT) ": "classification.modelling.meta_arch.vit.html",
     "Classification Common": "classification.data.common.html",
     "Data augmentation in computer vision": "classification.data.transforms.html",
+    "Build": "classification.data.build.html",
     "Pandas": "collections.pandas.html",
     "Fancy Progress Bar callback for PyTorch Lightning.": "collections.callbacks.notebook.html",
     "Model Exponential Moving Average Callback for PyTorch Lightning": "collections.callbacks.ema.html"
