@@ -13,63 +13,90 @@ entries:
     title: Getting Started
   - folderitems:
     - output: web,pdf
-      title: gale.core.utils.logger
-      url: core.utils.logger.html
-    - output: web,pdf
-      title: gale.core.utils.visualize
-      url: core.utils.visualize.html
-    - output: web,pdf
-      title: gale.core.utils.structures
-      url: core.utils.structures.html
-    - output: web,pdf
-      title: gale.core.utils
-      url: core.nn.utils.html
-    - output: web,pdf
-      title: gale.core.nn.losses
-      url: core.nn.losses.html
-    - output: web,pdf
-      title: gale.core.optim.optimizers
-      url: core.optim.optimizers.html
-    - output: web,pdf
-      title: gale.core.nn.optim.lr_schedulers
-      url: core.nn.optim.lr_schedulers.html
-    - output: web,pdf
-      title: gale.core.classes
+      title: Classes
       url: core.classes.html
-    - output: web,pdf
-      title: gale.classification.modelling.backbones
-      url: classification.modelling.backbones.html
-    - output: web,pdf
-      title: gale.classification.modelling.heads
-      url: classification.modelling.heads.html
-    - output: web,pdf
-      title: gale.classification.modelling.meta_arch.common
-      url: classification.modelling.meta_arch.common.html
-    - output: web,pdf
-      title: gale.classification.modelling.meta_arch.vit
-      url: classification.modelling.meta_arch.vit.html
-    - output: web,pdf
-      title: gale.classification.data.common
-      url: classification.data.common.html
-    - output: web,pdf
-      title: gale.classification.data.transforms
-      url: classification.data.transforms.html
-    - output: web,pdf
-      title: gale.classification.data.build
-      url: classification.data.build.html
-    - output: web,pdf
-      title: gale.classification.task
-      url: classification.task.html
-    - output: web,pdf
-      title: gale.collections.pandas
-      url: collections.pandas.html
-    - output: web,pdf
-      title: gale.collections.callbacks.notebook
-      url: collections.callbacks.notebook.html
-    - output: web,pdf
-      title: gale.collections.callbacks.ema
-      url: collections.callbacks.ema.html
+      subfolders:
+      - output: web
+        subfolderitems:
+        - output: web,pdf
+          title: Logger
+          url: core.utils.logger.html
+        - output: web,pdf
+          title: Structures
+          url: core.utils.structures.html
+        - output: web,pdf
+          title: Visualize
+          url: core.utils.visualize.html
+        title: Utilities
+      - output: web
+        subfolderitems:
+        - output: web,pdf
+          title: Losses
+          url: core.nn.losses.html
+        - output: web,pdf
+          title: Optimizers
+          url: core.nn.optim.optimizers.html
+        - output: web,pdf
+          title: LR Schedulers
+          url: core.nn.optim.lr_schedulers.html
+        - output: web,pdf
+          title: Utils
+          url: core.nn.utils.html
+        title: NN
     output: web
-    title: API Documentation
+    title: Core
+  - folderitems:
+      subfolders:
+      - output: web
+        subfolderitems:
+        - output: web,pdf
+          title: Build
+          url: classification.data.build.html
+        - output: web,pdf
+          title: Common
+          url: classification.data.common.html
+        - output: web,pdf
+          title: Transforms
+          url: classification.data.transforms.html
+        title: Data
+      - output: web
+        subfolderitems:
+        - output: web,pdf
+          title: BackBones
+          url: classification.modelling.backbones.html
+        - output: web,pdf
+          title: Classification Heads
+          url: classification.modelling.heads.html
+        title: Modelling
+      - output: web
+        subfolderitems:
+        - output: web,pdf
+          title: Generalized Image Classifier
+          url: classification.modelling.meta_arch.common.html
+        - output: web,pdf
+          title: Vision Transformer (ViT)
+          url: classification.modelling.meta_arch.vit.html
+        title: Meta Architectures
+    - output: web,pdf
+      title: Task
+      url: classification.task.html
+    output: web
+    title: Classification
+  - folderitems:
+      subfolders:
+      - output: web
+        subfolderitems:
+        - output: web,pdf
+          title: Model EMA
+          url: collections.callbacks.ema.html
+        - output: web,pdf
+          title: Progress Bar
+          url: collections.callbacks.notebook.html
+        title: Callbacks
+    - output: web,pdf
+      title: Pandas
+      url: collections.pandas.html
+    output: web
+    title: Collections
   output: web
   title: Sidebar

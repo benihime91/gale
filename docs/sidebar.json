@@ -2,25 +2,53 @@
   "Getting Started": {
     "Overview": "/"
   },
-  "API Documentation": {
-    "gale.core.utils.logger": "core.utils.logger.html",
-    "gale.core.utils.visualize": "core.utils.visualize.html",
-    "gale.core.utils.structures": "core.utils.structures.html",
-    "gale.core.utils": "core.nn.utils.html",
-    "gale.core.nn.losses": "core.nn.losses.html",
-    "gale.core.optim.optimizers": "core.optim.optimizers.html",
-    "gale.core.nn.optim.lr_schedulers": "core.nn.optim.lr_schedulers.html",
-    "gale.core.classes": "core.classes.html",
-    "gale.classification.modelling.backbones": "classification.modelling.backbones.html",
-    "gale.classification.modelling.heads": "classification.modelling.heads.html",
-    "gale.classification.modelling.meta_arch.common": "classification.modelling.meta_arch.common.html",
-    "gale.classification.modelling.meta_arch.vit": "classification.modelling.meta_arch.vit.html",
-    "gale.classification.data.common": "classification.data.common.html",
-    "gale.classification.data.transforms": "classification.data.transforms.html",
-    "gale.classification.data.build": "classification.data.build.html",
-    "gale.classification.task": "classification.task.html",
-    "gale.collections.pandas": "collections.pandas.html",
-    "gale.collections.callbacks.notebook": "collections.callbacks.notebook.html",
-    "gale.collections.callbacks.ema": "collections.callbacks.ema.html"
+  "Core": {
+    "Classes": "core.classes.html",
+    "": {
+      "Utilities": {
+        "Logger": "core.utils.logger.html",
+        "Structures": "core.utils.structures.html",
+        "Visualize": "core.utils.visualize.html"
+      }
+    },
+    "empty1": {
+      "NN": {
+        "Losses": "core.nn.losses.html",
+        "Optimizers": "core.nn.optim.optimizers.html",
+        "LR Schedulers": "core.nn.optim.lr_schedulers.html",
+        "Utils": "core.nn.utils.html"
+      }
+    }
+  },
+  "Classification": {
+    "": {
+      "Data": {
+        "Build": "classification.data.build.html",
+        "Common": "classification.data.common.html",
+        "Transforms": "classification.data.transforms.html"
+      }
+    },
+    "empty1": {
+      "Modelling": {
+        "BackBones": "classification.modelling.backbones.html",
+        "Classification Heads": "classification.modelling.heads.html"
+      }
+    },
+    "empty2": {
+      "Meta Architectures": {
+        "Generalized Image Classifier": "classification.modelling.meta_arch.common.html",
+        "Vision Transformer (ViT)": "classification.modelling.meta_arch.vit.html"
+      }
+    },
+    "Task": "classification.task.html"
+  },
+  "Collections": {
+    "": {
+      "Callbacks": {
+        "Model EMA": "collections.callbacks.ema.html",
+        "Progress Bar": "collections.callbacks.notebook.html"
+      }
+    },
+    "Pandas": "collections.pandas.html"
   }
 }
