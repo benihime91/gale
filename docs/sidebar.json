@@ -21,20 +21,16 @@
     }
   },
   "Classification": {
+    "Data Augmentation": "classification.data.transforms.html",
+    "Data": "classification.data.common.html",
+    "Data Build": "classification.data.build.html",
     "": {
-      "Data": {
-        "Build": "classification.data.build.html",
-        "Common": "classification.data.common.html",
-        "Transforms": "classification.data.transforms.html"
-      }
-    },
-    "empty1": {
       "Modelling": {
         "BackBones": "classification.modelling.backbones.html",
         "Classification Heads": "classification.modelling.heads.html"
       }
     },
-    "empty2": {
+    "empty1": {
       "Meta Architectures": {
         "Generalized Image Classifier": "classification.modelling.meta_arch.common.html",
         "Vision Transformer": "classification.modelling.meta_arch.vit.html"
