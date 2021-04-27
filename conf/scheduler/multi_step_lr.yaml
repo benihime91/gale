@@ -1,0 +1,7 @@
+# @package optimization.scheduler
+name: MultiStepLR
+interval: epoch
+monitor: null
+init_args:
+  milestones: null
+  gamma: 0.1

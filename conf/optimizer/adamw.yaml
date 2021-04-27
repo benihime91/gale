@@ -1,8 +1,7 @@
 # @package optimization.optimizer
 name: AdamW
-# optimizer arguments
 init_args:
-  betas: [0.95, 0.999]
+  betas: [0.9, 0.99]
   eps: 1e-05
   weight_decay: 1e-02
   amsgrad: False

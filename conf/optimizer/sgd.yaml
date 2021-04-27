@@ -1,0 +1,8 @@
+# @package optimization.optimizer
+name: SGD
+init_args:
+  lr: 1e-3
+  momentum: 0
+  dampening: 0
+  weight_decay: 0
+  nesterov: false

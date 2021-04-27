@@ -30,13 +30,24 @@ dataloader:
   train:
     num_workers: 0
     batch_size: 32
+    shuffle: true
+    pin_memory: false
+    sampler: null
+    collate_fn: null
+  valid:
+    num_workers: 0
+    batch_size: 32
     shuffle: False
     pin_memory: false
     sampler: null
     collate_fn: null
-
-  valid: ${dataloader.train}
-  test: ${dataloader.train}
+  test:
+    num_workers: 0
+    batch_size: 32
+    shuffle: False
+    pin_memory: false
+    sampler: null
+    collate_fn: null
 
 # -----------------------------------------------------------------------------
 # INPUT

@@ -184,7 +184,6 @@ class TimmBackboneBase(ImageClassificationBackbone):
         return ShapeSpec(self.num_features, None, None)
 
 # Cell
-# fmt: off
 class ResNetBackbone(ImageClassificationBackbone):
     """
     A Backbone for ResNet based models from timm. Note: this class
@@ -198,7 +197,6 @@ class ResNetBackbone(ImageClassificationBackbone):
         drop_path_rate=None,
         bn_tf=False,
     )
-
     def __init__(
         self,
         model_name: str,
@@ -208,16 +206,23 @@ class ResNetBackbone(ImageClassificationBackbone):
         lr_div: float = 10,
         wd: float = 0,
         freeze_at: int = 0,
+        freeze_bn: bool = False,
         **kwargs
     ):
         super(ResNetBackbone, self).__init__()
-        store_attr("freeze_at, wd, lr, lr_div, input_shape", self)
+        store_attr("freeze_at, wd, lr, lr_div, input_shape, freeze_bn", self)
 
         if act is not None:
             act = ACTIVATION_REGISTRY.get(act)
 
-        model = create_model(model_name, act_layer=act, global_pool="", num_classes=0,
-                             in_chans=input_shape.channels, **kwargs)
+        model = create_model(
+            model_name,
+            act_layer=act,
+            global_pool="",
+            num_classes=0,
+            in_chans=input_shape.channels,
+            **kwargs
+        )
 
         assert isinstance(model, ResNet), "ResNetBackbone supports only ResNet models"
         # save some of the input information from timm models
@@ -225,32 +230,46 @@ class ResNetBackbone(ImageClassificationBackbone):
         self.timm_model_cfg = model.default_cfg
 
         # break up the model
+        # the stem for the resnet model consists of a convolutional block, norm, act, pool
         self.stem = nn.Sequential(model.conv1, model.bn1, model.act1, model.maxpool)
-        self.stages = nn.Sequential(model.layer1, model.layer2, model.layer3, model.layer4)
+
+        # stages will consisit of the remaining 4 layers
+        self.stages = nn.Sequential(
+            model.layer1, model.layer2, model.layer3, model.layer4
+        )
 
         self.prepare_model()
 
-
-    def forward(self, xb: torch.Tensor) -> torch.Tensor:
-        out = self.stem(xb)
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        out = self.stem(x)
         return self.stages(out)
 
     def build_param_dicts(self) -> Any:
-        p0 = {"params": trainable_params(self.stem), "lr": self.lr/self.lr_div, "weight_decay": self.wd}
-        p1 = {"params": trainable_params(self.stages[0:2]), "lr": self.lr/self.lr_div, "weight_decay": self.wd}
-        p2 = {"params": trainable_params(self.stages[2:]), "lr": self.lr, "weight_decay": self.wd}
-        return [p0, p1, p2]
+        p0 = {
+            "params": trainable_params(self.stem),
+            "lr": self.lr / self.lr_div,
+            "weight_decay": self.wd,
+        }
 
+        p1 = {
+            "params": trainable_params(self.stages[0:2]),
+            "lr": self.lr / self.lr_div,
+            "weight_decay": self.wd,
+        }
+        p2 = {
+            "params": trainable_params(self.stages[2:]),
+            "lr": self.lr,
+            "weight_decay": self.wd,
+        }
+        return [p0, p1, p2]
 
     def freeze_block(self, m: nn.Module):
         """
         Make this block `m` not trainable.
-        This method sets all parameters to `requires_grad=False`,
-        and convert all BatchNorm Layers in eval mode
         """
         for p in m.parameters():
             p.requires_grad = False
-        set_bn_eval(m)
+        m.eval()
 
     def prepare_model(self):
         """
@@ -258,11 +277,16 @@ class ResNetBackbone(ImageClassificationBackbone):
         """
         if self.freeze_at >= 1:
             self.freeze_block(self.stem)
+
         for idx, stage in enumerate(self.stages, start=2):
             if self.freeze_at >= idx:
                 for block in stage.children():
                     self.freeze_block(block)
 
+        if self.freeze_bn:
+            set_bn_eval(self.stem)
+            set_bn_eval(self.stages)
+        return self
+
     def output_shape(self) -> ShapeSpec:
         return ShapeSpec(self.num_features, None, None)
-# fmt: on

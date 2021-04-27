@@ -10,11 +10,14 @@ for o in opts:
 
 # Schedulers:
 scheds = [
+    # Schedulers inbuild in Torch
     OneCycleLR,
     CosineAnnealingWarmRestarts,
     ReduceLROnPlateau,
     StepLR,
     MultiStepLR,
+
+    # Custom Schedulers
     CosineLR,
     FlatCosScheduler,
     WarmupCosineLR,

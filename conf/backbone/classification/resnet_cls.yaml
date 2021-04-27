@@ -3,8 +3,8 @@ name: ResNetBackbone
 init_args:
   model_name: resnet18
   act: null
-  lr: 2e-03
-  wd: 1e-02
+  lr: 1e-03
+  wd: 0.
   lr_div: 10
   freeze_at: 2
   pretrained: true

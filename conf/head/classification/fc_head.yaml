@@ -5,6 +5,6 @@ init_args:
   pool_type: avg
   drop_rate: 0.0
   use_conv: false
-  lr: 2e-03
-  wd: 1e-02
+  lr: 1e-03
+  wd: 0.
   filter_wd: false

@@ -1,0 +1,7 @@
+# @package optimization.scheduler
+name: FlatCosScheduler
+interval: step
+monitor: null
+init_args:
+  max_iters: -1
+  pct_start: 0.7

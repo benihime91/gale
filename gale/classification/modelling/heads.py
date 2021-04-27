@@ -7,6 +7,7 @@ import logging
 from typing import *
 
 import torch
+import torch.nn.functional as F
 from fastcore.all import L, ifnone, store_attr
 from timm.models.layers.classifier import _create_fc, _create_pool
 from torch import nn
@@ -18,7 +19,7 @@ from ...core.nn.shape_spec import ShapeSpec
 from ...core.nn.utils import trainable_params
 from ...core.utils.structures import IMAGE_CLASSIFIER_HEADS
 
-_logger = logging.getLogger()
+_logger = logging.getLogger(__name__)
 
 # Cell
 #nbdev_comment _all_ = ["IMAGE_CLASSIFIER_HEADS"]

@@ -1,0 +1,7 @@
+# @package optimization.scheduler
+name: StepLR
+interval: epoch
+monitor: null
+init_args:
+  step_size: 7
+  gamma: 0.1

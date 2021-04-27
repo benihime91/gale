@@ -1,0 +1,10 @@
+# @package optimization.scheduler
+name: WarmupStepLR
+interval: epoch
+monitor: null
+init_args:
+  epochs: -1
+  warmup_epochs: null
+  num_decays: 5
+  decay_rate: 0.1
+  warmup_factor: 1e-05

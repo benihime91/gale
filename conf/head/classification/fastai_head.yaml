@@ -8,6 +8,6 @@ init_args:
   concat_pool: true
   first_bn: true
   bn_final: false
-  lr: 2e-03
-  wd: 1e-02
+  lr: 1e-03
+  wd: 0.
   filter_wd: true

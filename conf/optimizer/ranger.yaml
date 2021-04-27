@@ -1,0 +1,9 @@
+# @package optimization.optimizer
+name: Ranger
+init_args:
+  lr: 1e-3
+  betas: [0.95, 0.999]
+  eps: 1e-05
+  k: 6
+  aplha: 0.5
+  weight_decay: 0

@@ -1,0 +1,9 @@
+# @package optimization.scheduler
+name: ReduceLROnPlateau
+interval: epoch
+monitor: "val/loss"
+init_args:
+  mode: "min"
+  factor: 0.1
+  patience: 10
+  verbose: false

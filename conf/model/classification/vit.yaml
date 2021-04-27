@@ -8,7 +8,7 @@ meta_architecture:
     num_classes: ${model.num_classes}
     model_name: null
     lr: 1e-03
-    wd: 1e-03
+    wd: 0.0
     pretrained: true
     freeze_to: null
     finetune: false

@@ -1,0 +1,8 @@
+# @package optimization.scheduler
+name: WarmupConstantLR
+interval: step
+monitor: null
+init_args:
+  max_iters: -1
+  pct_start: 0.3
+  warmup_factor: 1e-05

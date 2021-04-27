@@ -1,0 +1,8 @@
+# @package optimization.scheduler
+name: CosineLR
+interval: step
+monitor: null
+init_args:
+  max_iters: -1
+  start_value: 1
+  end_value: 0

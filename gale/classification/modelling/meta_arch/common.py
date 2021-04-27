@@ -49,7 +49,9 @@ class GeneralizedImageClassifier(GaleModule):
         Runs the batched_inputs through `backbone` followed by the `head`.
         Returns a Tensor which contains the logits for the batched_inputs.
         """
+        # forward pass through the backbone
         out = self.backbone(batched_inputs)
+        # pass through the classification layer
         out = self.head(out)
         return out
 
@@ -58,44 +60,62 @@ class GeneralizedImageClassifier(GaleModule):
         """
         Instantiate the Meta Architecture from gale config
         """
-        # fmt: off
-
         if not hasattr(cfg.model, "backbone"):
-            _logger.error("Configuration for model backbone not found")
-            raise ValueError
+            raise ValueError("Configuration for model backbone not found")
 
         if not hasattr(cfg.model, "head"):
-            _logger.error("Configuration for model head not found")
-            raise ValueError
+            raise ValueError("Configuration for model head not found")
 
         input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)
         _logger.debug(f"Inputs: {input_shape}")
 
         backbone = build_backbone(cfg, input_shape=input_shape)
-        param_count = get_human_readable_count(sum([m.numel() for m in backbone.parameters()]))
-        _logger.debug('Backbone {} created, param count: {}.'.format(cfg.model.backbone.name, param_count))
+        param_count = get_human_readable_count(
+            sum([m.numel() for m in backbone.parameters()])
+        )
+        _logger.debug(
+            "Backbone {} created, param count: {}.".format(
+                cfg.model.backbone.name, param_count
+            )
+        )
 
         head = build_head(cfg, backbone.output_shape())
-        param_count = get_human_readable_count(sum([m.numel() for m in head.parameters()]))
-        _logger.debug('Head {} created, param count: {}.'.format(cfg.model.head.name, param_count))
+        param_count = get_human_readable_count(
+            sum([m.numel() for m in head.parameters()])
+        )
+        _logger.debug(
+            "Head {} created, param count: {}.".format(cfg.model.head.name, param_count)
+        )
 
         kwds = {"backbone": backbone, "head": head}
 
         instance = cls(**kwds)
-        instance._cfg = OmegaConf.to_container(cfg.model, resolve=True)
         instance.input_shape = input_shape
-        param_count = get_human_readable_count(sum([m.numel() for m in instance.parameters()]))
+
+        param_count = get_human_readable_count(
+            sum([m.numel() for m in instance.parameters()])
+        )
         _logger.info("Model created, param count: {}.".format(param_count))
-        # fmt: on
+
         return instance
 
     def build_param_dicts(self):
         """
-        Builds up the Paramters dicts for optimization.
+        Builds up the Paramters dicts for optimization
         """
         backbone_params = self.backbone.build_param_dicts()
         head_params = self.head.build_param_dicts()
-        return backbone_params + head_params
+        parameters = backbone_params + head_params
+
+        # filter and remove any empty paramter groups if any
+        pgs_filterd = []
+
+        for group in parameters:
+            if group["params"] == []:
+                pass
+            else:
+                pgs_filterd += [group]
+        return pgs_filterd
 
     def get_lrs(self) -> List:
         """
@@ -105,7 +125,6 @@ class GeneralizedImageClassifier(GaleModule):
         the max lrs' for all the Param Groups.
         """
         lrs = []
-
         for p in self.build_param_dicts():
             lrs.append(p["lr"])
         return lrs

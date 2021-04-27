@@ -1,0 +1,11 @@
+# @package optimization.optimizer
+name: RMSpropTF
+init_args:
+  lr: 1e-2
+  alpha: 0.9
+  eps: 0.001
+  weight_decay: 1e-05
+  momentum: 0.
+  centered: False
+  decoupled_decay: False
+  lr_in_momentum: True

@@ -3,8 +3,8 @@ name: TimmBackboneBase
 init_args:
   model_name: efficientnet_b0
   act: null
-  lr: 2e-03
-  wd: 2e-03
+  lr: 1e-03
+  wd: 0.
   freeze_bn: false
   freeze_at: false
   filter_wd: false
