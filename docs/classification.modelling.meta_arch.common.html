@@ -77,15 +77,15 @@ nb_path: "nbs/04b_classification.modelling.meta_arch.common.ipynb"
 
 
 
-<div id="18379f69-cced-4cd9-b4cc-ab547acaca3f"></div>
+<div id="e964fac4-791d-4411-afe2-ab304f7cba07"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#18379f69-cced-4cd9-b4cc-ab547acaca3f');
+var element = $('#e964fac4-791d-4411-afe2-ab304f7cba07');
 
             setTimeout(function() {
                 var nbb_cell_id = 5;
-                var nbb_unformatted_code = "# export\nclass GeneralizedImageClassifier(GaleModule):\n    \"\"\"\n    A General Image Classifier. Any models that contains the following 2 components:\n    1. Feature extractor (aka backbone)\n    2. Image Classification head (Pooling + Classifier)\n    \"\"\"\n\n    def __init__(\n        self,\n        backbone: ImageClassificationBackbone,\n        head: ImageClassificationHead,\n    ):\n        \"\"\"\n        Arguments:\n        1. `backbone`: a `ImageClassificationBackbone` module, must follow gale's backbone interface\n        2. `head`: a head containg the classifier. and the pooling layer, must be an instance of\n        `ImageClassificationHead`.\n        \"\"\"\n        super(GeneralizedImageClassifier, self).__init__()\n        self.backbone = backbone\n        assert isinstance(backbone, ImageClassificationBackbone)\n        self.head = head\n        assert isinstance(head, ImageClassificationHead)\n\n    def forward(self, batched_inputs: torch.Tensor) -> torch.Tensor:\n        \"\"\"\n        Runs the batched_inputs through `backbone` followed by the `head`.\n        Returns a Tensor which contains the logits for the batched_inputs.\n        \"\"\"\n        out = self.backbone(batched_inputs)\n        out = self.head(out)\n        return out\n\n    @classmethod\n    def from_config_dict(cls, cfg: DictConfig):\n        \"\"\"\n        Instantiate the Meta Architecture from gale config\n        \"\"\"\n        # fmt: off\n        \n        if not hasattr(cfg.model, \"backbone\"):\n            _logger.error(\"Configuration for model backbone not found\")\n            raise ValueError\n            \n        if not hasattr(cfg.model, \"head\"):\n            _logger.error(\"Configuration for model head not found\")\n            raise ValueError\n            \n        input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)\n        _logger.debug(f\"Inputs: {input_shape}\")\n        \n        backbone = build_backbone(cfg, input_shape=input_shape)\n        param_count = get_human_readable_count(sum([m.numel() for m in backbone.parameters()]))\n        _logger.debug('Backbone {} created, param count: {}.'.format(cfg.model.backbone.name, param_count))\n        \n        head = build_head(cfg, backbone.output_shape())\n        param_count = get_human_readable_count(sum([m.numel() for m in head.parameters()]))\n        _logger.debug('Head {} created, param count: {}.'.format(cfg.model.head.name, param_count))\n        \n        kwds = {\"backbone\": backbone, \"head\": head}\n        \n        instance = cls(**kwds)\n        instance._cfg = OmegaConf.to_container(cfg.model, resolve=True)\n        instance.input_shape = input_shape\n        param_count = get_human_readable_count(sum([m.numel() for m in instance.parameters()]))\n        _logger.info(\"Model created, param count: {}.\".format(param_count))\n        # fmt: on\n        return instance\n\n    def build_param_dicts(self):\n        \"\"\"\n        Builds up the Paramters dicts for optimization.\n        \"\"\"\n        backbone_params = self.backbone.build_param_dicts()\n        head_params = self.head.build_param_dicts()\n        return backbone_params + head_params\n\n    def get_lrs(self) -> List:\n        \"\"\"\n        Returns a List containining the Lrs' for\n        each parameter group. This is required to build schedulers\n        like `torch.optim.lr_scheduler.OneCycleScheduler` which needs\n        the max lrs' for all the Param Groups.\n        \"\"\"\n        lrs = []\n\n        for p in self.build_param_dicts():\n            lrs.append(p[\"lr\"])\n        return lrs";
-                var nbb_formatted_code = "# export\nclass GeneralizedImageClassifier(GaleModule):\n    \"\"\"\n    A General Image Classifier. Any models that contains the following 2 components:\n    1. Feature extractor (aka backbone)\n    2. Image Classification head (Pooling + Classifier)\n    \"\"\"\n\n    def __init__(\n        self,\n        backbone: ImageClassificationBackbone,\n        head: ImageClassificationHead,\n    ):\n        \"\"\"\n        Arguments:\n        1. `backbone`: a `ImageClassificationBackbone` module, must follow gale's backbone interface\n        2. `head`: a head containg the classifier. and the pooling layer, must be an instance of\n        `ImageClassificationHead`.\n        \"\"\"\n        super(GeneralizedImageClassifier, self).__init__()\n        self.backbone = backbone\n        assert isinstance(backbone, ImageClassificationBackbone)\n        self.head = head\n        assert isinstance(head, ImageClassificationHead)\n\n    def forward(self, batched_inputs: torch.Tensor) -> torch.Tensor:\n        \"\"\"\n        Runs the batched_inputs through `backbone` followed by the `head`.\n        Returns a Tensor which contains the logits for the batched_inputs.\n        \"\"\"\n        out = self.backbone(batched_inputs)\n        out = self.head(out)\n        return out\n\n    @classmethod\n    def from_config_dict(cls, cfg: DictConfig):\n        \"\"\"\n        Instantiate the Meta Architecture from gale config\n        \"\"\"\n        # fmt: off\n        \n        if not hasattr(cfg.model, \"backbone\"):\n            _logger.error(\"Configuration for model backbone not found\")\n            raise ValueError\n            \n        if not hasattr(cfg.model, \"head\"):\n            _logger.error(\"Configuration for model head not found\")\n            raise ValueError\n            \n        input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)\n        _logger.debug(f\"Inputs: {input_shape}\")\n        \n        backbone = build_backbone(cfg, input_shape=input_shape)\n        param_count = get_human_readable_count(sum([m.numel() for m in backbone.parameters()]))\n        _logger.debug('Backbone {} created, param count: {}.'.format(cfg.model.backbone.name, param_count))\n        \n        head = build_head(cfg, backbone.output_shape())\n        param_count = get_human_readable_count(sum([m.numel() for m in head.parameters()]))\n        _logger.debug('Head {} created, param count: {}.'.format(cfg.model.head.name, param_count))\n        \n        kwds = {\"backbone\": backbone, \"head\": head}\n        \n        instance = cls(**kwds)\n        instance._cfg = OmegaConf.to_container(cfg.model, resolve=True)\n        instance.input_shape = input_shape\n        param_count = get_human_readable_count(sum([m.numel() for m in instance.parameters()]))\n        _logger.info(\"Model created, param count: {}.\".format(param_count))\n        # fmt: on\n        return instance\n\n    def build_param_dicts(self):\n        \"\"\"\n        Builds up the Paramters dicts for optimization.\n        \"\"\"\n        backbone_params = self.backbone.build_param_dicts()\n        head_params = self.head.build_param_dicts()\n        return backbone_params + head_params\n\n    def get_lrs(self) -> List:\n        \"\"\"\n        Returns a List containining the Lrs' for\n        each parameter group. This is required to build schedulers\n        like `torch.optim.lr_scheduler.OneCycleScheduler` which needs\n        the max lrs' for all the Param Groups.\n        \"\"\"\n        lrs = []\n\n        for p in self.build_param_dicts():\n            lrs.append(p[\"lr\"])\n        return lrs";
+                var nbb_unformatted_code = "# export\nclass GeneralizedImageClassifier(GaleModule):\n    \"\"\"\n    A General Image Classifier. Any models that contains the following 2 components:\n    1. Feature extractor (aka backbone)\n    2. Image Classification head (Pooling + Classifier)\n    \"\"\"\n\n    def __init__(\n        self,\n        backbone: ImageClassificationBackbone,\n        head: ImageClassificationHead,\n    ):\n        \"\"\"\n        Arguments:\n        1. `backbone`: a `ImageClassificationBackbone` module, must follow gale's backbone interface\n        2. `head`: a head containg the classifier. and the pooling layer, must be an instance of\n        `ImageClassificationHead`.\n        \"\"\"\n        super(GeneralizedImageClassifier, self).__init__()\n        self.backbone = backbone\n        assert isinstance(backbone, ImageClassificationBackbone)\n        self.head = head\n        assert isinstance(head, ImageClassificationHead)\n\n    def forward(self, batched_inputs: torch.Tensor) -> torch.Tensor:\n        \"\"\"\n        Runs the batched_inputs through `backbone` followed by the `head`.\n        Returns a Tensor which contains the logits for the batched_inputs.\n        \"\"\"\n        # forward pass through the backbone\n        out = self.backbone(batched_inputs)\n        # pass through the classification layer\n        out = self.head(out)\n        return out\n\n    @classmethod\n    def from_config_dict(cls, cfg: DictConfig):\n        \"\"\"\n        Instantiate the Meta Architecture from gale config\n        \"\"\"\n        if not hasattr(cfg.model, \"backbone\"):\n            raise ValueError(\"Configuration for model backbone not found\")\n\n        if not hasattr(cfg.model, \"head\"):\n            raise ValueError(\"Configuration for model head not found\")\n\n        input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)\n        _logger.debug(f\"Inputs: {input_shape}\")\n\n        backbone = build_backbone(cfg, input_shape=input_shape)\n        param_count = get_human_readable_count(\n            sum([m.numel() for m in backbone.parameters()])\n        )\n        _logger.debug(\n            \"Backbone {} created, param count: {}.\".format(\n                cfg.model.backbone.name, param_count\n            )\n        )\n\n        head = build_head(cfg, backbone.output_shape())\n        param_count = get_human_readable_count(\n            sum([m.numel() for m in head.parameters()])\n        )\n        _logger.debug(\n            \"Head {} created, param count: {}.\".format(cfg.model.head.name, param_count)\n        )\n\n        kwds = {\"backbone\": backbone, \"head\": head}\n\n        instance = cls(**kwds)\n        instance.input_shape = input_shape\n\n        param_count = get_human_readable_count(\n            sum([m.numel() for m in instance.parameters()])\n        )\n        _logger.info(\"Model created, param count: {}.\".format(param_count))\n\n        return instance\n\n    def build_param_dicts(self):\n        \"\"\"\n        Builds up the Paramters dicts for optimization\n        \"\"\"\n        backbone_params = self.backbone.build_param_dicts()\n        head_params = self.head.build_param_dicts()\n        parameters = backbone_params + head_params\n\n        # filter and remove any empty paramter groups if any\n        pgs_filterd = []\n\n        for group in parameters:\n            if group[\"params\"] == []:\n                pass\n            else:\n                pgs_filterd += [group]\n        return pgs_filterd\n\n    def get_lrs(self) -> List:\n        \"\"\"\n        Returns a List containining the Lrs' for\n        each parameter group. This is required to build schedulers\n        like `torch.optim.lr_scheduler.OneCycleScheduler` which needs\n        the max lrs' for all the Param Groups.\n        \"\"\"\n        lrs = []\n        for p in self.build_param_dicts():\n            lrs.append(p[\"lr\"])\n        return lrs";
+                var nbb_formatted_code = "# export\nclass GeneralizedImageClassifier(GaleModule):\n    \"\"\"\n    A General Image Classifier. Any models that contains the following 2 components:\n    1. Feature extractor (aka backbone)\n    2. Image Classification head (Pooling + Classifier)\n    \"\"\"\n\n    def __init__(\n        self,\n        backbone: ImageClassificationBackbone,\n        head: ImageClassificationHead,\n    ):\n        \"\"\"\n        Arguments:\n        1. `backbone`: a `ImageClassificationBackbone` module, must follow gale's backbone interface\n        2. `head`: a head containg the classifier. and the pooling layer, must be an instance of\n        `ImageClassificationHead`.\n        \"\"\"\n        super(GeneralizedImageClassifier, self).__init__()\n        self.backbone = backbone\n        assert isinstance(backbone, ImageClassificationBackbone)\n        self.head = head\n        assert isinstance(head, ImageClassificationHead)\n\n    def forward(self, batched_inputs: torch.Tensor) -> torch.Tensor:\n        \"\"\"\n        Runs the batched_inputs through `backbone` followed by the `head`.\n        Returns a Tensor which contains the logits for the batched_inputs.\n        \"\"\"\n        # forward pass through the backbone\n        out = self.backbone(batched_inputs)\n        # pass through the classification layer\n        out = self.head(out)\n        return out\n\n    @classmethod\n    def from_config_dict(cls, cfg: DictConfig):\n        \"\"\"\n        Instantiate the Meta Architecture from gale config\n        \"\"\"\n        if not hasattr(cfg.model, \"backbone\"):\n            raise ValueError(\"Configuration for model backbone not found\")\n\n        if not hasattr(cfg.model, \"head\"):\n            raise ValueError(\"Configuration for model head not found\")\n\n        input_shape = ShapeSpec(cfg.input.channels, cfg.input.height, cfg.input.width)\n        _logger.debug(f\"Inputs: {input_shape}\")\n\n        backbone = build_backbone(cfg, input_shape=input_shape)\n        param_count = get_human_readable_count(\n            sum([m.numel() for m in backbone.parameters()])\n        )\n        _logger.debug(\n            \"Backbone {} created, param count: {}.\".format(\n                cfg.model.backbone.name, param_count\n            )\n        )\n\n        head = build_head(cfg, backbone.output_shape())\n        param_count = get_human_readable_count(\n            sum([m.numel() for m in head.parameters()])\n        )\n        _logger.debug(\n            \"Head {} created, param count: {}.\".format(cfg.model.head.name, param_count)\n        )\n\n        kwds = {\"backbone\": backbone, \"head\": head}\n\n        instance = cls(**kwds)\n        instance.input_shape = input_shape\n\n        param_count = get_human_readable_count(\n            sum([m.numel() for m in instance.parameters()])\n        )\n        _logger.info(\"Model created, param count: {}.\".format(param_count))\n\n        return instance\n\n    def build_param_dicts(self):\n        \"\"\"\n        Builds up the Paramters dicts for optimization\n        \"\"\"\n        backbone_params = self.backbone.build_param_dicts()\n        head_params = self.head.build_param_dicts()\n        parameters = backbone_params + head_params\n\n        # filter and remove any empty paramter groups if any\n        pgs_filterd = []\n\n        for group in parameters:\n            if group[\"params\"] == []:\n                pass\n            else:\n                pgs_filterd += [group]\n        return pgs_filterd\n\n    def get_lrs(self) -> List:\n        \"\"\"\n        Returns a List containining the Lrs' for\n        each parameter group. This is required to build schedulers\n        like `torch.optim.lr_scheduler.OneCycleScheduler` which needs\n        the max lrs' for all the Param Groups.\n        \"\"\"\n        lrs = []\n        for p in self.build_param_dicts():\n            lrs.append(p[\"lr\"])\n        return lrs";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -127,7 +127,7 @@ var element = $('#18379f69-cced-4cd9-b4cc-ab547acaca3f');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="GeneralizedImageClassifier.from_config_dict" class="doc_header"><code>GeneralizedImageClassifier.from_config_dict</code><a href="https://github.com/benihime91/gale/tree/master/gale/classification/modelling/meta_arch/common.py#L56" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GeneralizedImageClassifier.from_config_dict</code>(<strong><code>cfg</code></strong>:<code>DictConfig</code>)</p>
+<h4 id="GeneralizedImageClassifier.from_config_dict" class="doc_header"><code>GeneralizedImageClassifier.from_config_dict</code><a href="https://github.com/benihime91/gale/tree/master/gale/classification/modelling/meta_arch/common.py#L58" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GeneralizedImageClassifier.from_config_dict</code>(<strong><code>cfg</code></strong>:<code>DictConfig</code>)</p>
 </blockquote>
 <p>Instantiate the Meta Architecture from gale config</p>
 
@@ -178,9 +178,9 @@ Returns a Tensor which contains the logits for the batched_inputs.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="GeneralizedImageClassifier.build_param_dicts" class="doc_header"><code>GeneralizedImageClassifier.build_param_dicts</code><a href="https://github.com/benihime91/gale/tree/master/gale/classification/modelling/meta_arch/common.py#L92" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GeneralizedImageClassifier.build_param_dicts</code>()</p>
+<h4 id="GeneralizedImageClassifier.build_param_dicts" class="doc_header"><code>GeneralizedImageClassifier.build_param_dicts</code><a href="https://github.com/benihime91/gale/tree/master/gale/classification/modelling/meta_arch/common.py#L102" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>GeneralizedImageClassifier.build_param_dicts</code>()</p>
 </blockquote>
-<p>Builds up the Paramters dicts for optimization.</p>
+<p>Builds up the Paramters dicts for optimization</p>
 
 </div>
 
@@ -224,13 +224,13 @@ Returns a Tensor which contains the logits for the batched_inputs.</p>
 
 
 
-<div id="a2a1ba83-f6e2-4283-b6be-7ce2d8784c61"></div>
+<div id="3a742414-e883-4507-873e-f784a1a0d368"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#a2a1ba83-f6e2-4283-b6be-7ce2d8784c61');
+var element = $('#3a742414-e883-4507-873e-f784a1a0d368');
 
             setTimeout(function() {
-                var nbb_cell_id = 10;
+                var nbb_cell_id = 9;
                 var nbb_unformatted_code = "from dataclasses import dataclass, field\nfrom omegaconf import MISSING, OmegaConf\nfrom gale.classification.modelling.backbones import ResNetBackbone\nfrom gale.classification.modelling.heads import FastaiHead";
                 var nbb_formatted_code = "from dataclasses import dataclass, field\nfrom omegaconf import MISSING, OmegaConf\nfrom gale.classification.modelling.backbones import ResNetBackbone\nfrom gale.classification.modelling.heads import FastaiHead";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -271,31 +271,22 @@ must be registerd in <code>IMAGE_CLASSIFICATION_BACKBONES</code> and <code>IMAGE
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">BackboneConf</span><span class="p">:</span>
-    <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;resnetblur18&quot;</span>
+<span class="k">class</span> <span class="nc">C_Backbone</span><span class="p">:</span>
+    <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;resnet18&quot;</span>
+    <span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">act</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">lr</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="mf">2e-04</span>
-    <span class="n">lr_div</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="mi">10</span>
-    <span class="n">wd</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="mf">1e-02</span>
-    <span class="n">freeze_at</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">drop_block_rate</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">drop_path_rate</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">bn_tf</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">lr</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="mf">1e-05</span>
+    <span class="n">wd</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="mf">1e-05</span>
+    <span class="n">freeze_at</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
 
 
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">HeadConf</span><span class="p">:</span>
-    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">MISSING</span>
-    <span class="n">act</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ReLU&quot;</span>
-    <span class="n">lin_ftrs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">ps</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="mf">0.5</span>
-    <span class="n">concat_pool</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">first_bn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">bn_final</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2e-03</span>
-    <span class="n">wd</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-02</span>
-    <span class="n">filter_wd</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">class</span> <span class="nc">C_Head</span><span class="p">:</span>
+    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">drop_rate</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">lr</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="mf">2e-03</span>
+    <span class="n">wd</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="mf">1e-05</span>
+    <span class="n">filter_wd</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">False</span>
 </pre></div>
 
     </div>
@@ -310,15 +301,15 @@ must be registerd in <code>IMAGE_CLASSIFICATION_BACKBONES</code> and <code>IMAGE
 
 
 
-<div id="8237ab33-06e6-4f54-9ff9-19fef6c381a0"></div>
+<div id="5cf72b6c-e902-4175-bc2f-b339beec197e"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#8237ab33-06e6-4f54-9ff9-19fef6c381a0');
+var element = $('#5cf72b6c-e902-4175-bc2f-b339beec197e');
 
             setTimeout(function() {
-                var nbb_cell_id = 31;
-                var nbb_unformatted_code = "@dataclass\nclass BackboneConf:\n    model_name: str = \"resnetblur18\"\n    act: Any = None\n    lr: Any = 2e-04\n    lr_div: Any = 10\n    wd: Any = 1e-02\n    freeze_at: int = 0\n    pretrained: bool = False\n    drop_block_rate: Any = None\n    drop_path_rate: Any = None\n    bn_tf: bool = False\n\n\n@dataclass\nclass HeadConf:\n    num_classes: int = MISSING\n    act: str = \"ReLU\"\n    lin_ftrs: Any = None\n    ps: Any = 0.5\n    concat_pool: bool = True\n    first_bn: bool = True\n    bn_final: bool = False\n    lr: float = 2e-03\n    wd: float = 1e-02\n    filter_wd: bool = False";
-                var nbb_formatted_code = "@dataclass\nclass BackboneConf:\n    model_name: str = \"resnetblur18\"\n    act: Any = None\n    lr: Any = 2e-04\n    lr_div: Any = 10\n    wd: Any = 1e-02\n    freeze_at: int = 0\n    pretrained: bool = False\n    drop_block_rate: Any = None\n    drop_path_rate: Any = None\n    bn_tf: bool = False\n\n\n@dataclass\nclass HeadConf:\n    num_classes: int = MISSING\n    act: str = \"ReLU\"\n    lin_ftrs: Any = None\n    ps: Any = 0.5\n    concat_pool: bool = True\n    first_bn: bool = True\n    bn_final: bool = False\n    lr: float = 2e-03\n    wd: float = 1e-02\n    filter_wd: bool = False";
+                var nbb_cell_id = 10;
+                var nbb_unformatted_code = "@dataclass\nclass C_Backbone:\n    model_name: str = \"resnet18\"\n    pretrained: bool = True\n    act: Any = None\n    lr: Any = 1e-05\n    wd: Any = 1e-05\n    freeze_at: int = 4\n\n\n@dataclass\nclass C_Head:\n    num_classes: int = 2\n    drop_rate: Any = 0.3\n    lr: Any = 2e-03\n    wd: Any = 1e-05\n    filter_wd: Any = False";
+                var nbb_formatted_code = "@dataclass\nclass C_Backbone:\n    model_name: str = \"resnet18\"\n    pretrained: bool = True\n    act: Any = None\n    lr: Any = 1e-05\n    wd: Any = 1e-05\n    freeze_at: int = 4\n\n\n@dataclass\nclass C_Head:\n    num_classes: int = 2\n    drop_rate: Any = 0.3\n    lr: Any = 2e-03\n    wd: Any = 1e-05\n    filter_wd: Any = False";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -355,8 +346,8 @@ var element = $('#8237ab33-06e6-4f54-9ff9-19fef6c381a0');
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">b_args</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">structured</span><span class="p">(</span><span class="n">BackboneConf</span><span class="p">())</span>
-<span class="n">h_args</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">structured</span><span class="p">(</span><span class="n">HeadConf</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">b_args</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">structured</span><span class="p">(</span><span class="n">C_Backbone</span><span class="p">())</span>
+<span class="n">h_args</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">structured</span><span class="p">(</span><span class="n">C_Head</span><span class="p">())</span>
 
 <span class="c1"># Backbone config</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
@@ -365,7 +356,7 @@ var element = $('#8237ab33-06e6-4f54-9ff9-19fef6c381a0');
 
 <span class="c1"># Head config</span>
 <span class="n">h</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
-<span class="n">h</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;FastaiHead&quot;</span>
+<span class="n">h</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;FullyConnectedHead&quot;</span>
 <span class="n">h</span><span class="o">.</span><span class="n">init_args</span> <span class="o">=</span> <span class="n">h_args</span>
 
 <span class="n">i</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
@@ -390,15 +381,15 @@ var element = $('#8237ab33-06e6-4f54-9ff9-19fef6c381a0');
 
 
 
-<div id="a6155553-b1d8-40a6-b767-80786a9a63db"></div>
+<div id="26bd71c0-c171-467c-a178-a4882f71f8a7"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#a6155553-b1d8-40a6-b767-80786a9a63db');
+var element = $('#26bd71c0-c171-467c-a178-a4882f71f8a7');
 
             setTimeout(function() {
-                var nbb_cell_id = 32;
-                var nbb_unformatted_code = "b_args = OmegaConf.structured(BackboneConf())\nh_args = OmegaConf.structured(HeadConf(num_classes=10))\n\n# Backbone config\nb = OmegaConf.create()\nb.name = \"ResNetBackbone\"\nb.init_args = b_args\n\n# Head config\nh = OmegaConf.create()\nh.name = \"FastaiHead\"\nh.init_args = h_args\n\ni = OmegaConf.create()\ni.channels = 3\ni.height = 224\ni.width = 224\n\nm = OmegaConf.create()\nm.backbone = b\nm.head = h";
-                var nbb_formatted_code = "b_args = OmegaConf.structured(BackboneConf())\nh_args = OmegaConf.structured(HeadConf(num_classes=10))\n\n# Backbone config\nb = OmegaConf.create()\nb.name = \"ResNetBackbone\"\nb.init_args = b_args\n\n# Head config\nh = OmegaConf.create()\nh.name = \"FastaiHead\"\nh.init_args = h_args\n\ni = OmegaConf.create()\ni.channels = 3\ni.height = 224\ni.width = 224\n\nm = OmegaConf.create()\nm.backbone = b\nm.head = h";
+                var nbb_cell_id = 11;
+                var nbb_unformatted_code = "b_args = OmegaConf.structured(C_Backbone())\nh_args = OmegaConf.structured(C_Head())\n\n# Backbone config\nb = OmegaConf.create()\nb.name = \"ResNetBackbone\"\nb.init_args = b_args\n\n# Head config\nh = OmegaConf.create()\nh.name = \"FullyConnectedHead\"\nh.init_args = h_args\n\ni = OmegaConf.create()\ni.channels = 3\ni.height = 224\ni.width = 224\n\nm = OmegaConf.create()\nm.backbone = b\nm.head = h";
+                var nbb_formatted_code = "b_args = OmegaConf.structured(C_Backbone())\nh_args = OmegaConf.structured(C_Head())\n\n# Backbone config\nb = OmegaConf.create()\nb.name = \"ResNetBackbone\"\nb.init_args = b_args\n\n# Head config\nh = OmegaConf.create()\nh.name = \"FullyConnectedHead\"\nh.init_args = h_args\n\ni = OmegaConf.create()\ni.channels = 3\ni.height = 224\ni.width = 224\n\nm = OmegaConf.create()\nm.backbone = b\nm.head = h";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -429,6 +420,7 @@ var element = $('#a6155553-b1d8-40a6-b767-80786a9a63db');
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">conf</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">m</span><span class="p">))</span>
+<span class="c1"># print(OmegaConf.to_yaml(conf))</span>
 </pre></div>
 
     </div>
@@ -443,15 +435,15 @@ var element = $('#a6155553-b1d8-40a6-b767-80786a9a63db');
 
 
 
-<div id="bc49efd4-36e0-4b41-a019-c6ba7789d891"></div>
+<div id="21ff3ed5-14a8-4063-8187-05b4ae1b5176"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#bc49efd4-36e0-4b41-a019-c6ba7789d891');
+var element = $('#21ff3ed5-14a8-4063-8187-05b4ae1b5176');
 
             setTimeout(function() {
-                var nbb_cell_id = 33;
-                var nbb_unformatted_code = "conf = OmegaConf.create(dict(input=i, model=m))";
-                var nbb_formatted_code = "conf = OmegaConf.create(dict(input=i, model=m))";
+                var nbb_cell_id = 12;
+                var nbb_unformatted_code = "conf = OmegaConf.create(dict(input=i, model=m))\n# print(OmegaConf.to_yaml(conf))";
+                var nbb_formatted_code = "conf = OmegaConf.create(dict(input=i, model=m))\n# print(OmegaConf.to_yaml(conf))";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -482,249 +474,7 @@ var element = $('#bc49efd4-36e0-4b41-a019-c6ba7789d891');
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">GeneralizedImageClassifier</span><span class="o">.</span><span class="n">from_config_dict</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
-
-<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">GeneralizedImageClassifier</span><span class="p">)</span>
-<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">backbone</span><span class="p">,</span> <span class="n">ResNetBackbone</span><span class="p">)</span>
-<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">head</span><span class="p">,</span> <span class="n">FastaiHead</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="e370b57d-db8c-480a-b8cf-6df047566df0"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#e370b57d-db8c-480a-b8cf-6df047566df0');
-
-            setTimeout(function() {
-                var nbb_cell_id = 34;
-                var nbb_unformatted_code = "m = GeneralizedImageClassifier.from_config_dict(conf)\n\nassert isinstance(m, GeneralizedImageClassifier)\nassert isinstance(m.backbone, ResNetBackbone)\nassert isinstance(m.head, FastaiHead)";
-                var nbb_formatted_code = "m = GeneralizedImageClassifier.from_config_dict(conf)\n\nassert isinstance(m, GeneralizedImageClassifier)\nassert isinstance(m.backbone, ResNetBackbone)\nassert isinstance(m.head, FastaiHead)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-<details class="description">
-      <summary data-open="Hide Output" data-close="Show Output"></summary>
-        <summary></summary>
-        
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>GeneralizedImageClassifier(
-  (backbone): ResNetBackbone(
-    (stem): Sequential(
-      (0): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
-      (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (2): ReLU(inplace=True)
-      (3): Sequential(
-        (0): MaxPool2d(kernel_size=3, stride=1, padding=1, dilation=1, ceil_mode=False)
-        (1): BlurPool2d(
-          (padding): ReflectionPad2d([1, 1, 1, 1])
-        )
-      )
-    )
-    (stages): Sequential(
-      (0): Sequential(
-        (0): BasicBlock(
-          (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act1): ReLU(inplace=True)
-          (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act2): ReLU(inplace=True)
-        )
-        (1): BasicBlock(
-          (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act1): ReLU(inplace=True)
-          (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act2): ReLU(inplace=True)
-        )
-      )
-      (1): Sequential(
-        (0): BasicBlock(
-          (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act1): ReLU(inplace=True)
-          (aa): BlurPool2d(
-            (padding): ReflectionPad2d([1, 1, 1, 1])
-          )
-          (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act2): ReLU(inplace=True)
-          (downsample): Sequential(
-            (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
-            (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (1): BasicBlock(
-          (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act1): ReLU(inplace=True)
-          (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act2): ReLU(inplace=True)
-        )
-      )
-      (2): Sequential(
-        (0): BasicBlock(
-          (conv1): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act1): ReLU(inplace=True)
-          (aa): BlurPool2d(
-            (padding): ReflectionPad2d([1, 1, 1, 1])
-          )
-          (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act2): ReLU(inplace=True)
-          (downsample): Sequential(
-            (0): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
-            (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (1): BasicBlock(
-          (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act1): ReLU(inplace=True)
-          (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act2): ReLU(inplace=True)
-        )
-      )
-      (3): Sequential(
-        (0): BasicBlock(
-          (conv1): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act1): ReLU(inplace=True)
-          (aa): BlurPool2d(
-            (padding): ReflectionPad2d([1, 1, 1, 1])
-          )
-          (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act2): ReLU(inplace=True)
-          (downsample): Sequential(
-            (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
-            (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (1): BasicBlock(
-          (conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act1): ReLU(inplace=True)
-          (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act2): ReLU(inplace=True)
-        )
-      )
-    )
-  )
-  (head): FastaiHead(
-    (layers): Sequential(
-      (0): SelectAdaptivePool2d (pool_type=catavgmax, flatten=True)
-      (1): BatchNorm1d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (2): Dropout(p=0.25, inplace=False)
-      (3): Linear(in_features=1024, out_features=512, bias=False)
-      (4): ReLU(inplace=True)
-      (5): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (6): Dropout(p=0.5, inplace=False)
-      (7): Linear(in_features=512, out_features=10, bias=False)
-    )
-  )
-)
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-
-
-
-<div id="26c7ccf2-6cb6-48bd-854c-e9fd1bcdfa90"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#26c7ccf2-6cb6-48bd-854c-e9fd1bcdfa90');
-
-            setTimeout(function() {
-                var nbb_cell_id = 35;
-                var nbb_unformatted_code = "# collapse-output\nprint(m)";
-                var nbb_formatted_code = "# collapse-output\nprint(m)";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-    </details>
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">input_shape</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">input_shape</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">input_shape</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+<span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">input_shape</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">input_shape</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">input_shape</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
 <span class="n">inp</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">*</span><span class="n">shape</span><span class="p">)</span>
 <span class="n">o</span> <span class="o">=</span> <span class="n">m</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
 </pre></div>
@@ -741,15 +491,15 @@ var element = $('#26c7ccf2-6cb6-48bd-854c-e9fd1bcdfa90');
 
 
 
-<div id="2813b306-6ecf-4ddb-aa3f-8729ff787136"></div>
+<div id="c531117f-d7e6-411a-bc8e-0a4250553e28"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#2813b306-6ecf-4ddb-aa3f-8729ff787136');
+var element = $('#c531117f-d7e6-411a-bc8e-0a4250553e28');
 
             setTimeout(function() {
-                var nbb_cell_id = 36;
-                var nbb_unformatted_code = "shape = (m.input_shape.channels, m.input_shape.height, m.input_shape.width)\ninp = torch.randn(2, *shape)\no = m(inp)";
-                var nbb_formatted_code = "shape = (m.input_shape.channels, m.input_shape.height, m.input_shape.width)\ninp = torch.randn(2, *shape)\no = m(inp)";
+                var nbb_cell_id = 13;
+                var nbb_unformatted_code = "m = GeneralizedImageClassifier.from_config_dict(conf)\nshape = (m.input_shape.channels, m.input_shape.height, m.input_shape.width)\ninp = torch.randn(2, *shape)\no = m(inp)";
+                var nbb_formatted_code = "m = GeneralizedImageClassifier.from_config_dict(conf)\nshape = (m.input_shape.channels, m.input_shape.height, m.input_shape.width)\ninp = torch.randn(2, *shape)\no = m(inp)";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
