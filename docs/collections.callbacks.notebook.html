@@ -36,59 +36,6 @@ nb_path: "nbs/07a_collections.callbacks.notebook.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> nb_black
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-
-<div id="d00607fe-5f68-416f-a295-5da9686de6c2"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#d00607fe-5f68-416f-a295-5da9686de6c2');
-
-            setTimeout(function() {
-                var nbb_cell_id = 2;
-                var nbb_unformatted_code = "%load_ext nb_black";
-                var nbb_formatted_code = "%load_ext nb_black";
-                var nbb_cells = Jupyter.notebook.get_cells();
-                for (var i = 0; i < nbb_cells.length; ++i) {
-                    if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                        if (nbb_cells[i].get_text() == nbb_unformatted_code) {
-                             nbb_cells[i].set_text(nbb_formatted_code);
-                        }
-                        break;
-                    }
-                }
-            }, 500);
-            
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">nbdev.export</span> <span class="kn">import</span> <span class="o">*</span>
@@ -110,10 +57,10 @@ var element = $('#d00607fe-5f68-416f-a295-5da9686de6c2');
 
 
 
-<div id="7dec6708-b827-4f5c-916d-d3b283df3d4e"></div>
+<div id="0bacfc38-8d65-436a-aa61-457043a1f5c4"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#7dec6708-b827-4f5c-916d-d3b283df3d4e');
+var element = $('#0bacfc38-8d65-436a-aa61-457043a1f5c4');
 
             setTimeout(function() {
                 var nbb_cell_id = 3;
@@ -317,10 +264,10 @@ Args:
 
 
 
-<div id="3c8bca8f-aca5-427d-bed8-6e7f91cb3442"></div>
+<div id="fd121e4f-5784-447f-be06-9692fe067aeb"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#3c8bca8f-aca5-427d-bed8-6e7f91cb3442');
+var element = $('#fd121e4f-5784-447f-be06-9692fe067aeb');
 
             setTimeout(function() {
                 var nbb_cell_id = 5;
@@ -385,14 +332,14 @@ var element = $('#3c8bca8f-aca5-427d-bed8-6e7f91cb3442');
 
 
 
-<div id="63844d31-bfbf-490d-a396-a99f5c38432d"></div>
+<div id="2712448e-b19a-49e4-8531-174012843d43"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#63844d31-bfbf-490d-a396-a99f5c38432d');
+var element = $('#2712448e-b19a-49e4-8531-174012843d43');
 
             setTimeout(function() {
                 var nbb_cell_id = 6;
-                var nbb_unformatted_code = "# export\nclass NotebookProgressCallback(ProgressBarBase):\n    \"\"\"\n    A progress par for display in a notebook.\n    \"\"\"\n    _enabled = True\n\n    def __init__(self):\n        super().__init__()\n        self._force_next_update = False\n        self.training_tracker = None\n        self.prediction_bar = None\n\n    def on_sanity_check_start(self, trainer, pl_module):\n        super().on_sanity_check_start(trainer, pl_module)\n        # dummy progress bar\n        self.prediction_bar = NotebookProgressBar(\n            int(trainer.num_sanity_val_steps), prefix=\"Validation sanity check\"\n        )\n\n    def on_sanity_check_end(self, trainer, pl_module):\n        super().on_sanity_check_end(trainer, pl_module)\n        # remove bars\n        self.prediction_bar.update(1)\n        self.prediction_bar.close()\n        self.training_tracker = None\n        self.prediction_bar = None\n\n    def on_train_start(self, trainer, pl_module):\n        super().on_train_epoch_start(trainer, pl_module)\n        self.first_column = \"Epoch\"\n        steps = trainer.max_steps or int(self.total_train_batches * trainer.max_epochs)\n        self.training_tracker = NotebookTrainingTracker(steps, prefix=\"Training\")\n\n    def on_train_epoch_start(self, trainer, pl_module):\n        super().on_train_epoch_start(trainer, pl_module)\n        self.start_time = time.time()\n\n    def on_train_batch_end(\n        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n    ):\n        super().on_train_batch_end(\n            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n        )\n        prog_dict = self._format_prog_bar_dict(trainer.progress_bar_dict)\n        comment = f\"Epoch {int(trainer.current_epoch)} {prog_dict}\"\n        step = trainer.global_step + 1\n        self.training_tracker.update(\n            step,\n            comment=comment,\n            force_update=self._force_next_update,\n        )\n        self._force_next_update = False\n\n    def on_validation_start(self, trainer, pl_module):\n        super().on_validation_start(trainer, pl_module)\n        if not trainer.running_sanity_check:\n            if self.prediction_bar is None:\n                if self.training_tracker is not None:\n                    self.prediction_bar = self.training_tracker.add_child(\n                        self.total_val_batches, prefix=\"Validating\"\n                    )\n        self.prediction_bar.update(1)\n\n    def on_validation_batch_end(\n        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n    ):\n        super().on_validation_batch_end(\n            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n        )\n        self.prediction_bar.update(self.prediction_bar.value + 1)\n\n    def on_validation_end(self, trainer, pl_module):\n        super().on_validation_end(trainer, pl_module)\n        total_train_batches = self.total_train_batches\n        metrics = trainer.callback_metrics\n        values = {}\n        values[\"epoch\"] = trainer.current_epoch\n\n        if self.training_tracker is not None:\n            for k, v in metrics.items():\n                name = str(k)\n                if isinstance(v, torch.Tensor):\n                    values[name] = v.data.cpu().numpy().item()\n                else:\n                    values[name] = v\n\n            if total_train_batches != float(\"inf\"):\n                # Measure speed performance metrics.\n                runtime = time.time() - self.start_time  # seconds\n                total_val_batches = self.total_val_batches\n                n_obs = total_train_batches + total_val_batches\n                samples_per_second = 1 / (runtime / n_obs)\n\n                values[\"time\"] = round(runtime, 4)\n                values[\"samples/s\"] = round(samples_per_second, 4)\n\n            self.training_tracker.write_line(values)\n            self.training_tracker.remove_child()\n            self.prediction_bar = None\n            self._force_next_update = True\n\n    def on_train_epoch_end(self, trainer, pl_module, outputs: Any) -> None:\n        super().on_train_epoch_end(trainer, pl_module, outputs)\n        if trainer.val_dataloaders is None:\n            self.on_validation_end(trainer, pl_module)\n\n    def on_train_end(self, trainer, pl_module):\n        super().on_train_end(trainer, pl_module)\n        self.training_tracker.update(trainer.global_step, force_update=True)\n        self.training_tracker = None\n\n    def on_test_start(self, trainer, pl_module):\n        super().on_test_start(trainer, pl_module)\n        self.test_progress_bar = NotebookProgressBar(\n            int(self.total_test_batches), prefix=\"Testing\"\n        )\n        self.test_progress_bar.update(1)\n\n    def on_test_batch_end(\n        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n    ):\n        super().on_test_batch_end(\n            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n        )\n        self.test_progress_bar.update(self.test_progress_bar.value + 1)\n\n    def on_test_end(self, trainer, pl_module):\n        super().on_test_end(trainer, pl_module)\n        self.test_progress_bar.close()\n\n    def on_predict_start(self, trainer, pl_module):\n        super().on_predict_start(trainer, pl_module)\n        self.predict_progress_bar = NotebookProgressBar(\n            int(self.total_test_batches), prefix=\"Testing\"\n        )\n        self.predict_progress_bar.update(1)\n\n    def on_predict_batch_end(\n        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n    ):\n        super().on_predict_batch_end(\n            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n        )\n        self.predict_progress_bar.update(self.test_progress_bar.value + 1)\n\n    def on_predict_end(self, trainer, pl_module):\n        self.predict_progress_bar.close()\n\n    @staticmethod\n    def _format_prog_bar_dict(progbar_dict: dict):\n        vals = {}\n        for k, v in progbar_dict.items():\n            if isinstance(v, torch.Tensor):\n                v = round(v.data.cpu().numpy().item(), 4)\n            elif isinstance(v, str):\n                pass\n            else:\n                v = round(v, 3)\n            vals[k] = v\n        return vals\n\n    @property\n    def is_enabled(self) -> bool:\n        return self._enabled\n\n    @property\n    def is_disabled(self) -> bool:\n        return not self.is_enabled\n\n    def disable(self) -> None:\n        self._enabled = False\n\n    def enable(self) -> None:\n        self._enabled = True";
+                var nbb_unformatted_code = "# export\nclass NotebookProgressCallback(ProgressBarBase):\n    \"\"\"\n    A progress par for display in a notebook.\n    \"\"\"\n\n    _enabled = True\n\n    def __init__(self):\n        super().__init__()\n        self._force_next_update = False\n        self.training_tracker = None\n        self.prediction_bar = None\n\n    def on_sanity_check_start(self, trainer, pl_module):\n        super().on_sanity_check_start(trainer, pl_module)\n        # dummy progress bar\n        self.prediction_bar = NotebookProgressBar(\n            int(trainer.num_sanity_val_steps), prefix=\"Validation sanity check\"\n        )\n\n    def on_sanity_check_end(self, trainer, pl_module):\n        super().on_sanity_check_end(trainer, pl_module)\n        # remove bars\n        self.prediction_bar.update(1)\n        self.prediction_bar.close()\n        self.training_tracker = None\n        self.prediction_bar = None\n\n    def on_train_start(self, trainer, pl_module):\n        super().on_train_epoch_start(trainer, pl_module)\n        self.first_column = \"Epoch\"\n        steps = trainer.max_steps or int(self.total_train_batches * trainer.max_epochs)\n        self.training_tracker = NotebookTrainingTracker(steps, prefix=\"Training\")\n\n    def on_train_epoch_start(self, trainer, pl_module):\n        super().on_train_epoch_start(trainer, pl_module)\n        self.start_time = time.time()\n\n    def on_train_batch_end(\n        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n    ):\n        super().on_train_batch_end(\n            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n        )\n        prog_dict = self._format_prog_bar_dict(trainer.progress_bar_dict)\n        comment = f\"Epoch {int(trainer.current_epoch)} {prog_dict}\"\n        step = trainer.global_step + 1\n        self.training_tracker.update(\n            step,\n            comment=comment,\n            force_update=self._force_next_update,\n        )\n        self._force_next_update = False\n\n    def on_validation_start(self, trainer, pl_module):\n        super().on_validation_start(trainer, pl_module)\n        if not trainer.running_sanity_check:\n            if self.prediction_bar is None:\n                if self.training_tracker is not None:\n                    self.prediction_bar = self.training_tracker.add_child(\n                        self.total_val_batches, prefix=\"Validating\"\n                    )\n        self.prediction_bar.update(1)\n\n    def on_validation_batch_end(\n        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n    ):\n        super().on_validation_batch_end(\n            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n        )\n        self.prediction_bar.update(self.prediction_bar.value + 1)\n\n    def on_validation_end(self, trainer, pl_module):\n        super().on_validation_end(trainer, pl_module)\n        total_train_batches = self.total_train_batches\n        metrics = trainer.callback_metrics\n        values = {}\n        values[\"epoch\"] = trainer.current_epoch\n\n        if self.training_tracker is not None:\n            for k, v in metrics.items():\n                name = str(k)\n                if isinstance(v, torch.Tensor):\n                    values[name] = v.data.cpu().numpy().item()\n                else:\n                    values[name] = v\n\n            if total_train_batches != float(\"inf\"):\n                # Measure speed performance metrics.\n                runtime = time.time() - self.start_time  # seconds\n                total_val_batches = self.total_val_batches\n                n_obs = total_train_batches + total_val_batches\n                samples_per_second = 1 / (runtime / n_obs)\n\n                values[\"time\"] = round(runtime, 4)\n                values[\"samples/s\"] = round(samples_per_second, 4)\n\n            self.training_tracker.write_line(values)\n            self.training_tracker.remove_child()\n            self.prediction_bar = None\n            self._force_next_update = True\n\n    def on_train_epoch_end(self, trainer, pl_module, outputs: Any) -> None:\n        super().on_train_epoch_end(trainer, pl_module, outputs)\n        if trainer.val_dataloaders is None:\n            self.on_validation_end(trainer, pl_module)\n\n    def on_train_end(self, trainer, pl_module):\n        super().on_train_end(trainer, pl_module)\n        self.training_tracker.update(trainer.global_step, force_update=True)\n        self.training_tracker = None\n\n    def on_test_start(self, trainer, pl_module):\n        super().on_test_start(trainer, pl_module)\n        self.test_progress_bar = NotebookProgressBar(\n            int(self.total_test_batches), prefix=\"Testing\"\n        )\n        self.test_progress_bar.update(1)\n\n    def on_test_batch_end(\n        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n    ):\n        super().on_test_batch_end(\n            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n        )\n        self.test_progress_bar.update(self.test_progress_bar.value + 1)\n\n    def on_test_end(self, trainer, pl_module):\n        super().on_test_end(trainer, pl_module)\n        self.test_progress_bar.close()\n\n    def on_predict_start(self, trainer, pl_module):\n        super().on_predict_start(trainer, pl_module)\n        self.predict_progress_bar = NotebookProgressBar(\n            int(self.total_test_batches), prefix=\"Testing\"\n        )\n        self.predict_progress_bar.update(1)\n\n    def on_predict_batch_end(\n        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n    ):\n        super().on_predict_batch_end(\n            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n        )\n        self.predict_progress_bar.update(self.test_progress_bar.value + 1)\n\n    def on_predict_end(self, trainer, pl_module):\n        self.predict_progress_bar.close()\n\n    @staticmethod\n    def _format_prog_bar_dict(progbar_dict: dict):\n        vals = {}\n        for k, v in progbar_dict.items():\n            if isinstance(v, torch.Tensor):\n                v = round(v.data.cpu().numpy().item(), 4)\n            elif isinstance(v, str):\n                pass\n            else:\n                v = round(v, 3)\n            vals[k] = v\n        return vals\n\n    @property\n    def is_enabled(self) -> bool:\n        return self._enabled\n\n    @property\n    def is_disabled(self) -> bool:\n        return not self.is_enabled\n\n    def disable(self) -> None:\n        self._enabled = False\n\n    def enable(self) -> None:\n        self._enabled = True";
                 var nbb_formatted_code = "# export\nclass NotebookProgressCallback(ProgressBarBase):\n    \"\"\"\n    A progress par for display in a notebook.\n    \"\"\"\n\n    _enabled = True\n\n    def __init__(self):\n        super().__init__()\n        self._force_next_update = False\n        self.training_tracker = None\n        self.prediction_bar = None\n\n    def on_sanity_check_start(self, trainer, pl_module):\n        super().on_sanity_check_start(trainer, pl_module)\n        # dummy progress bar\n        self.prediction_bar = NotebookProgressBar(\n            int(trainer.num_sanity_val_steps), prefix=\"Validation sanity check\"\n        )\n\n    def on_sanity_check_end(self, trainer, pl_module):\n        super().on_sanity_check_end(trainer, pl_module)\n        # remove bars\n        self.prediction_bar.update(1)\n        self.prediction_bar.close()\n        self.training_tracker = None\n        self.prediction_bar = None\n\n    def on_train_start(self, trainer, pl_module):\n        super().on_train_epoch_start(trainer, pl_module)\n        self.first_column = \"Epoch\"\n        steps = trainer.max_steps or int(self.total_train_batches * trainer.max_epochs)\n        self.training_tracker = NotebookTrainingTracker(steps, prefix=\"Training\")\n\n    def on_train_epoch_start(self, trainer, pl_module):\n        super().on_train_epoch_start(trainer, pl_module)\n        self.start_time = time.time()\n\n    def on_train_batch_end(\n        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n    ):\n        super().on_train_batch_end(\n            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n        )\n        prog_dict = self._format_prog_bar_dict(trainer.progress_bar_dict)\n        comment = f\"Epoch {int(trainer.current_epoch)} {prog_dict}\"\n        step = trainer.global_step + 1\n        self.training_tracker.update(\n            step,\n            comment=comment,\n            force_update=self._force_next_update,\n        )\n        self._force_next_update = False\n\n    def on_validation_start(self, trainer, pl_module):\n        super().on_validation_start(trainer, pl_module)\n        if not trainer.running_sanity_check:\n            if self.prediction_bar is None:\n                if self.training_tracker is not None:\n                    self.prediction_bar = self.training_tracker.add_child(\n                        self.total_val_batches, prefix=\"Validating\"\n                    )\n        self.prediction_bar.update(1)\n\n    def on_validation_batch_end(\n        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n    ):\n        super().on_validation_batch_end(\n            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n        )\n        self.prediction_bar.update(self.prediction_bar.value + 1)\n\n    def on_validation_end(self, trainer, pl_module):\n        super().on_validation_end(trainer, pl_module)\n        total_train_batches = self.total_train_batches\n        metrics = trainer.callback_metrics\n        values = {}\n        values[\"epoch\"] = trainer.current_epoch\n\n        if self.training_tracker is not None:\n            for k, v in metrics.items():\n                name = str(k)\n                if isinstance(v, torch.Tensor):\n                    values[name] = v.data.cpu().numpy().item()\n                else:\n                    values[name] = v\n\n            if total_train_batches != float(\"inf\"):\n                # Measure speed performance metrics.\n                runtime = time.time() - self.start_time  # seconds\n                total_val_batches = self.total_val_batches\n                n_obs = total_train_batches + total_val_batches\n                samples_per_second = 1 / (runtime / n_obs)\n\n                values[\"time\"] = round(runtime, 4)\n                values[\"samples/s\"] = round(samples_per_second, 4)\n\n            self.training_tracker.write_line(values)\n            self.training_tracker.remove_child()\n            self.prediction_bar = None\n            self._force_next_update = True\n\n    def on_train_epoch_end(self, trainer, pl_module, outputs: Any) -> None:\n        super().on_train_epoch_end(trainer, pl_module, outputs)\n        if trainer.val_dataloaders is None:\n            self.on_validation_end(trainer, pl_module)\n\n    def on_train_end(self, trainer, pl_module):\n        super().on_train_end(trainer, pl_module)\n        self.training_tracker.update(trainer.global_step, force_update=True)\n        self.training_tracker = None\n\n    def on_test_start(self, trainer, pl_module):\n        super().on_test_start(trainer, pl_module)\n        self.test_progress_bar = NotebookProgressBar(\n            int(self.total_test_batches), prefix=\"Testing\"\n        )\n        self.test_progress_bar.update(1)\n\n    def on_test_batch_end(\n        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n    ):\n        super().on_test_batch_end(\n            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n        )\n        self.test_progress_bar.update(self.test_progress_bar.value + 1)\n\n    def on_test_end(self, trainer, pl_module):\n        super().on_test_end(trainer, pl_module)\n        self.test_progress_bar.close()\n\n    def on_predict_start(self, trainer, pl_module):\n        super().on_predict_start(trainer, pl_module)\n        self.predict_progress_bar = NotebookProgressBar(\n            int(self.total_test_batches), prefix=\"Testing\"\n        )\n        self.predict_progress_bar.update(1)\n\n    def on_predict_batch_end(\n        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n    ):\n        super().on_predict_batch_end(\n            trainer, pl_module, outputs, batch, batch_idx, dataloader_idx\n        )\n        self.predict_progress_bar.update(self.test_progress_bar.value + 1)\n\n    def on_predict_end(self, trainer, pl_module):\n        self.predict_progress_bar.close()\n\n    @staticmethod\n    def _format_prog_bar_dict(progbar_dict: dict):\n        vals = {}\n        for k, v in progbar_dict.items():\n            if isinstance(v, torch.Tensor):\n                v = round(v.data.cpu().numpy().item(), 4)\n            elif isinstance(v, str):\n                pass\n            else:\n                v = round(v, 3)\n            vals[k] = v\n        return vals\n\n    @property\n    def is_enabled(self) -> bool:\n        return self._enabled\n\n    @property\n    def is_disabled(self) -> bool:\n        return not self.is_enabled\n\n    def disable(self) -> None:\n        self._enabled = False\n\n    def enable(self) -> None:\n        self._enabled = True";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
@@ -418,7 +365,7 @@ var element = $('#63844d31-bfbf-490d-a396-a99f5c38432d');
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Usage">Usage<a class="anchor-link" href="#Usage"> </a></h2>
+<h3 id="Usage">Usage<a class="anchor-link" href="#Usage"> </a></h3>
 </div>
 </div>
 </div>
@@ -465,13 +412,13 @@ var element = $('#63844d31-bfbf-490d-a396-a99f5c38432d');
 
 
 
-<div id="4ba39c44-c1d8-42d7-8ce6-8efccaa9af73"></div>
+<div id="52265d53-0999-47cb-8d85-82cc69af7620"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#4ba39c44-c1d8-42d7-8ce6-8efccaa9af73');
+var element = $('#52265d53-0999-47cb-8d85-82cc69af7620');
 
             setTimeout(function() {
-                var nbb_cell_id = 9;
+                var nbb_cell_id = 7;
                 var nbb_unformatted_code = "# slow\nimport os\n\nimport pytorch_lightning as pl\nimport torch\nfrom fastcore.all import Path\nfrom torch.nn import functional as F\nfrom torch.utils.data import DataLoader\nfrom torchmetrics import Accuracy\nfrom torchvision import transforms\nfrom torchvision.datasets import FashionMNIST\n\nsource = Path(Config().path(\"nbs_path\")) / \"data\"\nos.makedirs(source, exist_ok=True)\n\n# fmt: off\n\n# data\nmnist_train = FashionMNIST(source, train=True, download=True, transform=transforms.ToTensor())\nmnist_train = DataLoader(mnist_train, batch_size=32, num_workers=4)\n\nmnist_val = FashionMNIST(source, train=False, download=True, transform=transforms.ToTensor())\nmnist_val = DataLoader(mnist_val, batch_size=32, num_workers=4)";
                 var nbb_formatted_code = "# slow\nimport os\n\nimport pytorch_lightning as pl\nimport torch\nfrom fastcore.all import Path\nfrom torch.nn import functional as F\nfrom torch.utils.data import DataLoader\nfrom torchmetrics import Accuracy\nfrom torchvision import transforms\nfrom torchvision.datasets import FashionMNIST\n\nsource = Path(Config().path(\"nbs_path\")) / \"data\"\nos.makedirs(source, exist_ok=True)\n\n# fmt: off\n\n# data\nmnist_train = FashionMNIST(source, train=True, download=True, transform=transforms.ToTensor())\nmnist_train = DataLoader(mnist_train, batch_size=32, num_workers=4)\n\nmnist_val = FashionMNIST(source, train=False, download=True, transform=transforms.ToTensor())\nmnist_val = DataLoader(mnist_val, batch_size=32, num_workers=4)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -547,13 +494,13 @@ var element = $('#4ba39c44-c1d8-42d7-8ce6-8efccaa9af73');
 
 
 
-<div id="bffac190-f4b8-4721-93df-65f2078f7045"></div>
+<div id="cf423136-acae-49a3-9461-2dc5d86ede71"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#bffac190-f4b8-4721-93df-65f2078f7045');
+var element = $('#cf423136-acae-49a3-9461-2dc5d86ede71');
 
             setTimeout(function() {
-                var nbb_cell_id = 10;
+                var nbb_cell_id = 8;
                 var nbb_unformatted_code = "# slow\nclass CoolSystem(pl.LightningModule):\n    def __init__(self, classes=10):\n        super().__init__()\n        self.save_hyperparameters()\n        self.l1 = torch.nn.Linear(28 * 28, self.hparams.classes)\n        self.train_metric = Accuracy()\n        self.valid_metric = Accuracy()\n\n    def forward(self, x):\n        return torch.relu(self.l1(x.view(x.size(0), -1)))\n\n    def training_step(self, batch, batch_idx):\n        x, y = batch\n        y_hat = self(x)\n        loss = F.cross_entropy(y_hat, y)\n        metric = self.train_metric(F.softmax(y_hat), y)\n        log_dict = dict(train_loss=loss, train_acc=metric)\n        self.log_dict(log_dict)\n        return loss\n\n    def validation_step(self, batch, batch_idx):\n        x, y = batch\n        y_hat = self(x)\n        loss = F.cross_entropy(y_hat, y)\n        metric = self.valid_metric(F.softmax(y_hat), y)\n        log_dict = dict(val_loss=loss, val_acc=metric)\n        self.log_dict(log_dict)\n\n    def configure_optimizers(self):\n        return torch.optim.Adam(self.parameters(), lr=0.001)";
                 var nbb_formatted_code = "# slow\nclass CoolSystem(pl.LightningModule):\n    def __init__(self, classes=10):\n        super().__init__()\n        self.save_hyperparameters()\n        self.l1 = torch.nn.Linear(28 * 28, self.hparams.classes)\n        self.train_metric = Accuracy()\n        self.valid_metric = Accuracy()\n\n    def forward(self, x):\n        return torch.relu(self.l1(x.view(x.size(0), -1)))\n\n    def training_step(self, batch, batch_idx):\n        x, y = batch\n        y_hat = self(x)\n        loss = F.cross_entropy(y_hat, y)\n        metric = self.train_metric(F.softmax(y_hat), y)\n        log_dict = dict(train_loss=loss, train_acc=metric)\n        self.log_dict(log_dict)\n        return loss\n\n    def validation_step(self, batch, batch_idx):\n        x, y = batch\n        y_hat = self(x)\n        loss = F.cross_entropy(y_hat, y)\n        metric = self.valid_metric(F.softmax(y_hat), y)\n        log_dict = dict(val_loss=loss, val_acc=metric)\n        self.log_dict(log_dict)\n\n    def configure_optimizers(self):\n        return torch.optim.Adam(self.parameters(), lr=0.001)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -647,7 +594,7 @@ TPU available: False, using: 0 TPU cores
         </style>
       Training
       <progress value='18750' max='18750' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      [18750/18750 01:16, Epoch 9 {'loss': '1.54'}]
+      [18750/18750 01:12, Epoch 9 {'loss': '1.21'}]
     </div>
     <table border="1" class="dataframe">
   <thead>
@@ -664,93 +611,93 @@ TPU available: False, using: 0 TPU cores
   <tbody>
     <tr>
       <td>0</td>
-      <td>1.591771</td>
-      <td>0.460700</td>
-      <td>1.512801</td>
-      <td>0.531250</td>
-      <td>7.752500</td>
-      <td>282.232800</td>
+      <td>1.291946</td>
+      <td>0.552600</td>
+      <td>1.509367</td>
+      <td>0.500000</td>
+      <td>7.051600</td>
+      <td>310.283100</td>
     </tr>
     <tr>
       <td>1</td>
-      <td>1.560491</td>
-      <td>0.466600</td>
-      <td>1.479620</td>
-      <td>0.531250</td>
-      <td>7.537000</td>
-      <td>290.302500</td>
+      <td>1.262589</td>
+      <td>0.554700</td>
+      <td>1.456340</td>
+      <td>0.500000</td>
+      <td>7.094600</td>
+      <td>308.404400</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>1.546397</td>
-      <td>0.469600</td>
-      <td>1.458399</td>
-      <td>0.531250</td>
-      <td>7.280500</td>
-      <td>300.529700</td>
+      <td>1.247708</td>
+      <td>0.555900</td>
+      <td>1.439657</td>
+      <td>0.500000</td>
+      <td>7.838800</td>
+      <td>279.123200</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>1.538233</td>
-      <td>0.472000</td>
-      <td>1.442020</td>
-      <td>0.531250</td>
-      <td>7.611100</td>
-      <td>287.475700</td>
+      <td>1.240134</td>
+      <td>0.557100</td>
+      <td>1.431610</td>
+      <td>0.500000</td>
+      <td>7.908400</td>
+      <td>276.667000</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>1.533127</td>
-      <td>0.471700</td>
-      <td>1.434972</td>
+      <td>1.233447</td>
+      <td>0.557800</td>
+      <td>1.421274</td>
       <td>0.500000</td>
-      <td>7.621700</td>
-      <td>287.076200</td>
+      <td>7.759200</td>
+      <td>281.988300</td>
     </tr>
     <tr>
       <td>5</td>
-      <td>1.529259</td>
-      <td>0.472400</td>
-      <td>1.425169</td>
+      <td>1.229756</td>
+      <td>0.557300</td>
+      <td>1.408852</td>
       <td>0.500000</td>
-      <td>7.839900</td>
-      <td>279.086400</td>
+      <td>6.945500</td>
+      <td>315.026000</td>
     </tr>
     <tr>
       <td>6</td>
-      <td>1.526578</td>
-      <td>0.472500</td>
-      <td>1.418055</td>
+      <td>1.227072</td>
+      <td>0.558200</td>
+      <td>1.403393</td>
       <td>0.500000</td>
-      <td>7.444700</td>
-      <td>293.901300</td>
+      <td>6.974500</td>
+      <td>313.713700</td>
     </tr>
     <tr>
       <td>7</td>
-      <td>1.524461</td>
-      <td>0.473600</td>
-      <td>1.411882</td>
+      <td>1.224863</td>
+      <td>0.558100</td>
+      <td>1.396521</td>
       <td>0.500000</td>
-      <td>7.648000</td>
-      <td>286.087900</td>
+      <td>6.602400</td>
+      <td>331.392700</td>
     </tr>
     <tr>
       <td>8</td>
-      <td>1.522552</td>
-      <td>0.473700</td>
-      <td>1.404796</td>
+      <td>1.223277</td>
+      <td>0.558800</td>
+      <td>1.390022</td>
       <td>0.500000</td>
-      <td>7.651100</td>
-      <td>285.971500</td>
+      <td>6.573700</td>
+      <td>332.843500</td>
     </tr>
     <tr>
       <td>9</td>
-      <td>1.521521</td>
-      <td>0.473400</td>
-      <td>1.400422</td>
+      <td>1.220788</td>
+      <td>0.559500</td>
+      <td>1.384899</td>
       <td>0.500000</td>
-      <td>7.762100</td>
-      <td>281.881000</td>
+      <td>7.635200</td>
+      <td>286.567600</td>
     </tr>
   </tbody>
 </table><p>
@@ -773,14 +720,14 @@ TPU available: False, using: 0 TPU cores
 
 
 
-<div id="1ac06817-ca10-4adf-8e77-c02853b65bf8"></div>
+<div id="58a156e7-ed9e-48e8-b843-0ab71495c5da"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#1ac06817-ca10-4adf-8e77-c02853b65bf8');
+var element = $('#58a156e7-ed9e-48e8-b843-0ab71495c5da');
 
             setTimeout(function() {
-                var nbb_cell_id = 11;
-                var nbb_unformatted_code = "# slow\nmodel = CoolSystem()\n\ntrainer = pl.Trainer(callbacks=[NotebookProgressCallback()], checkpoint_callback=False, \n                     max_epochs=10, logger=False)\n\ntrainer.fit(model, mnist_train, mnist_val)";
+                var nbb_cell_id = 9;
+                var nbb_unformatted_code = "# slow\nmodel = CoolSystem()\n\ntrainer = pl.Trainer(\n    callbacks=[NotebookProgressCallback()],\n    checkpoint_callback=False,\n    max_epochs=10,\n    logger=False,\n)\n\ntrainer.fit(model, mnist_train, mnist_val)";
                 var nbb_formatted_code = "# slow\nmodel = CoolSystem()\n\ntrainer = pl.Trainer(\n    callbacks=[NotebookProgressCallback()],\n    checkpoint_callback=False,\n    max_epochs=10,\n    logger=False,\n)\n\ntrainer.fit(model, mnist_train, mnist_val)";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {

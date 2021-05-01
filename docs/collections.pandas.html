@@ -48,13 +48,13 @@ nb_path: "nbs/07_collections.pandas.ipynb"
 
 
 
-<div id="9bda1548-657b-47ef-9195-04cb86e0c0c0"></div>
+<div id="ca40467a-57ce-4aed-b82d-ff047988e970"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#9bda1548-657b-47ef-9195-04cb86e0c0c0');
+var element = $('#ca40467a-57ce-4aed-b82d-ff047988e970');
 
             setTimeout(function() {
-                var nbb_cell_id = 5;
+                var nbb_cell_id = 6;
                 var nbb_unformatted_code = "# export\npd.set_option(\"display.max_colwidth\", None)\n_logger = logging.getLogger(__name__)";
                 var nbb_formatted_code = "# export\npd.set_option(\"display.max_colwidth\", None)\n_logger = logging.getLogger(__name__)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -91,7 +91,7 @@ var element = $('#9bda1548-657b-47ef-9195-04cb86e0c0c0');
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 
 <span class="kn">from</span> <span class="nn">gale.collections.download</span> <span class="kn">import</span> <span class="n">download_and_extract_archive</span>
-<span class="kn">from</span> <span class="nn">gale.core.utils.visualize</span> <span class="kn">import</span> <span class="n">show_images</span>
+<span class="kn">from</span> <span class="nn">gale.utils.display</span> <span class="kn">import</span> <span class="n">show_images</span>
 
 <span class="n">data_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="s2">&quot;nbs_path&quot;</span><span class="p">))</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span>
 
@@ -136,15 +136,15 @@ Extracting /Users/ayushman/Desktop/gale/nbs/data/hymenoptera_data.zip to /Users/
 
 
 
-<div id="0cb713bb-108c-4b12-b629-58e60cefa8c0"></div>
+<div id="a471874b-05ec-4af6-8853-07e1494239f6"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#0cb713bb-108c-4b12-b629-58e60cefa8c0');
+var element = $('#a471874b-05ec-4af6-8853-07e1494239f6');
 
             setTimeout(function() {
-                var nbb_cell_id = 7;
-                var nbb_unformatted_code = "from fastcore.all import *\nfrom nbdev.export import Config\nfrom PIL import Image\n\nfrom gale.collections.download import download_and_extract_archive\nfrom gale.core.utils.visualize import show_images\n\ndata_path = Path(Config().path(\"nbs_path\")) / \"data\"\n\n# download a toy dataset\ndownload_and_extract_archive(\n    url=\"https://download.pytorch.org/tutorial/hymenoptera_data.zip\",\n    download_root=data_path,\n    extract_root=data_path,\n)\npath = data_path / \"hymenoptera_data\"\npath.ls()";
-                var nbb_formatted_code = "from fastcore.all import *\nfrom nbdev.export import Config\nfrom PIL import Image\n\nfrom gale.collections.download import download_and_extract_archive\nfrom gale.core.utils.visualize import show_images\n\ndata_path = Path(Config().path(\"nbs_path\")) / \"data\"\n\n# download a toy dataset\ndownload_and_extract_archive(\n    url=\"https://download.pytorch.org/tutorial/hymenoptera_data.zip\",\n    download_root=data_path,\n    extract_root=data_path,\n)\npath = data_path / \"hymenoptera_data\"\npath.ls()";
+                var nbb_cell_id = 8;
+                var nbb_unformatted_code = "from fastcore.all import *\nfrom nbdev.export import Config\nfrom PIL import Image\n\nfrom gale.collections.download import download_and_extract_archive\nfrom gale.utils.display import show_images\n\ndata_path = Path(Config().path(\"nbs_path\")) / \"data\"\n\n# download a toy dataset\ndownload_and_extract_archive(\n    url=\"https://download.pytorch.org/tutorial/hymenoptera_data.zip\",\n    download_root=data_path,\n    extract_root=data_path,\n)\npath = data_path / \"hymenoptera_data\"\npath.ls()";
+                var nbb_formatted_code = "from fastcore.all import *\nfrom nbdev.export import Config\nfrom PIL import Image\n\nfrom gale.collections.download import download_and_extract_archive\nfrom gale.utils.display import show_images\n\ndata_path = Path(Config().path(\"nbs_path\")) / \"data\"\n\n# download a toy dataset\ndownload_and_extract_archive(\n    url=\"https://download.pytorch.org/tutorial/hymenoptera_data.zip\",\n    download_root=data_path,\n    extract_root=data_path,\n)\npath = data_path / \"hymenoptera_data\"\npath.ls()";
                 var nbb_cells = Jupyter.notebook.get_cells();
                 for (var i = 0; i < nbb_cells.length; ++i) {
                     if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
@@ -211,13 +211,13 @@ var element = $('#0cb713bb-108c-4b12-b629-58e60cefa8c0');
 
 
 
-<div id="9f23b0f7-8377-4241-bd83-99e608303097"></div>
+<div id="1465f753-ef13-49a3-ab8d-d83f1621642e"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#9f23b0f7-8377-4241-bd83-99e608303097');
+var element = $('#1465f753-ef13-49a3-ab8d-d83f1621642e');
 
             setTimeout(function() {
-                var nbb_cell_id = 8;
+                var nbb_cell_id = 9;
                 var nbb_unformatted_code = "# export\ndef folder2df(\n    directory: Union[str, Path],\n    extensions: list = IMG_EXTENSIONS,\n    shuffle: bool = False,\n    seed: int = 42,\n) -> pd.DataFrame:\n    \"\"\"\n    Parses all the Images in `directory` and puts them in a `DataFrame` object.\n\n    Arguments:\n\n    - `directory`: path to dirs, for example /home/user/data/**\n    - `extensions`: data extension of the Images.\n    - `shuffle`: shuffles the resulting `DataFrame` object.\n    - `seed`: sets seed for reproducibilty\n    \"\"\"\n\n    random.seed(seed)\n\n    image_list = L()\n    target_list = L()\n\n    if not isinstance(directory, Path):\n        directory = Path(directory)\n\n    for label in directory.ls():\n        label = Path(label)\n        if os.path.isdir(label):\n            for img in label.ls():\n                if str(img).lower().endswith(extensions):\n                    image_list.append(img)\n                    target_list.append(str(label).split(os.path.sep)[-1])\n\n    # fmt: off\n    _logger.info(f\"Found {len(image_list)} files belonging to {len(set(target_list))} classes.\")\n    \n\n    dataframe: pd.DataFrame = pd.DataFrame()\n    dataframe[\"image_id\"] = image_list\n    dataframe[\"target\"] = target_list\n    if shuffle:\n        dataframe = dataframe.sample(frac=1, random_state=seed).reset_index(inplace=False, drop=True)\n    # fmt: on\n    return dataframe";
                 var nbb_formatted_code = "# export\ndef folder2df(\n    directory: Union[str, Path],\n    extensions: list = IMG_EXTENSIONS,\n    shuffle: bool = False,\n    seed: int = 42,\n) -> pd.DataFrame:\n    \"\"\"\n    Parses all the Images in `directory` and puts them in a `DataFrame` object.\n\n    Arguments:\n\n    - `directory`: path to dirs, for example /home/user/data/**\n    - `extensions`: data extension of the Images.\n    - `shuffle`: shuffles the resulting `DataFrame` object.\n    - `seed`: sets seed for reproducibilty\n    \"\"\"\n\n    random.seed(seed)\n\n    image_list = L()\n    target_list = L()\n\n    if not isinstance(directory, Path):\n        directory = Path(directory)\n\n    for label in directory.ls():\n        label = Path(label)\n        if os.path.isdir(label):\n            for img in label.ls():\n                if str(img).lower().endswith(extensions):\n                    image_list.append(img)\n                    target_list.append(str(label).split(os.path.sep)[-1])\n\n    # fmt: off\n    _logger.info(f\"Found {len(image_list)} files belonging to {len(set(target_list))} classes.\")\n    \n\n    dataframe: pd.DataFrame = pd.DataFrame()\n    dataframe[\"image_id\"] = image_list\n    dataframe[\"target\"] = target_list\n    if shuffle:\n        dataframe = dataframe.sample(frac=1, random_state=seed).reset_index(inplace=False, drop=True)\n    # fmt: on\n    return dataframe";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -262,8 +262,8 @@ var element = $('#9f23b0f7-8377-4241-bd83-99e608303097');
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-green-fg">[04/26 12:30:35 gale.collections.pandas]: </span>Found 244 files belonging to 2 classes.
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Found 244 files belonging to 2 classes.
 </pre>
 </div>
 </div>
@@ -332,13 +332,13 @@ var element = $('#9f23b0f7-8377-4241-bd83-99e608303097');
 
 
 
-<div id="d42828d8-abca-45f5-9c90-db8c506e3f65"></div>
+<div id="d88d9364-aeaa-4a60-b3c6-af2b5e319c2e"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#d42828d8-abca-45f5-9c90-db8c506e3f65');
+var element = $('#d88d9364-aeaa-4a60-b3c6-af2b5e319c2e');
 
             setTimeout(function() {
-                var nbb_cell_id = 9;
+                var nbb_cell_id = 10;
                 var nbb_unformatted_code = "df = folder2df(path / \"train\")\ndf.head()";
                 var nbb_formatted_code = "df = folder2df(path / \"train\")\ndf.head()";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -405,13 +405,13 @@ var element = $('#d42828d8-abca-45f5-9c90-db8c506e3f65');
 
 
 
-<div id="bd7cf300-a2c5-49c1-8584-f1727f64a712"></div>
+<div id="7ce1a43b-2474-422b-aeca-7c890e5a7062"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#bd7cf300-a2c5-49c1-8584-f1727f64a712');
+var element = $('#7ce1a43b-2474-422b-aeca-7c890e5a7062');
 
             setTimeout(function() {
-                var nbb_cell_id = 23;
+                var nbb_cell_id = 12;
                 var nbb_unformatted_code = "ims = [\n    Image.open(df[\"image_id\"][0]),\n    Image.open(df[\"image_id\"][1]),\n    Image.open(df[\"image_id\"][2]),\n    Image.open(df[\"image_id\"][3]),\n]\ntitles = [df[\"target\"][0], df[\"target\"][1], df[\"target\"][2], df[\"target\"][3]]\n\nshow_images(ims, titles=titles)";
                 var nbb_formatted_code = "ims = [\n    Image.open(df[\"image_id\"][0]),\n    Image.open(df[\"image_id\"][1]),\n    Image.open(df[\"image_id\"][2]),\n    Image.open(df[\"image_id\"][3]),\n]\ntitles = [df[\"target\"][0], df[\"target\"][1], df[\"target\"][2], df[\"target\"][3]]\n\nshow_images(ims, titles=titles)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -474,13 +474,13 @@ Split Id is given in <code>fold_column</code>. Set <code>random_state</code> for
 
 
 
-<div id="8a22961b-4449-4cd0-b911-46b956aa1554"></div>
+<div id="a51f7e9f-051b-499b-aa0e-317bd9f069ae"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#8a22961b-4449-4cd0-b911-46b956aa1554');
+var element = $('#a51f7e9f-051b-499b-aa0e-317bd9f069ae');
 
             setTimeout(function() {
-                var nbb_cell_id = 24;
+                var nbb_cell_id = 13;
                 var nbb_unformatted_code = "# export\n@delegates(StratifiedKFold)\ndef split_dataframe_into_stratified_folds(\n    dataframe: pd.DataFrame,\n    label_column: str,\n    fold_column: str = None,\n    **kwargs,\n) -> pd.DataFrame:\n    \"\"\"\n    Makes stratified folds in `dataframe`. `label_column` is the column to use for split.\n    Split Id is given in `fold_column`. Set `random_state` for reproducibility.\n    \"\"\"\n    # preserve the original copy of the dataframe\n    data = dataframe.copy()\n    skf = StratifiedKFold(**kwargs)\n    fold_column = ifnone(fold_column, \"kfold\")\n\n    ys = data[label_column]\n    data[fold_column] = -1\n\n    for i, (train_index, test_index) in enumerate(skf.split(X=data, y=ys)):\n        data.loc[test_index, fold_column] = i\n\n    return data";
                 var nbb_formatted_code = "# export\n@delegates(StratifiedKFold)\ndef split_dataframe_into_stratified_folds(\n    dataframe: pd.DataFrame,\n    label_column: str,\n    fold_column: str = None,\n    **kwargs,\n) -> pd.DataFrame:\n    \"\"\"\n    Makes stratified folds in `dataframe`. `label_column` is the column to use for split.\n    Split Id is given in `fold_column`. Set `random_state` for reproducibility.\n    \"\"\"\n    # preserve the original copy of the dataframe\n    data = dataframe.copy()\n    skf = StratifiedKFold(**kwargs)\n    fold_column = ifnone(fold_column, \"kfold\")\n\n    ys = data[label_column]\n    data[fold_column] = -1\n\n    for i, (train_index, test_index) in enumerate(skf.split(X=data, y=ys)):\n        data.loc[test_index, fold_column] = i\n\n    return data";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -544,13 +544,13 @@ the validation columns and rest are train columns.</p>
 
 
 
-<div id="f145f5cb-f68b-4321-9c18-c0603c512483"></div>
+<div id="3f7c8995-7a0d-4f89-b894-169fa83c5ef3"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#f145f5cb-f68b-4321-9c18-c0603c512483');
+var element = $('#3f7c8995-7a0d-4f89-b894-169fa83c5ef3');
 
             setTimeout(function() {
-                var nbb_cell_id = 25;
+                var nbb_cell_id = 14;
                 var nbb_unformatted_code = "# export\ndef get_dataframe_fold(dataframe: pd.DataFrame, split_column: str, split_idx: int):\n    \"\"\"\n    Grab the train and validation splits from the dataframe. Splits\n    are inferred from `split_column`. The columns with split_idx are\n    the validation columns and rest are train columns.\n    \"\"\"\n    data = dataframe.copy()\n    train_data = data.loc[data[split_column] != split_idx]\n    valid_data = data.loc[data[split_column] == split_idx]\n    train_data.reset_index(drop=True, inplace=True)\n    valid_data.reset_index(drop=True, inplace=True)\n    return train_data, valid_data";
                 var nbb_formatted_code = "# export\ndef get_dataframe_fold(dataframe: pd.DataFrame, split_column: str, split_idx: int):\n    \"\"\"\n    Grab the train and validation splits from the dataframe. Splits\n    are inferred from `split_column`. The columns with split_idx are\n    the validation columns and rest are train columns.\n    \"\"\"\n    data = dataframe.copy()\n    train_data = data.loc[data[split_column] != split_idx]\n    valid_data = data.loc[data[split_column] == split_idx]\n    train_data.reset_index(drop=True, inplace=True)\n    valid_data.reset_index(drop=True, inplace=True)\n    return train_data, valid_data";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -604,13 +604,13 @@ var element = $('#f145f5cb-f68b-4321-9c18-c0603c512483');
 
 
 
-<div id="0d90ca64-1282-47fe-84e3-8e2f5f7efa86"></div>
+<div id="312fd681-3a47-4e38-b36f-894f5cf09068"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#0d90ca64-1282-47fe-84e3-8e2f5f7efa86');
+var element = $('#312fd681-3a47-4e38-b36f-894f5cf09068');
 
             setTimeout(function() {
-                var nbb_cell_id = 26;
+                var nbb_cell_id = 15;
                 var nbb_unformatted_code = "# create a stratified dataframe\nstratified_df = split_dataframe_into_stratified_folds(\n    dataframe=df, label_column=\"target\", n_splits=3\n)\n\n# get all splits from the Datasets\ntrn_0, val_0 = get_dataframe_fold(stratified_df, split_column=\"kfold\", split_idx=0)\ntrn_1, val_1 = get_dataframe_fold(stratified_df, split_column=\"kfold\", split_idx=1)\ntrn_2, val_2 = get_dataframe_fold(stratified_df, split_column=\"kfold\", split_idx=2)";
                 var nbb_formatted_code = "# create a stratified dataframe\nstratified_df = split_dataframe_into_stratified_folds(\n    dataframe=df, label_column=\"target\", n_splits=3\n)\n\n# get all splits from the Datasets\ntrn_0, val_0 = get_dataframe_fold(stratified_df, split_column=\"kfold\", split_idx=0)\ntrn_1, val_1 = get_dataframe_fold(stratified_df, split_column=\"kfold\", split_idx=1)\ntrn_2, val_2 = get_dataframe_fold(stratified_df, split_column=\"kfold\", split_idx=2)";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -673,13 +673,13 @@ Returns: a <code>dictionary</code> mapping from tag to labels</p>
 
 
 
-<div id="eaa9009f-299c-4036-937f-fcfd0f50d62e"></div>
+<div id="bac1f8c2-5994-4ba5-a220-e7655c35b817"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#eaa9009f-299c-4036-937f-fcfd0f50d62e');
+var element = $('#bac1f8c2-5994-4ba5-a220-e7655c35b817');
 
             setTimeout(function() {
-                var nbb_cell_id = 27;
+                var nbb_cell_id = 16;
                 var nbb_unformatted_code = "# export\ndef get_dataset_labeling(dataframe: pd.DataFrame, label_column: str):\n    \"\"\"\n    Prepares a mapping using unique values from `label_columns`.\n    Returns: a `dictionary` mapping from tag to labels\n    \"\"\"\n    tag_to_labels = {\n        str(class_name): label\n        for label, class_name in enumerate(sorted(dataframe[label_column].unique()))\n    }\n    return tag_to_labels";
                 var nbb_formatted_code = "# export\ndef get_dataset_labeling(dataframe: pd.DataFrame, label_column: str):\n    \"\"\"\n    Prepares a mapping using unique values from `label_columns`.\n    Returns: a `dictionary` mapping from tag to labels\n    \"\"\"\n    tag_to_labels = {\n        str(class_name): label\n        for label, class_name in enumerate(sorted(dataframe[label_column].unique()))\n    }\n    return tag_to_labels";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -736,13 +736,13 @@ var element = $('#eaa9009f-299c-4036-937f-fcfd0f50d62e');
 
 
 
-<div id="a16ecf39-67e7-407a-8004-e2efdedb015c"></div>
+<div id="6f4edbfe-1d9d-45d6-91e3-c0500fc78323"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#a16ecf39-67e7-407a-8004-e2efdedb015c');
+var element = $('#6f4edbfe-1d9d-45d6-91e3-c0500fc78323');
 
             setTimeout(function() {
-                var nbb_cell_id = 28;
+                var nbb_cell_id = 17;
                 var nbb_unformatted_code = "get_dataset_labeling(stratified_df, label_column=\"target\")";
                 var nbb_formatted_code = "get_dataset_labeling(stratified_df, label_column=\"target\")";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -805,13 +805,13 @@ return the dictionary for labels.</p>
 
 
 
-<div id="758db325-5a2c-4275-8ad7-fefdbb587352"></div>
+<div id="7cb9e7f2-fbe8-4df4-8033-4920259417dd"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#758db325-5a2c-4275-8ad7-fefdbb587352');
+var element = $('#7cb9e7f2-fbe8-4df4-8033-4920259417dd');
 
             setTimeout(function() {
-                var nbb_cell_id = 29;
+                var nbb_cell_id = 18;
                 var nbb_unformatted_code = "# export\ndef dataframe_labels_2_int(\n    dataframe: pd.DataFrame,\n    label_column: str,\n    return_labelling: bool = False,\n):\n    \"\"\"\n    Converts the labels of the `dataframe` in `label_column` to integers. Set `return_labelling` to\n    return the dictionary for labels.\n    \"\"\"\n    data = dataframe.copy()\n    tag_to_labels = get_dataset_labeling(data, label_column=label_column)\n    data[label_column] = data[label_column].apply(func=lambda x: tag_to_labels[str(x)])\n    if return_labelling:\n        return data, tag_to_labels\n    else:\n        return data";
                 var nbb_formatted_code = "# export\ndef dataframe_labels_2_int(\n    dataframe: pd.DataFrame,\n    label_column: str,\n    return_labelling: bool = False,\n):\n    \"\"\"\n    Converts the labels of the `dataframe` in `label_column` to integers. Set `return_labelling` to\n    return the dictionary for labels.\n    \"\"\"\n    data = dataframe.copy()\n    tag_to_labels = get_dataset_labeling(data, label_column=label_column)\n    data[label_column] = data[label_column].apply(func=lambda x: tag_to_labels[str(x)])\n    if return_labelling:\n        return data, tag_to_labels\n    else:\n        return data";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -918,13 +918,13 @@ var element = $('#758db325-5a2c-4275-8ad7-fefdbb587352');
 
 
 
-<div id="69f64581-9593-4881-a05e-ae607d617c64"></div>
+<div id="c780c7f2-e219-48e4-b3bd-b1793e766d02"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#69f64581-9593-4881-a05e-ae607d617c64');
+var element = $('#c780c7f2-e219-48e4-b3bd-b1793e766d02');
 
             setTimeout(function() {
-                var nbb_cell_id = 30;
+                var nbb_cell_id = 19;
                 var nbb_unformatted_code = "df3 = dataframe_labels_2_int(df, label_column=\"target\")\ndf3.head()";
                 var nbb_formatted_code = "df3 = dataframe_labels_2_int(df, label_column=\"target\")\ndf3.head()";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -986,13 +986,13 @@ var element = $('#69f64581-9593-4881-a05e-ae607d617c64');
 
 
 
-<div id="b8157384-b170-43fd-8213-c812a9ea261f"></div>
+<div id="bfa0ae9d-1a13-4df6-9268-1cd17194446f"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#b8157384-b170-43fd-8213-c812a9ea261f');
+var element = $('#bfa0ae9d-1a13-4df6-9268-1cd17194446f');
 
             setTimeout(function() {
-                var nbb_cell_id = 31;
+                var nbb_cell_id = 20;
                 var nbb_unformatted_code = "# export\n@delegates(train_test_split)\ndef split_dataframe_train_test(dataframe: pd.DataFrame, **kwargs):\n    \"\"\"\n    Split dataframe in train and test part.\n    \"\"\"\n    data = dataframe.copy()\n    df_train, df_test = train_test_split(data, **kwargs)\n    return df_train, df_test";
                 var nbb_formatted_code = "# export\n@delegates(train_test_split)\ndef split_dataframe_train_test(dataframe: pd.DataFrame, **kwargs):\n    \"\"\"\n    Split dataframe in train and test part.\n    \"\"\"\n    data = dataframe.copy()\n    df_train, df_test = train_test_split(data, **kwargs)\n    return df_train, df_test";
                 var nbb_cells = Jupyter.notebook.get_cells();
@@ -1048,13 +1048,13 @@ var element = $('#b8157384-b170-43fd-8213-c812a9ea261f');
 
 
 
-<div id="1d9815be-bfe6-42ed-a879-884f25f2534e"></div>
+<div id="2231882d-b0f0-42f6-aea6-546b61d22b89"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#1d9815be-bfe6-42ed-a879-884f25f2534e');
+var element = $('#2231882d-b0f0-42f6-aea6-546b61d22b89');
 
             setTimeout(function() {
-                var nbb_cell_id = 32;
+                var nbb_cell_id = 21;
                 var nbb_unformatted_code = "train_df, val_df = split_dataframe_train_test(\n    dataframe=df,\n    test_size=0.5,\n    train_size=0.5,\n    random_state=42,\n    stratify=df[\"target\"],\n    shuffle=True,\n)\n\ntest_eq(len(train_df), len(val_df))";
                 var nbb_formatted_code = "train_df, val_df = split_dataframe_train_test(\n    dataframe=df,\n    test_size=0.5,\n    train_size=0.5,\n    random_state=42,\n    stratify=df[\"target\"],\n    shuffle=True,\n)\n\ntest_eq(len(train_df), len(val_df))";
                 var nbb_cells = Jupyter.notebook.get_cells();

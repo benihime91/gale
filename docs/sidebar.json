@@ -3,37 +3,37 @@
     "Overview": "/"
   },
   "Core": {
-    "Classes": "core.classes.html",
+    "Classes": "core-classes.html",
     "": {
       "Utilities": {
-        "Logger": "core.utils.logger.html",
-        "Structures": "core.utils.structures.html",
-        "Visualize": "core.utils.visualize.html"
+        "Logger": "utils.logger.html",
+        "Structures": "utils.structures.html",
+        "Visualize": "utils.display.html"
       }
     },
     "empty1": {
-      "NN": {
-        "Losses": "core.nn.losses.html",
-        "Optimizers": "core.nn.optim.optimizers.html",
-        "LR Schedulers": "core.nn.optim.lr_schedulers.html",
-        "Utils": "core.nn.utils.html"
+      "PyTorch": {
+        "Losses": "losses.html",
+        "Optimizers": "optimizer.html",
+        "LR Schedulers": "schedules.html",
+        "Utils": "torch_utils.html"
       }
     }
   },
   "Classification": {
-    "Data Augmentation": "classification.data.transforms.html",
-    "Data": "classification.data.common.html",
-    "Data Build": "classification.data.build.html",
+    "Core": "classification.data.html",
+    "Data Augmentation": "classification.augment.html",
+    "Data": "classification.data.html",
     "": {
       "Modelling": {
-        "BackBones": "classification.modelling.backbones.html",
-        "Classification Heads": "classification.modelling.heads.html"
+        "BackBones": "classification.models.backbones.html",
+        "Classification Heads": "classification.models.heads.html"
       }
     },
     "empty1": {
       "Meta Architectures": {
-        "Generalized Image Classifier": "classification.modelling.meta_arch.common.html",
-        "Vision Transformer": "classification.modelling.meta_arch.vit.html"
+        "Generalized Image Classifier": "classification.models.meta_arch.common.html",
+        "Vision Transformer": "classification.models.meta_arch.vit.html"
       }
     }
   },

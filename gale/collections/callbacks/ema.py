@@ -12,7 +12,7 @@ from pytorch_lightning.utilities import rank_zero_only
 from timm.utils.model import get_state_dict, unwrap_model
 from timm.utils.model_ema import ModelEmaV2
 
-from ...core.utils.logger import log_main_process
+from ...utils.logger import log_main_process
 
 _logger = logging.getLogger(__name__)
 
@@ -24,6 +24,7 @@ class EMACallback(Callback):
 
     If `use_ema_weights`, then the ema parameters of the network is set after training end.
     """
+
     def __init__(self, decay=0.9999, use_ema_weights: bool = True):
         self.decay = decay
         self.ema = None
@@ -33,7 +34,9 @@ class EMACallback(Callback):
         "Initialize `ModelEmaV2` from timm to keep a copy of the moving average of the weights"
         self.ema = ModelEmaV2(pl_module, decay=self.decay, device=None)
 
-    def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx):
+    def on_train_batch_end(
+        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx
+    ):
         "Update the stored parameters using a moving average"
         # Update currently maintained parameters.
         self.ema.update(pl_module)

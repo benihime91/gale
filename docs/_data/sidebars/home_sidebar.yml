@@ -14,65 +14,65 @@ entries:
   - folderitems:
     - output: web,pdf
       title: Classes
-      url: core.classes.html
+      url: core-classes.html
       subfolders:
       - output: web
         subfolderitems:
         - output: web,pdf
           title: Logger
-          url: core.utils.logger.html
+          url: utils.logger.html
         - output: web,pdf
           title: Structures
-          url: core.utils.structures.html
+          url: utils.structures.html
         - output: web,pdf
           title: Visualize
-          url: core.utils.visualize.html
+          url: utils.display.html
         title: Utilities
       - output: web
         subfolderitems:
         - output: web,pdf
           title: Losses
-          url: core.nn.losses.html
+          url: losses.html
         - output: web,pdf
           title: Optimizers
-          url: core.nn.optim.optimizers.html
+          url: optimizer.html
         - output: web,pdf
           title: LR Schedulers
-          url: core.nn.optim.lr_schedulers.html
+          url: schedules.html
         - output: web,pdf
           title: Utils
-          url: core.nn.utils.html
-        title: NN
+          url: torch_utils.html
+        title: PyTorch
     output: web
     title: Core
   - folderitems:
     - output: web,pdf
+      title: Core
+      url: classification.data.html
+    - output: web,pdf
       title: Data Augmentation
-      url: classification.data.transforms.html
+      url: classification.augment.html
     - output: web,pdf
       title: Data
-      url: classification.data.common.html
-    - output: web,pdf
-      title: Data Build
-      url: classification.data.build.html
+      url: classification.data.html
       subfolders:
       - output: web
         subfolderitems:
         - output: web,pdf
           title: BackBones
-          url: classification.modelling.backbones.html
+          url: classification.models.backbones.html
         - output: web,pdf
           title: Classification Heads
-          url: classification.modelling.heads.html
+          url: classification.models.heads.html
         title: Modelling
       - output: web
         subfolderitems:
         - output: web,pdf
           title: Generalized Image Classifier
-          url: classification.modelling.meta_arch.common.html
+          url: classification.models.meta_arch.common.html
         - output: web,pdf
           title: Vision Transformer
-          url: classification.modelling.meta_arch.vit.html
+          url: classification.models.meta_arch.vit.html
         title: Meta Architectures
     output: web
     title: Classification

@@ -27,25 +27,28 @@ datasets:
 # DataLoader
 # -----------------------------------------------------------------------------
 dataloader:
+  batch_size: 32
+  pin_memory: false
+  num_workers: 0
   train:
-    num_workers: 0
-    batch_size: 32
+    num_workers: ${dataloader.num_workers}
+    batch_size: ${dataloader.batch_size}
+    pin_memory: ${dataloader.pin_memory}
     shuffle: true
-    pin_memory: false
     sampler: null
     collate_fn: null
   valid:
-    num_workers: 0
-    batch_size: 32
-    shuffle: False
-    pin_memory: false
+    num_workers: ${dataloader.num_workers}
+    batch_size: ${dataloader.batch_size}
+    pin_memory: ${dataloader.pin_memory}
+    shuffle: false
     sampler: null
     collate_fn: null
   test:
-    num_workers: 0
-    batch_size: 32
-    shuffle: False
-    pin_memory: false
+    num_workers: ${dataloader.num_workers}
+    batch_size: ${dataloader.batch_size}
+    pin_memory: ${dataloader.pin_memory}
+    shuffle: true
     sampler: null
     collate_fn: null
 
@@ -61,6 +64,7 @@ input:
   mean: imagenet
   std: imagenet
 
+# @TODO: Add augmix support
 training:
   # Apply mixup to the Inputs/CutMix
   mixup:
@@ -74,7 +78,7 @@ training:
       # cutmix is active and uses this vs alpha if not None.
       cutmix_minmax: null
       # probability of applying mixup or cutmix per batch or element
-      prob: 1.0
+      prob: 0.0
       # probability of switching to cutmix instead of mixup when both are active
       switch_prob: 0.5
       mode: batch
@@ -82,9 +86,6 @@ training:
       # label smoothing factor to apply
       label_smoothing: 0.0
       num_classes: ${model.num_classes}
-
-
-
 
 # -----------------------------------------------------------------------------
 # MODEL definitions: Load using hydra defaults list
